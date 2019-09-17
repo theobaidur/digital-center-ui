@@ -1,0 +1,13 @@
+<div class="card store-card">
+    <div class="product-image-wrapper d-flex align-items-center justify-content-center" app-image-viewer [id]="product?.product_image" type="product_image">
+    </div>
+    <div class="card-body p-2 product-info">
+        <a [routerLink]="url" class="card-title" [queryParams]="params">{{ product?.name }}</a>
+        <p class="card-text">
+            {{product?.short_description}}
+        </p>
+    </div>
+    <a [routerLink]="url" [queryParams]="params" class="btn d-block btn-primary btn-sm mt-0 m-2">
+        Buy
+    </a>
+</div>

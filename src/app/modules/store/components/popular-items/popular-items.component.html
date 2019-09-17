@@ -1,0 +1,10 @@
+<div class="jumbotron store-banner jumbotron-fluid mb-2">
+    <div class="store-banner-bg w-100 h-100" *ngIf="storeDetails?.store_banner" app-image-viewer [id]="storeDetails?.store_banner" type="store-banner"></div>
+    <div class="col-12 d-flex flex-column banner justify-content-center">
+        <h3 class="align-middle text-center mb-0">{{ storeDetails?.name }}</h3>
+        <h1 class="align-middle text-center">Popular Items</h1>
+    </div>
+</div>
+<div class="container-fluid" *ngIf="store && filters.length">
+    <app-product-list [store]="store" [filters]="filters"></app-product-list>
+</div>

@@ -1,0 +1,24 @@
+@import '../../../../../assets/variables';
+.store-banner{
+    position: relative;
+    .store-banner-bg{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        overflow: hidden;
+    }
+    .banner{
+        min-height: 50vh;
+        position: relative;
+        z-index: 10;
+    }
+}
+.search-area{
+    background: $color-green;
+    .form-control-dark{
+        color: $color-white;
+        background-color: rgba($color-white, 0.1);
+        border-color: rgba($color-white, 0.1);
+    }
+}

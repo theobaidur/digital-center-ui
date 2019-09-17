@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "C:\\Projects\\digital-center-management-api"
+		}
+	],
+	"settings": {
+		"tslint.jsEnable": true
+	}
+}

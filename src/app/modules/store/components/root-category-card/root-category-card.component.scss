@@ -1,0 +1,10 @@
+@import '../../../../../assets/variables';
+
+.card-body{
+    background: $color-white;
+    transition: background linear .2s;
+
+    &:hover{
+        background: rgba($color-light-gray, .8);
+    }
+}

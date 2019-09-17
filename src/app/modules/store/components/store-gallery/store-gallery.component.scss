@@ -1,0 +1,10 @@
+.slider-content{
+    .slider-item{
+        width: 310px;
+        margin:0 5px;
+        display: inline-block;
+    }
+    &.sliding{
+        transition: margin-left linear .3s;
+    }
+}

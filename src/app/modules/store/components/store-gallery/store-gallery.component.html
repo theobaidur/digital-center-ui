@@ -1,0 +1,21 @@
+<div class="row py-3">
+    <div class="col-12 justify-content-center d-flex">
+        <h2>Special Offers</h2>
+    </div>
+    <div class="slider-wrapper col-12 px-5 overflow-hidden">
+        <div class="btn btn-sm control next" (click)="goto('next')">
+            <i class="fa fa-chevron-right"></i>
+        </div>
+        <div class="btn btn-sm control prev" (click)="goto('prev')">
+            <i class="fa fa-chevron-left"></i>
+        </div>
+        <div class="w-100 overflow-hidden" #viewport>
+            <div class="slider-content d-flex sliding" #elem [ngStyle]="sliderStyle">
+                <div class="slider-item" app-special-product-card [store]="store" [product]="product" *ngFor="let product of slides"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 justify-content-center d-flex py-3">
+        <a routerLink="/shop/offers" [queryParams]="params" class="btn btn-info btn-sm">All Offers</a>
+    </div>
+</div>

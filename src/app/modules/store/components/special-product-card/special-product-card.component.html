@@ -1,0 +1,19 @@
+<div class="card store-card">
+    <div class="product-image-wrapper d-flex align-items-center justify-content-center" app-image-viewer [id]="product?.product_image" type="product_image">
+    </div>
+    <div class="card-body p-2 product-info">
+        <div>
+            <a [routerLink]="url" class="card-title text-danger" [queryParams]="params">{{ product?.name }}</a>
+        </div>
+        <p class="h4 badge badge-success" *ngIf="product">৳{{ product?.unit_price }}/{{ product?.product_unit }}</p>
+        <div *ngIf="product">
+            <app-star-ratting [ratting]="product?.avg_ratting" [rattingCount]="product?.ratting_count"></app-star-ratting>
+        </div>
+        <p class="card-text">
+            {{product?.short_description}}
+        </p>
+    </div>
+    <a href="javascript:void(0)" class="btn d-block btn-primary btn-sm mt-0 m-2">
+        Buy
+    </a>
+</div>

@@ -1,0 +1,8 @@
+<div class="card my-2">
+    <a [routerLink]="url" class="p-1 card-body d-flex align-items-center" [queryParams]="params">
+        <div class="col">
+            {{ category?.name }}
+        </div>
+        <div class="d-inline-blokc pull-right" *ngIf="category && category.category_icon" app-image-viewer [id]="category?.category_icon" type="category_icon"></div>
+    </a>
+</div>

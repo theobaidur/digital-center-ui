@@ -1,0 +1,15 @@
+@import '../../../../../assets/variables';
+.store-banner{
+    position: relative;
+    .store-banner-bg{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        overflow: hidden;
+    }
+    .banner{
+        position: relative;
+        z-index: 10;
+    }
+}

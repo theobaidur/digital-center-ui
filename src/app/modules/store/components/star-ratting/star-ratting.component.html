@@ -1,0 +1,5 @@
+<div class="d-flex">
+    <span class="d-inline-block" *ngFor="let star of stars">
+        <i class="{{ star }} text-warning"></i>
+    </span> <span *ngIf="rattingCount">({{ rattingCount }})</span>
+</div>

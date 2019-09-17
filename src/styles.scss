@@ -1,1 +1,103 @@
 /* You can add global styles to this file, and also import other style files */
+$fa-font-path: "~font-awesome/fonts";
+@import '~bootswatch/dist/lux/variables';
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootswatch/dist/lux/bootswatch';
+@import "~font-awesome/scss/font-awesome.scss";
+@import '~sweetalert2/src/sweetalert2.scss';
+@import '~tiny-slider/src/tiny-slider.scss';
+@import 'assets/variables';
+body {
+    font-size: .875rem;
+}
+
+.product-card,
+.store-card{
+    a.btn{
+        background: rgba($color-red, .5);
+        &:hover {
+            background: rgba($color-dark-green, 1);
+        }
+    }
+
+    .product-image-wrapper,
+    .store-image-wrapper{
+        position: relative;
+        height: 150px;
+        overflow: hidden;
+        img{
+            width: 100%;
+            position: relative;
+            z-index: 0;
+        }
+
+        .overlay{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10;
+            background: rgba($color-black, .4);
+            display: none;
+            .btn, i{
+                color: $color-white
+            }
+            .btn-group{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 11;
+            }
+        }
+
+        &:hover .overlay{
+            display: block;
+        }
+    }
+}
+
+
+
+.slider-wrapper{
+    position: relative;
+    .control{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba($color-red, .5);
+        width: 30px;
+        height: 70px;
+        cursor: pointer;
+        i{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: $color-white;
+        }
+        &.next{
+            right: 0;
+        }
+        &.prev{
+            left: 0;
+        }
+        &:hover{
+            background: $color-dark-green;
+        }
+    }
+}
+
+.ngxImageZoomContainer,
+.ngxImageZoomThumbnail{
+    max-width: 100%;
+}
+
+.ngxImageZoomThumbnail{
+    min-width: 100%;
+}
+
+.text-align-justify{
+    text-align: justify;
+}

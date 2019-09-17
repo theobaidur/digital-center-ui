@@ -1,0 +1,22 @@
+<app-header></app-header>
+<div class="container-fluid">
+  <div class="row">
+    <app-left-sidebar *ngIf="!hideSideNav" [store]="store"></app-left-sidebar>
+    <main role="main" class="ml-sm-auto px-0" [ngClass]="{
+        'col-md-9': !hideSideNav,
+        'col-lg-10': !hideSideNav,
+        'col-12': hideSideNav,
+        'resolving': viewResolving
+      }">
+      <app-store-home *ngIf="storeView === 'home'" [store]="store"></app-store-home>
+      <app-choose-sub-category *ngIf="storeView === 'choose-sub-category'" [category]="category" [store]="store" ></app-choose-sub-category>
+      <app-category-product-list *ngIf="storeView === 'product-list'" [category]="category" [store]="store" ></app-category-product-list>
+      <app-offers *ngIf="storeView === 'offers'" [store]="store" ></app-offers>
+      <app-popular-items *ngIf="storeView === 'popular-items'" [store]="store" ></app-popular-items>
+      <app-stores *ngIf="storeView === 'stores'" [store]="store" ></app-stores>
+      <app-product-detail *ngIf="storeView === 'product-details'" [product]="product" [store]="store" ></app-product-detail>
+      <app-search-result *ngIf="storeView === 'search-result'"  [category]="category" [store]="store"></app-search-result>
+      <app-store-footer></app-store-footer>
+    </main>
+  </div>
+</div>
