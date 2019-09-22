@@ -1,0 +1,28 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+.shopping-cart{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    width: 320px;
+    height: auto;
+    .card-body{
+        background: #eee;
+    }
+    &.max-height{
+        height: calc(100vh - 58px);
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .shopping-cart{
+        width: 100vw;
+    }
+}
+
+.summery-btn{
+    font-size: 14px;
+}

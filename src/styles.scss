@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 $fa-font-path: "~font-awesome/fonts";
+
 @import '~bootswatch/dist/lux/variables';
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootswatch/dist/lux/bootswatch';
 @import "~font-awesome/scss/font-awesome.scss";
-@import '~sweetalert2/src/sweetalert2.scss';
 @import '~tiny-slider/src/tiny-slider.scss';
 @import 'assets/variables';
 body {
@@ -13,7 +13,7 @@ body {
 
 .product-card,
 .store-card{
-    a.btn{
+    .btn{
         background: rgba($color-red, .5);
         &:hover {
             background: rgba($color-dark-green, 1);
@@ -100,4 +100,28 @@ body {
 
 .text-align-justify{
     text-align: justify;
+}
+
+@keyframes LoadingAnimation {
+    0%{background-position:0% 0%}
+    100%{background-position:100% 100%}
+}
+
+.loading{
+    background: linear-gradient(-45deg, #eeeeee 8%, #999 18%, #eeeeee 33%);
+    background-size: 100% 1000%;
+    background-repeat: no-repeat;
+    animation: LoadingAnimation 3s ease forwards infinite;
+}
+
+.custom-swal{
+    .swal2-popup,
+    .swal2-cancel{
+        border-radius: 0 !important;
+    }
+    
+    .swal2-actions:not(.swal2-loading) .swal2-confirm{
+        border-radius: 0 !important;
+    }
+
 }

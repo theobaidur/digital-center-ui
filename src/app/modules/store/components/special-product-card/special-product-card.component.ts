@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Product } from '../../models/product.model';
+import { StoreService } from '../../services/store.service';
 
 @Component({
   // tslint:disable-next-line: component-selector
@@ -10,7 +11,9 @@ import { Product } from '../../models/product.model';
 export class SpecialProductCardComponent implements OnInit {
   @Input() product: Product;
   @Input() store: string;
-  constructor() { }
+  constructor(
+    private storeService: StoreService
+  ) { }
 
   ngOnInit() {
   }
@@ -28,6 +31,10 @@ export class SpecialProductCardComponent implements OnInit {
       return {store: this.store};
     }
     return null;
+  }
+
+  addToCart() {
+    this.storeService.addToCart(this.product, 1);
   }
 
 }

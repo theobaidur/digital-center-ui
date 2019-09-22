@@ -1,0 +1,43 @@
+<div class="shopping-cart"  [ngClass]="{'max-height': cartShown}">
+    <div class="card d-flex flex-column" [ngClass]="{'h-100': cartShown}">
+        <div class="card-body overflow-auto p-1 d-flex flex-column" *ngIf="cartShown">
+            <div class="d-flex my-1 border-bottom border-light" *ngFor="let item of cartItems">
+                <div class="quantity-btn d-flex flex-column">
+                    <button class="btn btn-sm d-block p-1" (click)="increase(item)">
+                        <i class="fa fa-chevron-up"></i>
+                    </button>
+                    <span class="d-block h-100 text-center">{{ item.quantity }}</span>
+                    <button class="btn btn-sm d-block p-1" [disabled]="item.quantity === 1" (click)="decrease(item)">
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="cart-item-info d-flex w-100">
+                    <div class="product-img d-flex align-items-center justify-content-center p-1" app-image-viewer [id]="item.product_image" type="cart-photo"></div>
+                    <div class="proudct-info w-100 flex-column d-flex align-items-stretch justify-content-center">
+                        <p class="font-weight-bold mb-0 text-dark">{{ item.name }}</p>
+                        <p class="mb-0 text-muted h6">{{ item.unit_price }}/{{ item.product_unit }}</p>
+                        <p class="mb-0 h6 text-right">${{ (item.unit_price * item.quantity).toFixed(2) }}</p>
+                    </div>
+                </div>
+                <button class="btn btn-sm p-1"  (click)="removeFromCart(item.id)">
+                    <i class="fa fa-close"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-footer p-0 d-flex">
+            <!-- <button class="btn btn-sm btn-info"  *ngIf="!(cartShown && totalItem)">
+                <i class="fa fa-2x fa-weixin"></i>
+            </button> -->
+            <button (click)="checkout()" class="btn btn-sm btn-info"  *ngIf="1 || (cartShown && totalItem)">
+                Checkout
+            </button>
+            <button class="btn btn-sm btn-danger w-100 summery-btn" (click)="showCart()">
+                {{ totalItem }} Items ( ${{totalPrice}} )
+            </button>
+            <button class="btn btn-sm btn-info" (click)="toggleCart()">
+                <i class="fa fa-2x fa-shopping-cart" *ngIf="!cartShown"></i>
+                <i class="fa fa-2x fa-times" *ngIf="cartShown"></i>
+            </button>
+        </div>
+    </div>
+</div>

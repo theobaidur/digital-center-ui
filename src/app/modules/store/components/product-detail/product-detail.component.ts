@@ -9,6 +9,8 @@ import { Attachment } from '../../models/attachment.model';
 import { ProductRatting } from '../../models/product-ratting.model';
 import { RattingManagerService } from '../../services/ratting-manager.service';
 import { filter, switchMap, tap } from 'rxjs/operators';
+import { StoreService } from '../../services/store.service';
+import { CartItem } from '../../interfaces/cart-item.interface';
 
 @Component({
   selector: 'app-product-detail',
@@ -26,18 +28,19 @@ export class ProductDetailComponent implements OnInit, OnChanges {
   loading = true;
   pageObserver: BehaviorSubject<number> = new BehaviorSubject(1);
   lastPage = 1;
-  cartItemCount = 0;
+  cartItem: CartItem;
   constructor(
     public productManager: ProductManagerService,
     public slugManager: SlugManagerService,
     public attachmentManager: AttachmentManagerService,
-    public rattingManager: RattingManagerService
+    public rattingManager: RattingManagerService,
+    public storeService: StoreService
   ) { }
 
   ngOnInit() {
     this.inputObserver.next({
       store: this.store,
-      product: this.product
+      product: this.product,
     });
     this.inputObserver.pipe(
       filter(() => !!this.product),
@@ -47,6 +50,12 @@ export class ProductDetailComponent implements OnInit, OnChanges {
       this.productDetails = product;
       this.loading = false;
       this.attachmentManager.resolve(product.product_image).subscribe(img => this.productImage = img);
+      this.cartItem = this.storeService.getCartItem(product.id);
+    });
+    this.storeService.cartItemRemoved.subscribe(id => {
+      if (this.productDetails && this.productDetails.id === id) {
+        this.cartItem = null;
+      }
     });
   }
 
@@ -59,11 +68,19 @@ export class ProductDetailComponent implements OnInit, OnChanges {
   }
 
   increase() {
-    this.cartItemCount++;
+    if (!this.cartItem) {
+      this.storeService.addToCart(this.productDetails, 1).then(item => {
+        if (item) {
+          this.cartItem = item;
+        }
+      });
+    } else {
+      this.cartItem.quantity++;
+    }
   }
   decrease() {
-    if (this.cartItemCount > 0) {
-      this.cartItemCount--;
+    if (this.cartItem && this.cartItem.quantity > 1) {
+      this.cartItem.quantity--;
     }
   }
 

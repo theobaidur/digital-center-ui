@@ -25,15 +25,14 @@
                 </div>
                 <div class="col-12 d-flex">
                     <div class="input-group">
-                        <button class="btn btn-sm btn-info input-group-append" (click)="decrease()" [disabled]="!cartItemCount">
+                        <button class="btn btn-sm btn-info input-group-append" (click)="decrease()" [disabled]="!cartItem || cartItem.quantity === 1">
                             <i class="fa fa-2x fa-minus"></i>
                         </button>
-                        <input type="text" class="input-control" [(ngModel)]="cartItemCount" name="cartItemCount">
+                        <span class="btn btn-sm quantity btn-outline-dark">
+                            {{ cartItem?.quantity || 0 }}
+                        </span>
                         <button class="btn btn-sm btn-info input-group-append" (click)="increase()">
                             <i class="fa fa-2x fa-plus"></i>
-                        </button>
-                        <button class="btn btn-success btn-sm ml-2">
-                            Buy
                         </button>
                     </div>
                 </div>

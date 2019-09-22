@@ -6,7 +6,8 @@
         'col-md-9': !hideSideNav,
         'col-lg-10': !hideSideNav,
         'col-12': hideSideNav,
-        'resolving': viewResolving
+        'resolving': viewResolving,
+        'cart-shown': showingCart
       }">
       <app-store-home *ngIf="storeView === 'home'" [store]="store"></app-store-home>
       <app-choose-sub-category *ngIf="storeView === 'choose-sub-category'" [category]="category" [store]="store" ></app-choose-sub-category>
@@ -17,6 +18,7 @@
       <app-product-detail *ngIf="storeView === 'product-details'" [product]="product" [store]="store" ></app-product-detail>
       <app-search-result *ngIf="storeView === 'search-result'"  [category]="category" [store]="store"></app-search-result>
       <app-store-footer></app-store-footer>
+      <app-shopping-cart [store]="store"></app-shopping-cart>
     </main>
   </div>
 </div>

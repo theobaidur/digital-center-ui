@@ -18,6 +18,7 @@ export class StoreBaseComponent implements OnInit {
   store: string;
   storeView: string;
   viewResolving = false;
+  showingCart = false;
   category: string;
   product: string;
   constructor(
@@ -52,11 +53,10 @@ export class StoreBaseComponent implements OnInit {
   }
   ngOnInit() {
     this.uiService.collapseSideNav.subscribe(hide => this.hideSideNav = hide);
-    merge(fromEvent(window, 'load'), fromEvent(window, 'resize'))
-      .pipe(
-        map(() => window.innerWidth),
-        filter(width => width < 768)
-      ).subscribe(() => this.uiService.collapseSideNav.next(true));
+    this.uiService.cartShown.subscribe(hide => this.showingCart = hide);
+    this.uiService.windowWidth.pipe(
+      filter(width => width < 768)
+    ).subscribe(() => this.uiService.collapseSideNav.next(true));
 
     combineLatest(this.route.params, this.route.queryParams)
     .pipe(

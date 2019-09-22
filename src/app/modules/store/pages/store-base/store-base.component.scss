@@ -1,4 +1,18 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
 .resolving{
     opacity: .5;
     pointer-events: none;
 }
+
+@include media-breakpoint-up(md) {
+    .cart-shown{
+        padding-right: 320px !important;
+    }
+}
+
+@include media-breakpoint-down(md) {
+
+} 

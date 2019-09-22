@@ -1,21 +1,8 @@
-@keyframes placeHolderShimmer{
-    0%{
-        background-position: -468px 0
-    }
-    100%{
-        background-position: 468px 0
-    }
-}
-
 .loading{
     min-height: 500px;
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: placeHolderShimmer;
-    animation-timing-function: linear;
-    background: #f6f7f8;
-    background: linear-gradient(-45deg, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
-    background-size: cover;
     pointer-events: none;
+}
+
+.quantity{
+    font-size: 16px;
 }

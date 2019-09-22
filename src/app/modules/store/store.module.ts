@@ -34,11 +34,12 @@ import { PopularItemsComponent } from './components/popular-items/popular-items.
 import { StoresComponent } from './components/stores/stores.component';
 import { StarRattingComponent } from './components/star-ratting/star-ratting.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
-  declarations: [StoreBaseComponent, HeaderComponent, LeftSidebarComponent, OtherStoresComponent, StoreFooterComponent, ProductDetailComponent, ProductCardComponent, CategoryListComponent, ChooseSubCategoryComponent, SpecialProductsComponent, SpecialProductCardComponent, StoreBannerComponent, RootCategoryCardComponent, NotFoundComponent, StoreHomeComponent, CategoryProductListComponent, ProductOrSubCategoryComponent, ProductListComponent, StorePromotionComponent, StoreGalleryComponent, StoreCardComponent, ImageViewerComponent, OtherStoreListComponent, CategoryBannerComponent, OffersComponent, PopularItemsComponent, StoresComponent, StarRattingComponent, SearchResultComponent],
+  declarations: [StoreBaseComponent, HeaderComponent, LeftSidebarComponent, OtherStoresComponent, StoreFooterComponent, ProductDetailComponent, ProductCardComponent, CategoryListComponent, ChooseSubCategoryComponent, SpecialProductsComponent, SpecialProductCardComponent, StoreBannerComponent, RootCategoryCardComponent, NotFoundComponent, StoreHomeComponent, CategoryProductListComponent, ProductOrSubCategoryComponent, ProductListComponent, StorePromotionComponent, StoreGalleryComponent, StoreCardComponent, ImageViewerComponent, OtherStoreListComponent, CategoryBannerComponent, OffersComponent, PopularItemsComponent, StoresComponent, StarRattingComponent, SearchResultComponent, ShoppingCartComponent],
   imports: [
     CommonModule,
     FormsModule,
