@@ -6,6 +6,7 @@ $fa-font-path: "~font-awesome/fonts";
 @import '~bootswatch/dist/lux/bootswatch';
 @import "~font-awesome/scss/font-awesome.scss";
 @import '~tiny-slider/src/tiny-slider.scss';
+@import '~cropperjs/src/css/cropper.css';
 @import 'assets/variables';
 body {
     font-size: .875rem;

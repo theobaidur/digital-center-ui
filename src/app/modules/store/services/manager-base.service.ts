@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
 import { Repository } from '../../../interfaces/repository.interface';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
 import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 import { HttpBase } from 'src/app/services/http.service';

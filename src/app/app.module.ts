@@ -3,9 +3,11 @@ import { NgModule, Injector } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ServiceLocator } from './services/service-locator';
 import { InfiniteScrollerDirective } from './modules/store/directives/infinite-scroller.directive';
+import { CustomHeaderInterceptor } from './interceptors/custom-header-interceptor';
+import { PipeModule } from './pipes/pipe.module';
 
 @NgModule({
   declarations: [
@@ -15,9 +17,16 @@ import { InfiniteScrollerDirective } from './modules/store/directives/infinite-s
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    PipeModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHeaderInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

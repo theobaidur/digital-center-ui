@@ -11,6 +11,14 @@ const routes: Routes = [
   {
     path: 'shop',
     loadChildren: './modules/store/store.module#StoreModule'
+  },
+  {
+    path: 'admin',
+    loadChildren: './modules/admin/admin.module#AdminModule'
+  },
+  {
+    path: 'super-admin',
+    loadChildren: './modules/super-admin/super-admin.module#SuperAdminModule'
   }
 ];
 

@@ -2,7 +2,7 @@ import { Base } from './_base.interface';
 
 export interface DigitalCenter extends Base {
     name?: string;
-    bn_name?: string;
+    name_bn?: string;
     host?: string;
     slug?: string;
     address?: string;
