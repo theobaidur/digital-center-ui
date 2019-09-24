@@ -16,7 +16,6 @@ export class SwitchLanguagePropPipe implements PipeTransform {
         if (!model) {
           return '';
         }
-        console.log(model, prop);
         if ((lang || '').toLowerCase() === 'bn') {
           return model[`${prop}_bn`] || model[prop];
         }

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DigitalCenter } from 'src/app/model/digital-center.interface';
 import { LocationService } from 'src/app/modules/admin/services/location.service';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { DigitalCenterService } from 'src/app/modules/admin/services/digital-center.service';
+import { Router } from '@angular/router';
+import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 
 @Component({
   selector: 'app-digital-center-add',
@@ -16,7 +19,10 @@ export class DigitalCenterAddComponent implements OnInit {
   banner: string;
   processing = false;
   constructor(
-    private locationService: LocationService
+    private locationService: LocationService,
+    private digitalCenterService: DigitalCenterService,
+    private router: Router,
+    private aleartService: SweetAlertService
   ) { }
 
   ngOnInit() {
@@ -42,24 +48,18 @@ export class DigitalCenterAddComponent implements OnInit {
   }
 
   get districts() {
-    if (this.model.division_id) {
-      return this.locationService.districts.getValue().filter(district => district.division_id === this.model.division_id);
-    }
-    return [];
+    return this.locationService.districts.getValue()
+    .filter(district => !this.model.division_id || district.division_id === this.model.division_id);
   }
 
   get upazilas() {
-    if (this.model.district_id) {
-      return this.locationService.upazilas.getValue().filter(upazila => upazila.district_id === this.model.district_id);
-    }
-    return [];
+    return this.locationService.upazilas.getValue()
+    .filter(upazila => !this.model.district_id || upazila.district_id === this.model.district_id);
   }
 
   get unions() {
-    if (this.model.upazila_id) {
-      return this.locationService.unions.getValue().filter(union => union.upazila_id === this.model.upazila_id);
-    }
-    return [];
+    return this.locationService.unions.getValue()
+    .filter(union => !this.model.union_id || union.upazila_id === this.model.upazila_id);
   }
 
   toBlob(dataURI: string) {
@@ -85,13 +85,16 @@ export class DigitalCenterAddComponent implements OnInit {
   submit() {
     const form = new FormData();
     const data = {
-      type: 'digital-center',
+      type: 'digital-centers',
       attributes: {...this.model}
     };
-    form.append('data', JSON.stringify(data));
-    form.append('logo', this.toBlob(this.logo));
-    form.append('store_banner', this.toBlob(this.banner));
-    this.processing = true;
-
+    form.append('data', JSON.stringify({data}));
+    form.append('logo', this.toBlob(this.logo), 'logo.jpeg');
+    form.append('store_banner', this.toBlob(this.banner), 'store_banner.jpeg');
+    this.aleartService.saving();
+    this.digitalCenterService.post(form).subscribe(response => {
+      this.aleartService.done();
+      this.router.navigate(['/super-admin/digital-center-edit', response.id]);
+    }, () => this.aleartService.failed());
   }
 }

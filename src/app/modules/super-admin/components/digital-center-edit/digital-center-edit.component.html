@@ -1,1 +1,99 @@
-<p>digital-center-edit works!</p>
+<div class="white-bg py-4">
+    <div class="row">
+        <div class="col-md-12">
+            <form #form="ngForm" class="form" (ngSubmit)="submit()">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control" id="name" [(ngModel)]="model.name" required>
+                </div>
+                <div class="form-group">
+                    <label for="name_bn">নাম</label>
+                    <input type="text" name="name_bn" class="form-control" id="name_bn" [(ngModel)]="model.name_bn" required>
+                </div>
+                <div class="form-group">
+                    <label for="host">Host</label>
+                    <input type="text" name="host" class="form-control" id="host" [(ngModel)]="model.host" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea class="form-control" id="address" name="address" [(ngModel)]="model.address" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="division_id">Divison</label>
+                    <select class="form-control" name="division_id" id="division_id" [(ngModel)]="model.division_id" required>
+                        <option [value]="division.id" *ngFor="let division of divisions">{{ division | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="district_id">District</label>
+                    <select class="form-control" name="district_id" id="district_id" [(ngModel)]="model.district_id" required>
+                        <option [value]="district.id" *ngFor="let district of districts">{{ district | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="upazila_id">Upazila</label>
+                    <select class="form-control" name="upazila_id" id="upazila_id" [(ngModel)]="model.upazila_id" [required]="!model.union_id">
+                        <option [value]="upazila.id" *ngFor="let upazila of upazilas">{{ upazila | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="union_id">Unions</label>
+                    <select class="form-control" name="union_id" id="union_id" [(ngModel)]="model.union_id" [required]="!model.upazila_id">
+                        <option [value]="union.id" *ngFor="let union of unions">{{ union | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="logo">Logo</label>
+                            <input type="file" accept="image/*" (change)="logoSelected($event)" id="logo">
+                        </div>
+                        <div class="col-md-4 crop-area">
+                            <label>Crop Logo</label>
+                                <image-cropper
+                                [imageChangedEvent]="logoChangeEvent"
+                                [maintainAspectRatio]="true"
+                                [aspectRatio]="4 / 3"
+                                [resizeToWidth]="128"
+                                format="jpeg"
+                                (imageCropped)="logoCropped($event)"
+                            ></image-cropper>
+                        </div>
+                        <div class="col-md-4 preview-area" *ngIf="logo || model.logo">
+                            <label class="d-block w-100">Preview</label>
+                                <img *ngIf="logo" [src]="logo"/>
+                                <img *ngIf="!logo && model.logo" [src]="model.logo | attachment"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" *ngIf="model">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="banner">Banner</label>
+                            <input type="file" accept="image/*" (change)="bannerSelected($event)" id="banner">
+                        </div>
+                        <div class="col-md-4 crop-area">
+                            <label>Crop Banner</label>
+                                <image-cropper
+                                [imageChangedEvent]="bannerChangeEvent"
+                                [maintainAspectRatio]="true"
+                                [aspectRatio]="4 / 2"
+                                [resizeToWidth]="1024"
+                                format="jpeg"
+                                (imageCropped)="bannerCropped($event)"
+                            ></image-cropper>
+                        </div>
+                        <div class="col-md-4 preview-area" *ngIf="banner || model.store_banner">
+                            <label class="d-block w-100">Preview</label>
+                                <img *ngIf="banner" [src]="banner"/>
+                                <img *ngIf="!banner && model.store_banner" [src]="model.store_banner | attachment"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid || !has_attachments">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -41,7 +41,7 @@ export class HttpBase {
     }
     put<T>(endpoint: string, data: any, includes: string[] = [], filter: RequestParam[]= []): Observable<HttpResponse<T>> {
         const path = this.toPath(endpoint, includes, filter);
-        return this.httpService.put<HttpResponse<T>>(path, data);
+        return this.httpService.patch<HttpResponse<T>>(path, data);
     }
     delete<T>(endpoint: string): Observable<T> {
         const path = this.toPath(endpoint);

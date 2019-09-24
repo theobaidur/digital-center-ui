@@ -3,7 +3,7 @@ import { Repository } from 'src/app/interfaces/repository.interface';
 import { HttpBase } from 'src/app/services/http.service';
 import { RequestParam } from 'src/app/interfaces/request-param.interface';
 import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ServiceLocator } from 'src/app/services/service-locator';
 import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 
@@ -42,7 +42,7 @@ export abstract class AdminBaseService<T> {
             })
         );
     }
-    getList(page: number, filters: RequestParam[]= []): Observable<{list?: T[], meta?: any}> {
+    getList(page: number = -1, filters: RequestParam[]= []): Observable<{list?: T[], meta?: any}> {
         const allFilters = this.mergeFilters(...filters);
         if (this.pageSize > 0) {
             allFilters.push({property: 'page[number]', value: page});
@@ -52,12 +52,13 @@ export abstract class AdminBaseService<T> {
                 this.saveIncludes(response);
                 const list = response.data.map(item => this.normalize(item));
                 const meta = response.meta;
+                this.notify();
                 return {list, meta};
             })
         );
     }
-    post(data: any): Observable<T> {
-        return this.http.post<HttpResponseItem<T>>(`${this.resourceEndPoint}`, data, this.includes).pipe(
+    post(data: any, endpoint: string = null): Observable<T> {
+        return this.http.post<HttpResponseItem<T>>(`${endpoint || this.resourceEndPoint}`, data, this.includes).pipe(
             map(response => {
                 if (response && response.data) {
                     this.saveIncludes(response);
@@ -68,7 +69,15 @@ export abstract class AdminBaseService<T> {
         );
     }
     update(id: string, data: any): Observable<T> {
-        return this.http.put(`${this.resourceEndPoint}/${id}`, data, this.includes).pipe(
+        const path = `${this.resourceEndPoint}/${id}`;
+        let method: Observable<HttpResponse<HttpResponseItem<T>>>;
+        if (data instanceof FormData) {
+            data.set('_method', 'PATCH');
+            method = this.http.post(path, data, this.includes);
+        } else {
+            method = this.http.put(path, data, this.includes);
+        }
+        return method.pipe(
             map(response => {
                 if (response && response.data) {
                     this.saveIncludes(response);
@@ -81,11 +90,9 @@ export abstract class AdminBaseService<T> {
     delete(id: string): Observable<boolean> {
         return this.http.delete(`${this.resourceEndPoint}/${id}`).pipe(
             map(response => {
-                if (response) {
-                    delete this.repository[id];
-                    return true;
-                }
-                throw new Error('Not deleted');
+                delete this.repository[id];
+                this.notify();
+                return true;
             })
         );
     }
@@ -97,6 +104,9 @@ export abstract class AdminBaseService<T> {
         this.repository[item['id']] = item;
         if (notify) { this.notify(); }
     }
+    fromCache(id: string) {
+        return this.repository[id];
+    }
 
     exists(id: string | T): boolean {
         // tslint:disable-next-line: no-string-literal
@@ -106,7 +116,7 @@ export abstract class AdminBaseService<T> {
 
     get all() {
         return this.manager.pipe(
-            map(repository => Object.values(repository))
+            map(repository => Object.values(repository)),
         );
     }
 

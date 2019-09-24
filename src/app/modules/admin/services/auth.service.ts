@@ -1,58 +1,87 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { User } from '../models/user.model';
 import { HttpBase } from 'src/app/services/http.service';
 import { LoginData } from '../interfaces/login-data.interface';
 import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { LocalStorageKeys } from 'src/app/modules/admin/enums/local-storage.key';
 import { Router } from '@angular/router';
 import { Role } from '../models/role.model';
+import { AdminBaseService } from './admin-base.service';
+import { HttpResponse } from 'src/app/interfaces/http-response.interface';
+import { RoleService } from './role.service';
+import { DigitalCenterService } from './digital-center.service';
+import { Base } from 'src/app/model/_base.interface';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService {
-    root = 'users';
+export class AuthService extends AdminBaseService<User> {
+    includes: string[] = ['roles', 'digitalCenter'];
+    resourceEndPoint = 'users';
     authState: BehaviorSubject<User> = new BehaviorSubject(this.localStorageService.get(LocalStorageKeys.AUTH));
-    roles: BehaviorSubject<Role[]> = new BehaviorSubject([]);
+    normalize(item: HttpResponseItem<User>): User {
+        item.attributes.id = item.id;
+        item.attributes._type = item.type;
+        // tslint:disable-next-line: no-string-literal
+        if (item && item['relationships'] && item['relationships'].roles
+            // tslint:disable-next-line: no-string-literal
+            && Array.isArray(item['relationships'].roles.data)) {
+            // tslint:disable-next-line: no-string-literal
+            item.attributes.roles =  item['relationships'].roles.data.map((role: any) => {
+                return this.roleService.fromCache(role.id);
+            });
+        }
+        // tslint:disable-next-line: no-string-literal
+        if (item && item['relationships'] && item['relationships'].digitalCenter && item['relationships'].digitalCenter.data) {
+            // tslint:disable-next-line: no-string-literal
+            const center = item['relationships'].digitalCenter.data;
+            item.attributes.digital_center = this.digitalCenterService.fromCache(center.id);
+        }
+        this.cache(item.attributes, false);
+        return item.attributes;
+    }
+    saveIncludes(response: HttpResponse<any>): void {
+        if (response && Array.isArray(response.included)) {
+            response.included.forEach(include => {
+                const data: Base = include.attributes;
+                data.id = include.id;
+                data._type = include.type;
+                if (include.type === 'roles') {
+                    this.roleService.cache(data, false);
+                }
+                if (include.type === 'digital-centers') {
+                    this.digitalCenterService.cache(data, false);
+                }
+            });
+        }
+        this.roleService.notify();
+        this.digitalCenterService.notify();
+    }
     constructor(
         public httpBase: HttpBase,
         public localStorageService: LocalStorageService,
-        public router: Router
+        public router: Router,
+        public roleService: RoleService,
+        public digitalCenterService: DigitalCenterService
         ) {
-        this.authState.subscribe(user => {
-            console.log(user);
-            this.localStorageService.store(LocalStorageKeys.AUTH, user);
-        });
+            super();
+            this.authState.subscribe(user => {
+                this.localStorageService.store(LocalStorageKeys.AUTH, user);
+            });
     }
     login(data: LoginData) {
-        const loginurl = `${this.root}/login`;
-        return this.httpBase.post<HttpResponseItem<User>>(loginurl, data, ['roles']).pipe(
-            tap(response => {
-                const user: User = response.data.attributes;
-                user.id = response.data.id;
-                if (response.included && Array.isArray(response.included)) {
-                    user.roles = response.included.map((role: HttpResponseItem<Role>) => {
-                        const item = role.attributes;
-                        item.id = role.id;
-                        return item;
-                    });
-                }
-                this.authState.next(user);
-            })
+        const loginurl = `${this.resourceEndPoint}/login`;
+        return this.post(data, loginurl).pipe(
+            tap(user => this.authState.next(user))
         );
     }
 
     logout() {
-        const logoutUrl = `${this.root}/logout`;
-        return this.httpBase.post<any>(logoutUrl, null).pipe(
-            tap(() => {
-                this.authState.next(null);
-                this.router.navigate(['/admin/login']);
-            })
-        );
+        this.authState.next(null);
+        this.router.navigate(['/admin/login']);
     }
 
     redirect_login() {

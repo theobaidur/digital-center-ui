@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate  {
       return this.authService.authState.pipe(
         distinctUntilChanged(),
         map(user => {
-        console.log(user);
         if (user) {
           return true;
         }

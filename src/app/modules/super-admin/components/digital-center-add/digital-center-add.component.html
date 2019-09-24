@@ -1,7 +1,7 @@
 <div class="white-bg py-4">
     <div class="row">
         <div class="col-md-12">
-            <form #form="ngForm" class="form">
+            <form #form="ngForm" class="form" (ngSubmit)="submit()">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" name="name" class="form-control" id="name" [(ngModel)]="model.name" required>
@@ -48,18 +48,18 @@
                             <label for="logo">Logo</label>
                             <input type="file" accept="image/*" (change)="logoSelected($event)" id="logo">
                         </div>
-                        <div class="col-md-4 preview-area">
+                        <div class="col-md-4 crop-area">
                             <label>Crop Logo</label>
                                 <image-cropper
                                 [imageChangedEvent]="logoChangeEvent"
                                 [maintainAspectRatio]="true"
                                 [aspectRatio]="4 / 3"
                                 [resizeToWidth]="128"
-                                format="jpg"
+                                format="jpeg"
                                 (imageCropped)="logoCropped($event)"
                             ></image-cropper>
                         </div>
-                        <div class="col-md-4" *ngIf="logo">
+                        <div class="col-md-4 preview-area" *ngIf="logo">
                             <label class="d-block w-100">Preview</label>
                                 <img [src]="logo"/>
                         </div>
@@ -78,7 +78,7 @@
                                 [maintainAspectRatio]="true"
                                 [aspectRatio]="4 / 2"
                                 [resizeToWidth]="1024"
-                                format="jpg"
+                                format="jpeg"
                                 (imageCropped)="bannerCropped($event)"
                             ></image-cropper>
                         </div>
@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-sm btn-info" [disabled]="form.invalid || !logo || !banner">Submit</button>
+                    <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid || !logo || !banner">Submit</button>
                 </div>
             </form>
         </div>

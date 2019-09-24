@@ -1,0 +1,120 @@
+<div class="white-bg py-4">
+        <div class="row">
+            <div class="col-md-12">
+                <form #form="ngForm" class="form" (ngSubmit)="submit()">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" class="form-control" id="name" [(ngModel)]="model.name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name_bn">নাম</label>
+                        <input type="text" name="name_bn" class="form-control" id="name_bn" [(ngModel)]="model.name_bn" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="related_name">Related Name</label>
+                        <input type="text" name="related_name" class="form-control" id="related_name" [(ngModel)]="model.related_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="related_name_bn">সংশ্লিষ্ট নাম</label>
+                        <input type="text" name="related_name_bn" class="form-control" id="related_name_bn" [(ngModel)]="model.related_name_bn" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="charge_type">Charge Type</label>
+                        <select name="charge_type" id="charge_type" [(ngModel)]="model.charge_type" class="form-control">
+                            <option value="percentage">Percentage (%)</option>
+                            <option value="fixed">Fixed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cns_charge">CNS Charge</label>
+                        <input type="number" name="cns_charge" class="form-control" id="cns_charge" [(ngModel)]="model.cns_charge" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="affiliate_charge">Affiliate Charge</label>
+                        <input type="number" name="affiliate_charge" class="form-control" id="affiliate_charge" [(ngModel)]="model.affiliate_charge" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="parent_id">Parent Category</label>
+                        <select class="form-control" name="parent_id" id="parent_id" [(ngModel)]="model.parent_id" required>
+                            <option [value]="category.id" *ngFor="let category of parents() | async">{{ category | switchLanguageProp:'name' | async }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="icon">Category Icon</label>
+                                <input type="file" accept="image/*" (change)="iconSelected($event)" id="icon">
+                            </div>
+                            <div class="col-md-4 crop-area">
+                                <label>Crop Icon</label>
+                                    <image-cropper
+                                    [imageChangedEvent]="iconChangeEvent"
+                                    [maintainAspectRatio]="true"
+                                    [aspectRatio]="1"
+                                    [resizeToWidth]="30"
+                                    format="jpeg"
+                                    (imageCropped)="iconCropped($event)"
+                                ></image-cropper>
+                            </div>
+                            <div class="col-md-4 preview-area" *ngIf="categoryIcon || model.category_icon">
+                                <label class="d-block w-100">Preview</label>
+                                    <img *ngIf="categoryIcon" [src]="categoryIcon"/>
+                                    <img *ngIf="!categoryIcon && model.category_icon" [src]="model.category_icon | attachment"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="thumb">Category Thumbnail</label>
+                                <input type="file" accept="image/*" (change)="thumbSelected($event)" id="thumb">
+                            </div>
+                            <div class="col-md-4 crop-area">
+                                <label>Crop Thumb</label>
+                                    <image-cropper
+                                    [imageChangedEvent]="thumbChangeEvent"
+                                    [maintainAspectRatio]="true"
+                                    [aspectRatio]="1"
+                                    [resizeToWidth]="250"
+                                    format="jpeg"
+                                    (imageCropped)="thumbCropped($event)"
+                                ></image-cropper>
+                            </div>
+                            <div class="col-md-4 preview-area" *ngIf="categoryThumb || model.category_thumb">
+                                <label class="d-block w-100">Preview</label>
+                                    <img *ngIf="categoryThumb" [src]="categoryThumb"/>
+                                    <img *ngIf="!categoryThumb && model.category_thumb" [src]="model.category_thumb | attachment"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="banner">Category Banner</label>
+                                <input type="file" accept="image/*" (change)="bannerSelected($event)" id="banner">
+                            </div>
+                            <div class="col-md-4 crop-area">
+                                <label>Crop Banner</label>
+                                    <image-cropper
+                                    [imageChangedEvent]="bannerChangeEvent"
+                                    [maintainAspectRatio]="true"
+                                    [aspectRatio]="2"
+                                    [resizeToWidth]="1024"
+                                    format="jpeg"
+                                    (imageCropped)="bannerCropped($event)"
+                                ></image-cropper>
+                            </div>
+                            <div class="col-md-4 preview-area" *ngIf="categoryBanner || model.category_banner">
+                                    <label class="d-block w-100">Preview</label>
+                                        <img *ngIf="categoryBanner" [src]="categoryBanner"/>
+                                        <img *ngIf="!categoryBanner && model.category_banner" [src]="model.category_banner | attachment"/>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid || !hasAttachments">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

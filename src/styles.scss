@@ -6,8 +6,9 @@ $fa-font-path: "~font-awesome/fonts";
 @import '~bootswatch/dist/lux/bootswatch';
 @import "~font-awesome/scss/font-awesome.scss";
 @import '~tiny-slider/src/tiny-slider.scss';
-@import '~cropperjs/src/css/cropper.css';
+@import '~@ng-select/ng-select/scss/default.theme.scss';
 @import 'assets/variables';
+
 body {
     font-size: .875rem;
 }
@@ -125,4 +126,18 @@ body {
         border-radius: 0 !important;
     }
 
+}
+
+.crop-area{
+    max-height: 400px;
+    overflow: auto;
+}
+
+.preview-area img{
+    max-width: 100%;
+}
+
+.table-loading{
+    pointer-events: none;
+    opacity: .6;
 }

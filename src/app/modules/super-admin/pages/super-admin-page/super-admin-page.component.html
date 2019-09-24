@@ -2,9 +2,9 @@
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Deshi Ponno Admin</a>
     <div class="w-100"></div>
-    <ul class="navbar-nav px-3">
+    <ul class="navbar-nav px-3" *ngIf="user">
         <li class="nav-item text-nowrap">
-        <a class="nav-link" href="#">Sign out</a>
+        <a class="nav-link" (click)="logout()">Sign out</a>
         </li>
     </ul>
 </nav>
@@ -14,72 +14,63 @@
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a class="nav-link active">
               <span data-feather="home"></span>
-              Dashboard <span class="sr-only">(current)</span>
+              User <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link py-1" routerLink="/super-admin/user-add">
+              <i class="fa fa-plus"></i>
               <span data-feather="file"></span>
-              Orders
+              Add New
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link py-1" routerLink="/super-admin/user-list">
+              <i class="fa fa-list"></i>
               <span data-feather="shopping-cart"></span>
-              Products
+              List
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="users"></span>
-              Customers
+            <a class="nav-link active">
+              <span data-feather="home"></span>
+              Digital Center <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2"></span>
-              Reports
+            <a class="nav-link py-1" routerLink="/super-admin/digital-center-add">
+              <i class="fa fa-plus"></i>
+              <span data-feather="file"></span>
+              Add New
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="layers"></span>
-              Integrations
-            </a>
-          </li>
-        </ul>
-
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Saved reports</span>
-          <a class="d-flex align-items-center text-muted" href="#">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Current month
+            <a class="nav-link py-1" routerLink="/super-admin/digital-center-list">
+              <i class="fa fa-list"></i>
+              <span data-feather="shopping-cart"></span>
+              List
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Last quarter
+            <a class="nav-link active">
+              <span data-feather="home"></span>
+              Category <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Social engagement
+            <a class="nav-link py-1" routerLink="/super-admin/category-add">
+              <i class="fa fa-plus"></i>
+              <span data-feather="file"></span>
+              Add New
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Year-end sale
+            <a class="nav-link py-1" routerLink="/super-admin/category-list">
+              <i class="fa fa-list"></i>
+              <span data-feather="shopping-cart"></span>
+              List
             </a>
           </li>
         </ul>
