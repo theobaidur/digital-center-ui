@@ -7,8 +7,6 @@ import { ProfileBaseComponent } from './pages/profile-base/profile-base.componen
 import { ProfileDetailsComponent } from './components/profile-details/profile-details.component';
 import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
 import { FormsModule } from '@angular/forms';
-import { AuthGuard } from './guards/auth.guard';
-import { RoleGuard } from './guards/role.guard';
 
 
 @NgModule({
@@ -18,6 +16,6 @@ import { RoleGuard } from './guards/role.guard';
     AdminRoutingModule,
     FormsModule
   ],
-  providers: [AuthGuard, RoleGuard]
+  providers: []
 })
 export class AdminModule { }

@@ -14,6 +14,7 @@ import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 import { RoleService } from './role.service';
 import { DigitalCenterService } from './digital-center.service';
 import { Base } from 'src/app/model/_base.interface';
+import { Roles } from 'src/app/enums/roles.enum';
 
 @Injectable({
     providedIn: 'root'
@@ -59,6 +60,20 @@ export class AuthService extends AdminBaseService<User> {
         }
         this.roleService.notify();
         this.digitalCenterService.notify();
+    }
+    get user() {
+        return this.authState.getValue();
+    }
+    hasRole(...roles: Roles[]) {
+        const userRoles = this.authState.getValue() ? this.authState.getValue().roles : [];
+        return userRoles.find(role => roles.indexOf(role.name) > -1);
+    }
+    isAdminOf(digitalCenterId: string = null) {
+
+        if (this.user && this.user.digital_center_id === digitalCenterId) {
+            return true;
+        }
+        return false;
     }
     constructor(
         public httpBase: HttpBase,

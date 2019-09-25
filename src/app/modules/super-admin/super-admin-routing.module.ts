@@ -11,13 +11,18 @@ import { CategoryEditComponent } from './components/category-edit/category-edit.
 import { UserListComponent } from './components/user-list/user-list.component';
 import { UserAddComponent } from './components/user-add/user-add.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { Role } from '../admin/enums/role.name';
+import { RoleGuard } from '../admin/guards/role.guard';
 
 
 const routes: Routes = [
   {
     path: '',
     component: SuperAdminPageComponent,
-    // pathMatch: 'full',
+    canActivate: [RoleGuard],
+    data: {
+      roles: [Role.SUPER_ADMIN]
+    },
     children: [
       {
         path: '',

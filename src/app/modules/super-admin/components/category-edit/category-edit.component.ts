@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Category } from 'src/app/modules/store/models/category.model';
 import { CategoryService } from 'src/app/modules/admin/services/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { map, filter, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { Category } from 'src/app/modules/admin/models/category.model';
 
 @Component({
   selector: 'app-category-edit',

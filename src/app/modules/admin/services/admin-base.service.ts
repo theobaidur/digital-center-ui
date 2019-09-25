@@ -61,15 +61,16 @@ export abstract class AdminBaseService<T> {
         return this.http.post<HttpResponseItem<T>>(`${endpoint || this.resourceEndPoint}`, data, this.includes).pipe(
             map(response => {
                 if (response && response.data) {
-                    this.saveIncludes(response);
-                    return this.normalize(response.data);
+                    const normalized = this.normalize(response.data);
+                    this.notify();
+                    return normalized;
                 }
                 throw new Error('Not Created');
             })
         );
     }
-    update(id: string, data: any): Observable<T> {
-        const path = `${this.resourceEndPoint}/${id}`;
+    update(id: string, data: any, endpoint: string = null): Observable<T> {
+        const path = `${endpoint || this.resourceEndPoint}/${id}`;
         let method: Observable<HttpResponse<HttpResponseItem<T>>>;
         if (data instanceof FormData) {
             data.set('_method', 'PATCH');
@@ -81,7 +82,9 @@ export abstract class AdminBaseService<T> {
             map(response => {
                 if (response && response.data) {
                     this.saveIncludes(response);
-                    return this.normalize(response.data);
+                    const normalized = this.normalize(response.data);
+                    this.notify();
+                    return normalized;
                 }
                 throw new Error('Not Updated');
             })

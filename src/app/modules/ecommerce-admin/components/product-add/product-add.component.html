@@ -1,0 +1,148 @@
+<div class="white-bg py-4">
+    <div class="row">
+        <div class="col-md-12">
+            <form #form="ngForm" class="form" (ngSubmit)="submit()">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control" id="name" [(ngModel)]="model.name" required>
+                </div>
+                <div class="form-group">
+                    <label for="name_bn">নাম</label>
+                    <input type="text" name="name_bn" class="form-control" id="name_bn" [(ngModel)]="model.name_bn" required>
+                </div>
+                <div class="form-group">
+                    <label for="related_name">Related Name</label>
+                    <input type="text" name="related_name" class="form-control" id="related_name" [(ngModel)]="model.related_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="related_name_bn">সংশ্লিষ্ট নাম</label>
+                    <input type="text" name="related_name_bn" class="form-control" id="related_name_bn" [(ngModel)]="model.related_name_bn" required>
+                </div>
+                <div class="form-group">
+                    <label for="short_description">Short Description</label>
+                    <textarea name="short_description" id="short_description" [(ngModel)]="model.short_description" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="short_description_bn">সংক্ষিপ্ত বর্ননা</label>
+                    <textarea name="short_description_bn" id="short_description_bn" [(ngModel)]="model.short_description_bn" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" [(ngModel)]="model.description" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="description_bn">বর্ননা</label>
+                    <textarea name="description_bn" id="description_bn" [(ngModel)]="model.description_bn" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="unit_price">Unit Price</label>
+                    <input type="number" name="unit_price" class="form-control" id="unit_price" [(ngModel)]="model.unit_price" required>
+                </div>
+                <div class="form-group">
+                    <label for="product_unit">Product Unit Name</label>
+                    <input type="text" placeholder="Kg, gm, littre etc." name="product_unit" class="form-control" id="product_unit" [(ngModel)]="model.product_unit" required>
+                </div>
+                <div class="form-group">
+                    <label for="product_status">Product Status</label>
+                    <select name="product_status" id="product_status" [(ngModel)]="model.product_status" class="form-control" required>
+                        <option value="available" selected>Available</option>
+                        <option value="out_of_stock">Out of Stock</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category_id">Category</label>
+                    <select class="form-control" name="category_id" id="category_id" [(ngModel)]="model.category_id" required>
+                        <option [value]="category.id" *ngFor="let category of categories() | async">{{ category | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" name="show_in_gallery" id="show_in_gallery" [(ngModel)]="model.show_in_gallery">
+                    <label for="show_in_gallery">Show in Gallery</label>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="primary_image">Primary Image</label>
+                            <input type="file" accept="image/*" (change)="primaryImageSelected($event)" id="primary_image">
+                        </div>
+                        <div class="col-md-4 crop-area">
+                            <label>Crop Primary Image</label>
+                                <image-cropper
+                                [imageChangedEvent]="primaryImageChangeEvent"
+                                [maintainAspectRatio]="true"
+                                [aspectRatio]="1"
+                                [resizeToWidth]="1024"
+                                format="jpeg"
+                                (imageCropped)="primaryImageCropped($event)"
+                            ></image-cropper>
+                        </div>
+                        <div class="col-md-4 preview-area" *ngIf="primaryImage || model.primary_image">
+                            <label class="d-block w-100">Preview</label>
+                                <img *ngIf="primaryImage" [src]="primaryImage"/>
+                                <img *ngIf="!primaryImage && model.primary_image" [src]="model.primary_image | attachment"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="primary_image_thumb">Primary Image Thumbnail</label>
+                            <input type="file" accept="image/*" (change)="primaryImageThumbSelected($event)" id="primary_image_thumb">
+                        </div>
+                        <div class="col-md-4 crop-area">
+                            <label>Crop Primary Image thumbnail</label>
+                                <image-cropper
+                                [imageChangedEvent]="primaryImageThumbChangeEvent"
+                                [maintainAspectRatio]="true"
+                                [aspectRatio]="1"
+                                [resizeToWidth]="250"
+                                format="jpeg"
+                                (imageCropped)="primaryImageThumbCropped($event)"
+                            ></image-cropper>
+                        </div>
+                        <div class="col-md-4 preview-area" *ngIf="primaryImageThumb || model.primary_image_thumb">
+                            <label class="d-block w-100">Preview</label>
+                                <img *ngIf="primaryImageThumb" [src]="primaryImageThumb"/>
+                                <img *ngIf="!primaryImageThumb && model.primary_image_thumb" [src]="model.primary_image_thumb | attachment"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="product_images">Additional Product Image</label>
+                            <input type="file" accept="image/*" (change)="productImagesSelected($event)" id="product_images">
+                        </div>
+                        <div class="col-md-4 crop-area">
+                            <label>Crop Primary Image thumbnail</label>
+                                <image-cropper
+                                [imageChangedEvent]="productImagesChangeEvent"
+                                [maintainAspectRatio]="true"
+                                [aspectRatio]="1"
+                                [resizeToWidth]="250"
+                                format="jpeg"
+                                (imageCropped)="productImagesCropped($event)"
+                            ></image-cropper>
+                        </div>
+                        <div class="col-md-4 preview-area" *ngIf="productImages || model.product_images">
+                            <label class="d-block w-100">Preview</label>
+                                <img *ngIf="productImages" [src]="productImages"/>
+                                <img *ngIf="!productImages && model.product_images" [src]="model.product_images | attachment"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" name="promotion_running" id="promotion_running" [(ngModel)]="model.promotion_running">
+                    <label for="promotion_running">Promotion Running</label>
+                </div>
+                <div class="form-group" *ngIf="model.promotion_running">
+                    <label for="regular_unit_price">Regular Unit Price</label>
+                    <input type="number" name="regular_unit_price" class="form-control" id="regular_unit_price" [(ngModel)]="model.regular_unit_price" [required]="model.promotion_running">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid || !hasAdditionalData">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

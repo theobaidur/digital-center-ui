@@ -82,6 +82,7 @@ export class UserAddComponent implements OnInit {
   submit() {
     const model = {...this.model};
     delete model.roles;
+    delete model.digital_center_id;
     const data = {
       type: 'users',
       attributes: {...model},
@@ -91,6 +92,12 @@ export class UserAddComponent implements OnInit {
             type: 'roles',
             id: role.id
           }))
+        },
+        digitalCenter: {
+          data: {
+            type: 'digital-centers',
+            id: this.model.digital_center_id
+          }
         }
       }
     };

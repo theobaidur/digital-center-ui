@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-12 pt-5">
+        <table class="table table-sm table-striped" [ngClass]="{'table-loading': loading}">
+            <tr>
+                <th colspan="3">
+                    <h3 class="my-0">
+                        Category List <a [routerLink]="createPageLink()" class="btn btn-sm btn-info">Add New</a>
+                    </h3>
+                </th>
+                <th colspan="3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" (keyup)="search($event.target.value)">
+                        <button class="btn btn-sm input-group-prepend">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>নাম</th>
+                <th>Unit Price</th>
+                <th>Category</th>
+                <th>#</th>
+            </tr>
+            <tr *ngFor="let item of list">
+                <td>
+                    <img *ngIf="item.primary_image_thumb" [src]="item.primary_image_thumb | attachment">
+                    <span  *ngIf="!item.primary_image_thumb">N/A</span>
+                </td>
+                <td>
+                    <a [routerLink]="detailPageLink(item.id)">{{ item.name }}</a>
+                </td>
+                <td>
+                    {{ item.name_bn }}
+                </td>
+                <td>
+                    {{ item.unit_price }}/{{ item.product_unit }}
+                </td>
+                <td>
+                    {{ item.category.name }}
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-danger" *ngIf="canDelete(item)" (click)="delete(item.id)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <span *ngIf="!item.approved" class="badge badge-danger m-1">Not Approved</span>
+                    <span *ngIf="item.product_status === 'out_of_stock'" class="badge badge-danger m-1">Out of Stock</span>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="6" class="text-center">
+                    <button class="btn btn-sm btn-info" *ngIf="hasMore" (click)="loadNext()">Load More</button>
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>

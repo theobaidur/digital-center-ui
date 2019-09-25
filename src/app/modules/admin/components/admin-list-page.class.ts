@@ -8,6 +8,10 @@ import { ServiceLocator } from 'src/app/services/service-locator';
 export abstract class AdminListPage<T> {
     private dataService: AdminBaseService<T>;
     private alertService: SweetAlertService;
+    defaultParams: RequestParam[] = [{
+        property: 'sort',
+        value: '-created_at'
+    }];
     list: T[] = [];
     searchObserver: BehaviorSubject<string> = new BehaviorSubject(null);
     pageObserver: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -31,11 +35,13 @@ export abstract class AdminListPage<T> {
         .pipe(
         switchMap(() => {
             this.loading = true;
-            const params: RequestParam[] = [];
-            params.push({
-            property: 'search',
-            value: this.searchObserver.getValue()
-            });
+            const params: RequestParam[] = [...this.defaultParams];
+            if (this.searchObserver.getValue()) {
+                params.push({
+                property: 'search',
+                value: this.searchObserver.getValue()
+                });
+            }
             return this.dataService.getList(this.currentPage, params).pipe(
             tap(response => {
                 this.loading = false;

@@ -18,7 +18,11 @@ const routes: Routes = [
   },
   {
     path: 'super-admin',
-    loadChildren: './modules/super-admin/super-admin.module#SuperAdminModule'
+    loadChildren: './modules/super-admin/super-admin.module#SuperAdminModule',
+  },
+  {
+    path: 'ecommerce-admin',
+    loadChildren: './modules/ecommerce-admin/ecommerce-admin.module#EcommerceAdminModule'
   }
 ];
 
