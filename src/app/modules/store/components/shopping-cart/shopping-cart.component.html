@@ -25,10 +25,10 @@
             </div>
         </div>
         <div class="card-footer p-0 d-flex">
-            <!-- <button class="btn btn-sm btn-info"  *ngIf="!(cartShown && totalItem)">
+            <button class="btn btn-sm btn-info"  *ngIf="!(cartShown && totalItem)">
                 <i class="fa fa-2x fa-weixin"></i>
-            </button> -->
-            <button (click)="checkout()" class="btn btn-sm btn-info"  *ngIf="1 || (cartShown && totalItem)">
+            </button>
+            <button (click)="checkout()" class="btn btn-sm btn-info"  *ngIf="cartShown && totalItem">
                 Checkout
             </button>
             <button class="btn btn-sm btn-danger w-100 summery-btn" (click)="showCart()">

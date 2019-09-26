@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginData } from '../../interfaces/login-data.interface';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { Roles } from 'src/app/enums/roles.enum';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,13 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.authService.authState.subscribe(user => {
       if (user) {
-        this.router.navigate(['/admin/profile']);
+        if (this.authService.hasRole(Roles.SUPER_ADMIN)) {
+          this.router.navigate(['/super-admin']);
+        } else if (this.authService.hasRole(Roles.ROLE_ECOMMERCE_ADMIN)) {
+          this.router.navigate(['/ecommerce-admin']);
+        } else {
+          this.router.navigate(['/shop']);
+        }
       }
     });
   }

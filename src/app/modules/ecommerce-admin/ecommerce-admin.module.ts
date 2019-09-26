@@ -12,10 +12,16 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { PipeModule } from 'src/app/pipes/pipe.module';
 import { SharedComponentModule } from 'src/app/components/shared-component.module';
+import { OrderListComponent } from './components/order-list/order-list.component';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
+import { EarningListComponent } from './components/earning-list/earning-list.component';
+import { EarningDetailComponent } from './components/earning-detail/earning-detail.component';
+import { EarningItemDirective } from './directives/earning-item.directive';
+import { OrderItemDirective } from './directives/order-item.directive';
 
 
 @NgModule({
-  declarations: [EcommerceAdminPageComponent, EcommerceAdminHomeComponent, ProductAddComponent, ProductEditComponent, ProductListComponent],
+  declarations: [EcommerceAdminPageComponent, EcommerceAdminHomeComponent, ProductAddComponent, ProductEditComponent, ProductListComponent, OrderListComponent, OrderDetailComponent, EarningListComponent, EarningDetailComponent, EarningItemDirective, OrderItemDirective],
   imports: [
     CommonModule,
     FormsModule,
