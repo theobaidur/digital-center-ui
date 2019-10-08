@@ -1,5 +1,5 @@
 
-<div class="jumbotron jumbotron-fluid my-0">
+<div class="jumbotron bg-white jumbotron-fluid my-0">
     <div class="row mx-0">
         <div class="col-md-4 offset-md-4">
             <form class="form" #loginForm="ngForm">
@@ -22,7 +22,7 @@
                         <span *ngIf="!processing">Login</span>
                         <i  *ngIf="processing" class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                     </button>
-                    <a href="" class="btn btn-sm btn-link mx-1">Forgot Password</a>
+                    <a routerLink="/admin/forgot-password" class="btn btn-sm btn-link mx-1">Forgot Password</a>
                 </div>
             </form>
         </div>

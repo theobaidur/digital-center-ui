@@ -2,11 +2,11 @@
     <div class="store-banner-bg w-100 h-100" *ngIf="storeDetails?.store_banner" app-image-viewer [id]="storeDetails?.store_banner" type="store-banner"></div>
     <div class="col-12 d-flex flex-column banner justify-content-center">
         <div class="text-center">
-            <h1 class="align-middle text-center d-inline-block text-info bg-dark">{{ storeDetails?.name }}</h1>
+            <h1 class="align-middle text-center d-inline-block text-info bg-dark">{{ storeDetails | switchLanguageProp:'name' | async }}</h1>
         </div>
         <div class="col-md-8 offset-md-2 col-12 align-middle  px-0 search-area">
             <div class="input-group">
-                <input class="form-control form-control-dark" [(ngModel)]="query" (keyup)="keyup()" type="text" placeholder="Search" aria-label="Search">
+                <input class="form-control form-control-dark" [(ngModel)]="query" (keyup)="keyup()" type="text" placeholder="{{ 'shop_header_search' | translate | async }}" aria-label="Search">
                 <button class="btn btn-sm input-group-prepend search-btn">
                     <i class="fa fa-search fa-2x"></i>
                 </button>

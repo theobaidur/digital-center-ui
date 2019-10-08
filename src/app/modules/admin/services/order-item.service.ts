@@ -3,7 +3,6 @@ import { OrderItem } from '../models/order-item.model';
 import { Injectable } from '@angular/core';
 import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
 import { ProductService } from './product.service';
-import { DigitalCenterEarningService } from './digital-center-earning.service';
 import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 import { Base } from 'src/app/model/_base.interface';
 
@@ -43,13 +42,11 @@ export class OrderItemService extends AdminBaseService<OrderItem> {
                 }
             });
         }
-        this.digitalCenterService.notify();
         this.productService.notify();
     }
 
     constructor(
-        private productService: ProductService,
-        private digitalCenterService: DigitalCenterEarningService
+        private productService: ProductService
     ) {
         super();
     }

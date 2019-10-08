@@ -12,15 +12,15 @@
         <div class="col-md-6" *ngIf="productImage">
             <div class="row flex-column">
                 <div class="col-12">
-                    <h3>{{ productDetails?.name }}</h3>
-                    <p class="text-muted h4">৳{{ productDetails?.unit_price }}/{{ productDetails?.product_unit }}</p>            
+                    <h3>{{ productDetails | switchLanguageProp:'name' | async}}</h3>
+                    <p class="text-muted h4">৳{{ productDetails?.unit_price | translate:true | async }}/{{ productDetails?.product_unit }}</p>            
                 </div>
                 <div class="col-12" *ngIf="productDetails">
                     <app-star-ratting [ratting]="productDetails?.avg_ratting" [rattingCount]="productDetails?.ratting_count"></app-star-ratting>
                 </div>
                 <div class="col-12">
                     <p>
-                        {{ productDetails?.description }}
+                        {{ productDetails | switchLanguageProp:'description' | async }}
                     </p>
                 </div>
                 <div class="col-12 d-flex">
@@ -29,7 +29,7 @@
                             <i class="fa fa-2x fa-minus"></i>
                         </button>
                         <span class="btn btn-sm quantity btn-outline-dark">
-                            {{ cartItem?.quantity || 0 }}
+                            {{ (cartItem?.quantity || 0)  | translate:true | async }}
                         </span>
                         <button class="btn btn-sm btn-info input-group-append" (click)="increase()">
                             <i class="fa fa-2x fa-plus"></i>

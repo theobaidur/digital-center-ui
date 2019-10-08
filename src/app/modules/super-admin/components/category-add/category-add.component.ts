@@ -82,10 +82,21 @@ export class CategoryAddComponent implements OnInit {
 
   submit() {
     const form = new FormData();
-    const data = {
+    const data: any = {
       type: 'digital-centers',
-      attributes: {...this.model}
+      attributes: {
+        name: this.model.name,
+        name_bn: this.model.name_bn,
+        related_name: this.model.related_name,
+        related_name_bn: this.model.related_name_bn,
+        cns_charge: this.model.cns_charge,
+        affiliate_charge: this.model.affiliate_charge,
+        charge_type: this.model.charge_type
+      }
     };
+    if (this.model.parent_id) {
+      data.attributes.parent_id = this.model.parent_id;
+    }
     form.append('data', JSON.stringify({data}));
     if (this.categoryIcon) {
       form.append('category_icon', this.toBlob(this.categoryIcon), 'category_icon.jpeg');

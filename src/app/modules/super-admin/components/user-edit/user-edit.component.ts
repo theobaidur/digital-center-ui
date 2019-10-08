@@ -92,29 +92,30 @@ export class UserEditComponent implements OnInit {
     if (!this.passwordChanged) {
       delete model.password;
     }
-    const form = new FormData();
-    const data = {
+    const data: any = {
       type: 'users',
-      attributes: {...model},
-      id: model.id,
-      relationships: {
+      attributes: {
+        name: this.model.name,
+        email: this.model.email,
+        phone: this.model.phone,
+        active: this.model.active,
+        password: this.model.password,
+        digital_center_id: this.model.digital_center_id
+      },
+      id: model.id
+    };
+    if (this.model.roles && this.model.roles.length) {
+      data.relationships = {
         roles: {
           data: (this.model.roles || []).map(role => ({
             type: 'roles',
             id: role.id
           }))
-        },
-        digitalCenter: {
-          data: {
-            type: 'digital-centers',
-            id: this.model.digital_center_id
-          }
         }
-      }
-    };
+      };
+    }
     this.aleartService.saving();
-    form.set('data', JSON.stringify({data}));
-    this.dataService.update(model.id, form).subscribe(response => {
+    this.dataService.update(model.id, {data}).subscribe(response => {
       this.aleartService.done();
       this.router.navigate(['/super-admin/user-edit', response.id]);
     }, () => this.aleartService.failed());

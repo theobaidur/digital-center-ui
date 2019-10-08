@@ -15,7 +15,13 @@ export class UpazilaService extends AdminBaseService<Upazila> {
         const data = item.attributes;
         data._type = item.type;
         data.id = item.id;
+        this.cache(data, false);
         return data;
     }
     saveIncludes(response: HttpResponse<any>): void {}
+
+    constructor() {
+        super();
+        this.getList().subscribe();
+    }
 }

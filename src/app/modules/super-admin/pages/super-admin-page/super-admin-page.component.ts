@@ -9,6 +9,15 @@ import { User } from 'src/app/modules/admin/models/user.model';
 })
 export class SuperAdminPageComponent implements OnInit {
   user: User;
+  menuItems = [
+    {prefix: 'user', title: 'User'},
+    {prefix: 'digital-center', title: 'Digital Center'},
+    {prefix: 'category', title: 'Category'},
+    {prefix: 'division', title: 'Division'},
+    {prefix: 'district', title: 'District'},
+    {prefix: 'upazila', title: 'Upazila'},
+    {prefix: 'union', title: 'Union'},
+  ];
   constructor(
     private authService: AuthService
   ) {

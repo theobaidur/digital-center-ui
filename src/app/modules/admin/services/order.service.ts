@@ -14,7 +14,7 @@ import { DigitalCenterService } from './digital-center.service';
 })
 
 export class OrderService extends AdminBaseService<Order> {
-    includes: string[] = ['address', 'customer', 'seller' , 'items'];
+    includes: string[] = ['address', 'customer', 'seller' , 'items', 'digitalCenter'];
     resourceEndPoint = 'orders';
     normalize(item: HttpResponseItem<Order>): Order {
         item.attributes.id = item.id;
@@ -54,6 +54,14 @@ export class OrderService extends AdminBaseService<Order> {
                 // tslint:disable-next-line: no-string-literal
                 const data = item['relationships'].seller.data;
                 item.attributes.seller = this.digitalCenterService.fromCache(data.id);
+        }
+        // tslint:disable-next-line: no-string-literal
+        if (item && item['relationships'] && item['relationships'].digitalCenter
+            // tslint:disable-next-line: no-string-literal
+            && item['relationships'].digitalCenter.data) {
+                // tslint:disable-next-line: no-string-literal
+                const data = item['relationships'].digitalCenter.data;
+                item.attributes.digitalCenter = this.digitalCenterService.fromCache(data.id);
         }
         this.cache(item.attributes, false);
         return item.attributes;

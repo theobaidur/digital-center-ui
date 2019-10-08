@@ -1,8 +1,8 @@
 <div class="jumbotron store-banner jumbotron-fluid mb-2">
     <div class="store-banner-bg w-100 h-100" *ngIf="storeDetails?.store_banner" app-image-viewer [id]="storeDetails?.store_banner" type="store-banner"></div>
     <div class="col-12 d-flex flex-column banner justify-content-center">
-        <h3 class="align-middle text-center mb-0">{{ storeDetails?.name }}</h3>
-        <h1 class="align-middle text-center">Offers</h1>
+        <h3 class="align-middle text-center mb-0">{{ storeDetails | switchLanguageProp:'name' | async }}</h3>
+        <h1 class="align-middle text-center">{{ 'offers' | translate | async }}</h1>
     </div>
 </div>
 <div class="container-fluid">

@@ -61,6 +61,7 @@ export abstract class AdminBaseService<T> {
         return this.http.post<HttpResponseItem<T>>(`${endpoint || this.resourceEndPoint}`, data, this.includes).pipe(
             map(response => {
                 if (response && response.data) {
+                    this.saveIncludes(response);
                     const normalized = this.normalize(response.data);
                     this.notify();
                     return normalized;

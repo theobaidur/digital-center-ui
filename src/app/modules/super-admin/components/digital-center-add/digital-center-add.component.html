@@ -18,6 +18,14 @@
                     <label for="address">Address</label>
                     <textarea class="form-control" id="address" name="address" [(ngModel)]="model.address" required></textarea>
                 </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" name="has_shop" id="has_shop" [(ngModel)]="model.has_shop">
+                    <label for="has_shop">Enable Ecommerce</label>
+                </div>
+                <div class="form-group form-check" *ngIf="model.has_shop">
+                    <input type="checkbox" class="form-check-input" name="shop_affiliate_only" id="shop_affiliate_only" [(ngModel)]="model.shop_affiliate_only">
+                    <label for="shop_affiliate_only">Affiliate Only</label>
+                </div>
                 <div class="form-group">
                     <label for="division_id">Divison</label>
                     <select class="form-control" name="division_id" id="division_id" [(ngModel)]="model.division_id" required>

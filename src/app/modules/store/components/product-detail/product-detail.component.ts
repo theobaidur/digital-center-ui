@@ -11,6 +11,8 @@ import { RattingManagerService } from '../../services/ratting-manager.service';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { StoreService } from '../../services/store.service';
 import { CartItem } from '../../interfaces/cart-item.interface';
+import { SeoService } from 'src/app/services/seo.service';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -29,12 +31,15 @@ export class ProductDetailComponent implements OnInit, OnChanges {
   pageObserver: BehaviorSubject<number> = new BehaviorSubject(1);
   lastPage = 1;
   cartItem: CartItem;
+  seoUpdater: BehaviorSubject<any> = new BehaviorSubject(false);
   constructor(
     public productManager: ProductManagerService,
     public slugManager: SlugManagerService,
     public attachmentManager: AttachmentManagerService,
     public rattingManager: RattingManagerService,
-    public storeService: StoreService
+    public storeService: StoreService,
+    private seoService: SeoService,
+    private languageService: LanguageService
   ) { }
 
   ngOnInit() {
@@ -48,6 +53,7 @@ export class ProductDetailComponent implements OnInit, OnChanges {
       switchMap(() => this.productManager.resolve(this.product))
     ).subscribe(product => {
       this.productDetails = product;
+      this.seoUpdater.next(true);
       this.loading = false;
       this.attachmentManager.resolve(product.product_image).subscribe(img => this.productImage = img);
       this.cartItem = this.storeService.getCartItem(product.id);
@@ -55,6 +61,22 @@ export class ProductDetailComponent implements OnInit, OnChanges {
     this.storeService.cartItemRemoved.subscribe(id => {
       if (this.productDetails && this.productDetails.id === id) {
         this.cartItem = null;
+      }
+    });
+    this.languageService.language.subscribe(lng => this.seoUpdater.next(true));
+    this.seoUpdater.subscribe(() => {
+      const lng = this.languageService.language.getValue().toLowerCase() === 'bn' ? '_bn' : '';
+      const product: Product = this.productDetails;
+      if (product) {
+        const title = product['name' + lng] || product.name;
+        const d1 = product['related_name' + lng] || product.related_name;
+        const d2 = product['short_description' + lng] || product.short_description;
+        const d3 = product['description' + lng] || product.description;
+        const description = [d1, d2, d3].filter(value => !!value).join(' | ');
+        const url = window.location.href;
+        const image = product.product_image;
+        const withPrefix = false;
+        this.seoService.updateTag({title, withPrefix, description, url, image});
       }
     });
   }

@@ -3,14 +3,14 @@
 </div>
 <div class="row my-3" *ngIf="hasMore && !loading">
     <div class="col-12 d-flex justify-content-center">
-        <button class="btn btn-info btn-sm" (click)="loadNext()">Load More</button>
+        <button class="btn btn-info btn-sm" (click)="loadNext()">{{ 'load_more' | translate | async }}</button>
     </div>
 </div>
 <div class="row" *ngIf="!loading && products.length === 0">
     <div class="col-12 py-5 d-flex not-found justify-content-center align-item-center">
         <div class="d-inline-block text-center">
             <i class="fa fa-4x fa-frown-o" aria-hidden="true"></i>
-            <h3>No products found</h3>
+            <h3>{{ 'no_product_found' | translate | async }}</h3>
         </div>
     </div>
 </div>

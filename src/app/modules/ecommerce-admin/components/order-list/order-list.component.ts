@@ -59,6 +59,18 @@ export class OrderListComponent extends AdminListPage<Order> implements OnInit {
     }
   }
 
+  getEarning(item: Order) {
+    if (this.authService.hasRole(Roles.SUPER_ADMIN)) {
+      return (item.cnsEarning || 0).toFixed(2);
+    }
+    if (this.authService.authState.getValue().digital_center_id === item.digital_center_id) {
+      return ((item.totalPrice - item.affiliateEarning - item.cnsEarning) || 0).toFixed();
+    }
+    if (this.authService.authState.getValue().digital_center_id === item.seller_id) {
+      return item.affiliateEarning;
+    }
+  }
+
   ngOnInit() {
   }
 

@@ -37,9 +37,9 @@ export class HeaderComponent implements OnInit {
 
     this.languageService.language.subscribe(lang => {
       if (lang.toLowerCase() === 'bn') {
-        this.language = 'বাংলা';
-      } else {
         this.language = 'EN';
+      } else {
+        this.language = 'বাংলা';
       }
     });
   }

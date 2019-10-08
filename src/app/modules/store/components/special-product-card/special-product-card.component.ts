@@ -23,6 +23,7 @@ export class SpecialProductCardComponent implements OnInit {
     if (this.product) {
       parts.push(this.product.slug);
     }
+    console.log(parts);
     return parts.join('/');
   }
 

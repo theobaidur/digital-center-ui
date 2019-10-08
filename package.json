@@ -27,6 +27,7 @@
     "bootswatch": "^4.3.1",
     "cropperjs": "^1.5.5",
     "font-awesome": "^4.7.0",
+    "moment": "^2.24.0",
     "ng-multiselect-dropdown": "^0.2.5",
     "ngx-image-cropper": "^1.4.1",
     "ngx-image-zoom": "^0.4.1",

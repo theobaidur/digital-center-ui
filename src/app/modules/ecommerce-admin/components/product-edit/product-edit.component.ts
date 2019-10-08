@@ -127,7 +127,23 @@ export class ProductEditComponent implements OnInit {
     const data = {
       type: 'products',
       id: this.model.id,
-      attributes: {...this.model}
+      attributes: {
+        name: this.model.name,
+        name_bn: this.model.name_bn,
+        short_description: this.model.short_description,
+        short_description_bn: this.model.short_description_bn,
+        related_name: this.model.related_name,
+        related_name_bn: this.model.related_name_bn,
+        description: this.model.description,
+        description_bn: this.model.description_bn,
+        unit_price: this.model.unit_price,
+        product_unit: this.model.product_unit,
+        category_id: this.model.category_id,
+        product_status: this.model.product_status,
+        regular_unit_price: this.model.regular_unit_price,
+        promotion_running: this.model.promotion_running,
+        show_in_gallery: this.model.show_in_gallery
+      }
     };
     form.append('data', JSON.stringify({data}));
     if (this.primaryImage) {

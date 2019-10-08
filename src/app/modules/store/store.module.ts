@@ -35,6 +35,10 @@ import { StoresComponent } from './components/stores/stores.component';
 import { StarRattingComponent } from './components/star-ratting/star-ratting.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { PipeModule } from 'src/app/pipes/pipe.module';
+import { TokenResolverService } from 'src/app/services/token-resolver.service';
+import { tokenList } from 'src/app/locale/shop-lang-token';
+import { DirectiveModule } from 'src/app/directives/directive.module';
 
 
 @NgModule({
@@ -46,6 +50,13 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
     StoreRoutingModule,
     HttpClientModule,
     NgxImageZoomModule.forRoot(),
+    PipeModule,
+    DirectiveModule
   ]
 })
-export class StoreModule { }
+export class StoreModule {
+  constructor(tokenResolver: TokenResolverService) {
+    console.log(tokenList);
+    tokenResolver.register(tokenList);
+  }
+}

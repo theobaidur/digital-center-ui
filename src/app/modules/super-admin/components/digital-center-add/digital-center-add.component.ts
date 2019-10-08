@@ -12,7 +12,10 @@ import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.se
   styleUrls: ['./digital-center-add.component.scss']
 })
 export class DigitalCenterAddComponent implements OnInit {
-  model: DigitalCenter = {};
+  model: DigitalCenter = {
+    has_shop: true,
+    shop_affiliate_only: false
+  };
   logoChangeEvent: Event;
   bannerChangeEvent: Event;
   logo: string;
@@ -84,10 +87,23 @@ export class DigitalCenterAddComponent implements OnInit {
 
   submit() {
     const form = new FormData();
-    const data = {
+    const data: any = {
       type: 'digital-centers',
-      attributes: {...this.model}
+      attributes: {
+        name: this.model.name,
+        name_bn: this.model.name_bn,
+        host: this.model.host,
+        address: this.model.address,
+        has_shop: this.model.has_shop,
+        shop_affiliate_only: this.model.shop_affiliate_only
+      }
     };
+    if (this.model.union_id) {
+      data.attributes.union_id = this.model.union_id;
+    }
+    if (this.model.upazila_id) {
+      data.attributes.upazila_id = this.model.upazila_id;
+    }
     form.append('data', JSON.stringify({data}));
     form.append('logo', this.toBlob(this.logo), 'logo.jpeg');
     form.append('store_banner', this.toBlob(this.banner), 'store_banner.jpeg');

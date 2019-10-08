@@ -3,8 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { ProfileBaseComponent } from './pages/profile-base/profile-base.component';
 import { ProfileDetailsComponent } from './components/profile-details/profile-details.component';
-import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { ResetUpdateComponent } from './components/reset-update/reset-update.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'forgot-password',
+    component: ResetPasswordComponent
   },
   {
     path: 'profile',
@@ -32,8 +37,8 @@ const routes: Routes = [
         component: ProfileDetailsComponent
       },
       {
-        path: 'edit',
-        component: ProfileEditComponent
+        path: 'update-password',
+        component: ResetUpdateComponent
       }
     ]
   }

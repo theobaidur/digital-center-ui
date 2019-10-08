@@ -1,0 +1,37 @@
+<div class="white-bg py-4">
+    <div class="row">
+        <div class="col-md-12">
+            <form #form="ngForm" class="form" (ngSubmit)="submit()">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control" id="name" [(ngModel)]="model.name" required>
+                </div>
+                <div class="form-group">
+                    <label for="name_bn">নাম</label>
+                    <input type="text" name="name_bn" class="form-control" id="name_bn" [(ngModel)]="model.name_bn" required>
+                </div>
+                <div class="form-group">
+                    <label for="division_id">Divison</label>
+                    <select class="form-control" name="division_id" id="division_id" [(ngModel)]="model.division_id" (change)="divisionChanged()" required>
+                        <option [value]="division.id" *ngFor="let division of divisions">{{ division | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="district_id">District</label>
+                    <select class="form-control" name="district_id" id="district_id" [(ngModel)]="model.district_id" (change)="districtChanged()" required>
+                        <option [value]="district.id" *ngFor="let district of districts">{{ district | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="upazila_id">Upazila</label>
+                    <select class="form-control" name="upazila_id" id="upazila_id" [(ngModel)]="model.upazila_id" required>
+                        <option [value]="upazila.id" *ngFor="let upazila of upazilas">{{ upazila | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

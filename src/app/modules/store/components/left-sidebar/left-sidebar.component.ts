@@ -3,6 +3,8 @@ import { CategoryManagerService } from '../../services/category-manager.service'
 import { Category } from '../../models/category.model';
 import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { AuthService } from 'src/app/modules/admin/services/auth.service';
+import { User } from 'src/app/modules/admin/models/user.model';
 
 @Component({
   selector: 'app-left-sidebar',
@@ -11,14 +13,18 @@ import { switchMap } from 'rxjs/operators';
 })
 export class LeftSidebarComponent implements OnInit {
   @Input() store;
+  user: User;
   parents: Category[] = [];
   children: Category[] = [];
   grandChildren: Category[] = [];
   selectedCategory: Subject<string> = new Subject();
   selectedSubCategory: Subject<string> = new Subject();
   constructor(
-    private categoryManager: CategoryManagerService
-  ) { }
+    private categoryManager: CategoryManagerService,
+    private authService: AuthService
+  ) {
+    this.authService.authState.subscribe(user => this.user = user);
+  }
 
   ngOnInit() {
     this.categoryManager.categories(null).subscribe(categories => {
@@ -40,5 +46,8 @@ export class LeftSidebarComponent implements OnInit {
     return {
       store: this.store
     };
+  }
+  logout() {
+    this.authService.logout();
   }
 }

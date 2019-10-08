@@ -85,19 +85,20 @@ export class UserAddComponent implements OnInit {
     delete model.digital_center_id;
     const data = {
       type: 'users',
-      attributes: {...model},
+      attributes: {
+        name: this.model.name,
+        email: this.model.email,
+        phone: this.model.phone,
+        active: this.model.active,
+        password: this.model.password,
+        digital_center_id: this.model.digital_center_id
+      },
       relationships: {
         roles: {
           data: (this.model.roles || []).map(role => ({
             type: 'roles',
             id: role.id
           }))
-        },
-        digitalCenter: {
-          data: {
-            type: 'digital-centers',
-            id: this.model.digital_center_id
-          }
         }
       }
     };

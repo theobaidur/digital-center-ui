@@ -1,15 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LocalStorageService } from '../services/local-storage.service';
+import { TokenResolverService } from '../services/token-resolver.service';
 
 @Pipe({
   name: 'translate'
 })
 export class TranslatePipe implements PipeTransform {
   constructor(
-    private localstorageService: LocalStorageService
+    private tokenService: TokenResolverService
   ) {}
-  transform(model: any, prop: string): any {
-    return null;
+  transform(key: string, hasNumber = false): any {
+    return this.tokenService.resolve(key, hasNumber);
   }
 
 }

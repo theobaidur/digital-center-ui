@@ -1,0 +1,22 @@
+<div class="white-bg py-4">
+    <div class="row">
+        <div class="col-md-12">
+            <form #form="ngForm" class="form" (ngSubmit)="submit()">
+                <div class="form-group">
+                        <h3>Add Division</h3>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control" id="name" [(ngModel)]="model.name" required>
+                </div>
+                <div class="form-group">
+                    <label for="name_bn">নাম</label>
+                    <input type="text" name="name_bn" class="form-control" id="name_bn" [(ngModel)]="model.name_bn" required>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

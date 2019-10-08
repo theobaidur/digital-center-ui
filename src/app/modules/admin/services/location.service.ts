@@ -7,6 +7,10 @@ import { Union } from '../models/union';
 import { HttpBase } from 'src/app/services/http.service';
 import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
+import { DivisionService } from './division.service';
+import { DistrictService } from './district.service';
+import { UpazilaService } from './upazila.service';
+import { UnionService } from './union.service';
 
 @Injectable({
     providedIn: 'root'
@@ -17,30 +21,15 @@ export class LocationService {
     upazilas: BehaviorSubject<Upazila[]> = new BehaviorSubject([]);
     unions: BehaviorSubject<Union[]> = new BehaviorSubject([]);
 
-    constructor(private httpBase: HttpBase) {
-        this.httpBase.get<HttpResponseItem<Division>[]>('divisions').subscribe(response => {
-            const items: Division[] = response.data.map(item => {
-                return {id: item.id, ...item.attributes};
-            });
-            this.divisions.next(items);
-        });
-        this.httpBase.get<HttpResponseItem<District>[]>('districts').subscribe(response => {
-            const items: District[] = response.data.map(item => {
-                return {id: item.id, ...item.attributes};
-            });
-            this.districts.next(items);
-        });
-        this.httpBase.get<HttpResponseItem<Upazila>[]>('upazilas').subscribe(response => {
-            const items: Upazila[] = response.data.map(item => {
-                return {id: item.id, ...item.attributes};
-            });
-            this.upazilas.next(items);
-        });
-        this.httpBase.get<HttpResponseItem<Union>[]>('unions').subscribe(response => {
-            const items: Union[] = response.data.map(item => {
-                return {id: item.id, ...item.attributes};
-            });
-            this.unions.next(items);
-        });
-    }
+    constructor(
+        private divisionService: DivisionService,
+        private districtService: DistrictService,
+        private upazilaService: UpazilaService,
+        private unionService: UnionService
+        ) {
+            this.divisionService.all.subscribe(list => this.divisions.next(list));
+            this.districtService.all.subscribe(list => this.districts.next(list));
+            this.upazilaService.all.subscribe(list => this.upazilas.next(list));
+            this.unionService.all.subscribe(list => this.unions.next(list));
+        }
 }

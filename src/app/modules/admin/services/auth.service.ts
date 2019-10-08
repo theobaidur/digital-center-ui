@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user.model';
 import { HttpBase } from 'src/app/services/http.service';
 import { LoginData } from '../interfaces/login-data.interface';
 import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
-import { tap, catchError } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { LocalStorageKeys } from 'src/app/modules/admin/enums/local-storage.key';
 import { Router } from '@angular/router';
-import { Role } from '../models/role.model';
 import { AdminBaseService } from './admin-base.service';
 import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 import { RoleService } from './role.service';
 import { DigitalCenterService } from './digital-center.service';
 import { Base } from 'src/app/model/_base.interface';
 import { Roles } from 'src/app/enums/roles.enum';
+import { PasswordReset } from '../models/password-reset.model';
+import { PasswordUpdate } from '../models/password-update.model';
 
 @Injectable({
     providedIn: 'root'
@@ -47,6 +48,7 @@ export class AuthService extends AdminBaseService<User> {
     saveIncludes(response: HttpResponse<any>): void {
         if (response && Array.isArray(response.included)) {
             response.included.forEach(include => {
+                console.log(include);
                 const data: Base = include.attributes;
                 data.id = include.id;
                 data._type = include.type;
@@ -90,6 +92,25 @@ export class AuthService extends AdminBaseService<User> {
     login(data: LoginData) {
         const loginurl = `${this.resourceEndPoint}/login`;
         return this.post(data, loginurl).pipe(
+            tap(user => this.authState.next(user))
+        );
+    }
+
+    initPasswordReset(data: PasswordReset) {
+        const url = `${this.resourceEndPoint}/init-password-reset`;
+        return this.http.post(url, data);
+    }
+
+    resetPassword(data: PasswordReset) {
+        const url = `${this.resourceEndPoint}/reset-password`;
+        return this.post(data, url).pipe(
+            tap(user => this.authState.next(user))
+        );
+    }
+
+    updatePassword(data: PasswordUpdate) {
+        const url = `${this.resourceEndPoint}/update-password`;
+        return this.post(data, url).pipe(
             tap(user => this.authState.next(user))
         );
     }

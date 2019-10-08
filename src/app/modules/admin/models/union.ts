@@ -4,4 +4,6 @@ export interface Union extends Base {
     name?: string;
     name_bn?: string;
     upazila_id?: string;
+    district_id?: string;
+    division_id?: string;
 }

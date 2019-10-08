@@ -20,11 +20,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.authService.authState.subscribe(user => {
       if (user) {
-        if (this.authService.hasRole(Roles.SUPER_ADMIN)) {
-          this.router.navigate(['/super-admin']);
-        } else if (this.authService.hasRole(Roles.ROLE_ECOMMERCE_ADMIN)) {
-          this.router.navigate(['/ecommerce-admin']);
+        if (this.authService.hasRole(Roles.SUPER_ADMIN, Roles.ROLE_ECOMMERCE_ADMIN)) {
+          this.router.navigate(['/admin']);
         } else {
+          this.authService.authState.next(null);
           this.router.navigate(['/shop']);
         }
       }

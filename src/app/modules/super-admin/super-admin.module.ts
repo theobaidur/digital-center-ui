@@ -18,16 +18,30 @@ import { CategoryListComponent } from './components/category-list/category-list.
 import { UserAddComponent } from './components/user-add/user-add.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { SharedComponentModule } from 'src/app/components/shared-component.module';
+import { DivisionAddComponent } from './components/division-add/division-add.component';
+import { DivisionEditComponent } from './components/division-edit/division-edit.component';
+import { DivisionListComponent } from './components/division-list/division-list.component';
+import { DistrictAddComponent } from './components/district-add/district-add.component';
+import { DistrictEditComponent } from './components/district-edit/district-edit.component';
+import { DistrictListComponent } from './components/district-list/district-list.component';
+import { UpazilaAddComponent } from './components/upazila-add/upazila-add.component';
+import { UpazilaEditComponent } from './components/upazila-edit/upazila-edit.component';
+import { UpazilaListComponent } from './components/upazila-list/upazila-list.component';
+import { UnionAddComponent } from './components/union-add/union-add.component';
+import { UnionEditComponent } from './components/union-edit/union-edit.component';
+import { UnionListComponent } from './components/union-list/union-list.component';
 
 
 @NgModule({
   declarations: [DigitalCenterAddComponent, DigitalCenterEditComponent,
     DigitalCenterListComponent, SuperAdminPageComponent, SuperAdminHomeComponent,
     CategoryAddComponent, CategoryEditComponent, CategoryListComponent, UserAddComponent,
-    UserEditComponent, UserListComponent],
+    UserEditComponent, UserListComponent, DivisionAddComponent, DivisionEditComponent, DivisionListComponent, DistrictAddComponent, DistrictEditComponent, DistrictListComponent, UpazilaAddComponent, UpazilaEditComponent, UpazilaListComponent, UnionAddComponent, UnionEditComponent, UnionListComponent],
   imports: [
     CommonModule,
     SuperAdminRoutingModule,
+    SharedComponentModule,
     FormsModule,
     PipeModule,
     ImageCropperModule,

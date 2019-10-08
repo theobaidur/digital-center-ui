@@ -1,0 +1,20 @@
+
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/shop">Shop</a>
+    <div class="w-100"></div>
+    <ul class="navbar-nav flex-row px-3" *ngIf="user">
+        <li class="nav-item text-nowrap" *ngIf="superAdmin">
+            <a class="nav-link" routerLink="/super-admin">Super Admin</a>
+        </li> 
+        <li class="nav-item text-nowrap" *ngIf="ecommerceAdmin || superAdmin">
+            <a class="nav-link" routerLink="/ecommerce-admin">Ecommerce Admin</a>
+        </li> 
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" routerLink="/admin">Profile</a>
+        </li> 
+
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="javascript:void(0)" (click)="logout()">Sign out</a>
+        </li>
+    </ul>
+</nav>

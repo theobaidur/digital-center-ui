@@ -21,6 +21,6 @@ export class RoleService extends AdminBaseService<Role> {
     saveIncludes(response: HttpResponse<any>): void {}
     constructor() {
         super();
-        this.getList().subscribe(console.log);
+        this.getList().subscribe();
     }
 }

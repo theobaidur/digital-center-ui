@@ -1,49 +1,46 @@
 
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/ecommerce-admin">Ecommerce Admin</a>
-    <div class="w-100"></div>
-    <ul class="navbar-nav px-3" *ngIf="user">
-        <li class="nav-item text-nowrap">
-        <a class="nav-link" (click)="logout()">Sign out</a>
-        </li>
-    </ul>
-</nav>
+<app-admin-header></app-admin-header>
 <div class="container-fluid">
   <div class="row">
     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isSuperAdmin || canSell">
             <a class="nav-link active">
               <span data-feather="home"></span>
-              Products <span class="sr-only">(current)</span>
+              Products <span class="sr-only">(current)</span> {{canSell}}
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="canSell">
             <a class="nav-link py-1" routerLink="/ecommerce-admin/product-add">
               <i class="fa fa-plus"></i>
-              <span data-feather="file"></span>
+              
               Add New
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isSuperAdmin || canSell">
             <a class="nav-link py-1" routerLink="/ecommerce-admin/product-list">
               <i class="fa fa-list"></i>
-              <span data-feather="shopping-cart"></span>
+              
               List
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isSuperAdmin || canSell">
             <a class="nav-link active">
               <span data-feather="home"></span>
               Orders <span class="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isSuperAdmin || canSell">
             <a class="nav-link py-1" routerLink="/ecommerce-admin/order-list">
               <i class="fa fa-list"></i>
-              <span data-feather="shopping-cart"></span>
               List
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="!isSuperAdmin">
+            <a class="nav-link py-1" routerLink="/ecommerce-admin/affiliate-order-list">
+              <i class="fa fa-list"></i>
+              Affiliate Order
             </a>
           </li>
         </ul>

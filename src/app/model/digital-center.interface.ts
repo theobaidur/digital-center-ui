@@ -6,6 +6,8 @@ export interface DigitalCenter extends Base {
     host?: string;
     slug?: string;
     address?: string;
+    has_shop?: boolean;
+    shop_affiliate_only?: boolean;
     union_id?: string;
     upazila_id?: string;
     district_id?: string;

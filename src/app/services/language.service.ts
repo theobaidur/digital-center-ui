@@ -6,12 +6,12 @@ import { BehaviorSubject } from 'rxjs';
     providedIn: 'root'
 })
 export class LanguageService {
-    language: BehaviorSubject<string> = new BehaviorSubject(this.localStorageService.get(LocalStorageKeys.LANG) || 'EN');
+    language: BehaviorSubject<string> = new BehaviorSubject(this.localStorageService.get(LocalStorageKeys.LANG) || 'BN');
     constructor(
         private localStorageService: LocalStorageService
     ) {
         this.language.subscribe(lang => {
-            this.localStorageService.store(LocalStorageKeys.LANG, lang || 'EN');
+            this.localStorageService.store(LocalStorageKeys.LANG, lang || 'BN');
         });
     }
 }

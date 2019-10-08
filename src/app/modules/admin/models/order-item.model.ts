@@ -9,6 +9,9 @@ export interface OrderItem extends Base {
     product_unit?: string;
     unit_price?: number;
     quantity?: number;
+    cns_charge?: number;
+    affiliate_charge?: number;
+    charge_type?: 'percentage' | 'fixed';
     order?: Order;
     product?: Product;
 }

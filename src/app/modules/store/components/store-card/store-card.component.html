@@ -2,12 +2,12 @@
     <div class="store-image-wrapper d-flex align-items-center justify-content-center" app-image-viewer [id]="store?.logo" type="mw-100">
     </div>
     <div class="card-body p-2 product-info">
-        <a [routerLink]="['/shop']" class="card-title" [queryParams]="{store: store?.slug}">{{ store.name }}</a>
+        <a [routerLink]="['/shop']" class="card-title" [queryParams]="{store: store?.slug}">{{ store | switchLanguageProp:'name' | async }}</a>
         <p class="card-text">
             {{store?.address}}
         </p>
     </div>
     <a [routerLink]="['/shop']" [queryParams]="{store: store?.slug}" class="btn d-block btn-primary btn-sm mt-0 m-2">
-        Visit
+        {{ 'visit' | translate | async }}
     </a>
 </div>

@@ -192,7 +192,7 @@ export class StoreUiService {
                         return this.httpService.post(endpoint, {data}).pipe(
                             map(response => {
                                 if (this.validOrderResponse(response)) {
-                                    order_id = (response.data as any).id;
+                                    order_id = (response.data as any).attributes.order_id;
                                     done = true;
                                     return true;
                                 }
@@ -213,7 +213,7 @@ export class StoreUiService {
                                 .pipe(filter(response => this.validOrderResponse(response)), tap(() => verified = true)).toPromise();
                                 return this.customSwal.insertQueueStep({
                                     title: 'Congratulations!',
-                                    html: `The order is verified. You can use this token <strong>(${code})</strong> to track your order`,
+                                    html: `The order is verified. You can use this id <strong>(${order_id})</strong> to track your order`,
                                     showConfirmButton: false,
                                     cancelButtonText: 'Close'
                                 });

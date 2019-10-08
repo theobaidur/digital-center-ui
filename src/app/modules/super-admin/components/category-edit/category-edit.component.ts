@@ -91,10 +91,24 @@ export class CategoryEditComponent implements OnInit {
 
   submit() {
     const form = new FormData();
-    const data = {
+    const data: any = {
       type: 'digital-centers',
-      attributes: {...this.model}
+      id: this.model.id,
+      attributes: {
+        name: this.model.name,
+        name_bn: this.model.name_bn,
+        related_name: this.model.related_name,
+        related_name_bn: this.model.related_name_bn,
+        cns_charge: this.model.cns_charge,
+        affiliate_charge: this.model.affiliate_charge,
+        charge_type: this.model.charge_type,
+        parent_id: this.model.parent_id
+      }
     };
+    console.log(this.model.parent_id);
+    if (this.model.parent_id) {
+      // data.attributes.parent_id = this.model.parent_id;
+    }
     form.append('data', JSON.stringify({data}));
     if (this.categoryIcon) {
       form.append('category_icon', this.toBlob(this.categoryIcon), 'category_icon.jpeg');
@@ -106,9 +120,8 @@ export class CategoryEditComponent implements OnInit {
       form.append('category_banner', this.toBlob(this.categoryBanner), 'category_banner.jpeg');
     }
     this.aleartService.saving();
-    this.dataService.post(form).subscribe(response => {
+    this.dataService.update(this.model.id, form).subscribe(response => {
       this.aleartService.done();
-      this.router.navigate(['/super-admin/category-edit', response.id]);
     }, () => this.aleartService.failed());
   }
 
