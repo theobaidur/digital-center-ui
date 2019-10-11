@@ -6,6 +6,7 @@ import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.se
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { CategoryService } from 'src/app/modules/admin/services/category.service';
 import { ProductService } from 'src/app/modules/admin/services/product.service';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
 
 @Component({
   selector: 'app-product-add',
@@ -13,6 +14,7 @@ import { ProductService } from 'src/app/modules/admin/services/product.service';
   styleUrls: ['./product-add.component.scss']
 })
 export class ProductAddComponent implements OnInit {
+  errors: FieldError[] = [];
   model: Product = {};
   primaryImageChangeEvent: Event;
   primaryImageThumbChangeEvent: Event;
@@ -79,8 +81,14 @@ export class ProductAddComponent implements OnInit {
     && (this.model.primary_image_thumb || this.primaryImageThumb)
     && (!this.model.promotion_running || this.model.regular_unit_price);
   }
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
 
   submit() {
+    this.errors = [];
     const form = new FormData();
     this.model.digital_center_id = this.authService.authState.getValue().digital_center_id;
     const data = {

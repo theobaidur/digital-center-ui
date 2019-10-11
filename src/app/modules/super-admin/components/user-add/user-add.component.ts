@@ -10,6 +10,8 @@ import { Role } from 'src/app/modules/admin/models/role.model';
 import { DigitalCenter } from 'src/app/model/digital-center.interface';
 import { Subject } from 'rxjs';
 import { switchMap, map, distinctUntilChanged } from 'rxjs/operators';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-add',
@@ -26,6 +28,13 @@ export class UserAddComponent implements OnInit {
   digitalCenters: DigitalCenter[] = [];
   nextPage = 1;
   loadMoreCenters: Subject<number> = new Subject();
+  errors: FieldError[] = [];
+  selectedRoles: any[] = [];
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
   constructor(
     private dataService: AuthService,
     private router: Router,
@@ -33,7 +42,6 @@ export class UserAddComponent implements OnInit {
     private roleService: RoleService,
     private digitalCenterService: DigitalCenterService
   ) { }
-  selectedRoles: any[] = [];
   ngOnInit() {
     this.roleService.all.subscribe(list => this.roles = [...list]);
     this.digitalCenterService.all.subscribe(list => this.digitalCenters = [...list]);
@@ -80,6 +88,7 @@ export class UserAddComponent implements OnInit {
   }
 
   submit() {
+    this.errors = [];
     const model = {...this.model};
     delete model.roles;
     delete model.digital_center_id;
@@ -106,7 +115,12 @@ export class UserAddComponent implements OnInit {
     this.dataService.post({data}).subscribe(response => {
       this.aleartService.done();
       this.router.navigate(['/super-admin/user-edit', response.id]);
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 
 }

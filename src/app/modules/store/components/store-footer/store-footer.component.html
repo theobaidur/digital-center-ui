@@ -24,28 +24,25 @@
                     <hr>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="" class="nav-link pl-0">{{ 'contact_us' | translate | async }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link pl-0">{{ 'faq' | translate | async}}</a>
+                            <p>{{ storeDetails?.contact_address }}</p>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link pl-0">{{ 'tnc' | translate | async }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="mailto:uiscsatkania@yahoo.com" class="nav-link pl-0">uiscsatkania@yahoo.com</a>
+                        <li class="nav-item" *ngIf="storeDetails?.email_address">
+                            <a href="mailto:{{ storeDetails?.email_address }}" class="nav-link pl-0">{{ storeDetails?.email_address }}</a>
+                        </li>
+                        <li class="nav-item" *ngIf="storeDetails?.phone_number">
+                            <a href="tel:{{ storeDetails?.phone_number }}" class="nav-link pl-0"><i class="fa fa-phone"></i> {{ storeDetails?.phone_number }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="tel:8801686333153" class="nav-link pl-0"><i class="fa fa-phone"></i> 01686333153</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="btn btn-sm btn-primary mx-1">
+                            <a *ngIf="storeDetails?.facebook" href="{{ storeDetails?.facebook }}" class="btn btn-sm btn-primary mx-1">
                                 <i class="fa fa-facebook"></i>
                             </a>
-                            <a href="" class="btn btn-sm btn-primary mx-1">
+                            <a *ngIf="storeDetails?.twitter" href="{{ storeDetails?.twitter }}" class="btn btn-sm btn-primary mx-1">
                                 <i class="fa fa-twitter"></i>
                             </a>
-                            <a href="" class="btn btn-sm btn-primary mx-1">
+                            <a *ngIf="storeDetails?.youtube" href="{{ storeDetails?.youtube }}" class="btn btn-sm btn-primary mx-1">
                                 <i class="fa fa-youtube"></i>
                             </a>
                         </li>

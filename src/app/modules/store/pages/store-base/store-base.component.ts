@@ -7,6 +7,8 @@ import { SlugManagerService } from '../../services/slug-manager.service';
 import { CategoryManagerService } from '../../services/category-manager.service';
 import { Slug } from '../../interfaces/slug.interface';
 import { StoreService } from '../../services/store.service';
+import { StoreManagerService } from '../../services/store-manager.service';
+import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 
 @Component({
   selector: 'app-store-base',
@@ -27,6 +29,8 @@ export class StoreBaseComponent implements OnInit {
     private slugManager: SlugManagerService,
     private router: Router,
     private categoryManager: CategoryManagerService,
+    private storeManager: StoreManagerService,
+    private alertService: SweetAlertService,
     private storeService: StoreService ) { }
 
   getStore(store: string): Observable<string> {
@@ -109,10 +113,20 @@ export class StoreBaseComponent implements OnInit {
       }
       this.storeView = view;
       this.viewResolving = false;
+      this.redirectIfInactive(this.store, view);
       }, err => {
-        console.log(err);
         this.router.navigate(['/shop/not-found']);
       });
+    }
+
+    redirectIfInactive(store: string, currentView: string) {
+      if (currentView !== 'stores') {
+        this.storeManager.resolve(store).subscribe(center => {
+          if (center && !center.active) {
+            this.alertService.shopClosed();
+          }
+        });
+      }
     }
 
 }

@@ -8,6 +8,7 @@ import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
+import { RequestParam } from 'src/app/interfaces/request-param.interface';
 @Injectable({
     providedIn: 'root'
 })
@@ -15,6 +16,12 @@ export class StoreManagerService extends ManagerService<DigitalCenter> {
     resourceEndPoint = 'digital-centers';
     includes = ['attachments'];
     host: BehaviorSubject<DigitalCenter> = new BehaviorSubject(null);
+    defatulFilters: RequestParam[] = [
+        {
+            property: 'filter[active]',
+            value: 'eq,1'
+        }
+    ];
     saveIncludes(response: HttpResponse<any>): void {
         if (response && response.included && Array.isArray(response.included)) {
             response.included.forEach(item => {

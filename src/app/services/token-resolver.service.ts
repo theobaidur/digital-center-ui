@@ -15,7 +15,7 @@ export class TokenResolverService {
         this.tokens.next(newList);
     }
 
-    resolve(key: string, hasNumber: boolean = false) {
+    resolve(key: any, hasNumber: boolean = false) {
         return this.languageService.language.pipe(
             distinctUntilChanged(),
             switchMap(() => {

@@ -5,6 +5,8 @@ import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.se
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { map, filter, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { Category } from 'src/app/modules/admin/models/category.model';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-category-edit',
@@ -12,6 +14,7 @@ import { Category } from 'src/app/modules/admin/models/category.model';
   styleUrls: ['./category-edit.component.scss']
 })
 export class CategoryEditComponent implements OnInit {
+  errors: FieldError[] = [];
   model: Category = {};
   iconChangeEvent: Event;
   thumbChangeEvent: Event;
@@ -89,7 +92,14 @@ export class CategoryEditComponent implements OnInit {
     && (this.model.category_banner || this.categoryBanner);
   }
 
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
+
   submit() {
+    this.errors = [];
     const form = new FormData();
     const data: any = {
       type: 'digital-centers',
@@ -105,10 +115,6 @@ export class CategoryEditComponent implements OnInit {
         parent_id: this.model.parent_id
       }
     };
-    console.log(this.model.parent_id);
-    if (this.model.parent_id) {
-      // data.attributes.parent_id = this.model.parent_id;
-    }
     form.append('data', JSON.stringify({data}));
     if (this.categoryIcon) {
       form.append('category_icon', this.toBlob(this.categoryIcon), 'category_icon.jpeg');
@@ -122,7 +128,12 @@ export class CategoryEditComponent implements OnInit {
     this.aleartService.saving();
     this.dataService.update(this.model.id, form).subscribe(response => {
       this.aleartService.done();
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 
 }

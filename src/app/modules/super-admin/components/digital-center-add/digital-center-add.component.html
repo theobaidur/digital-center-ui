@@ -5,18 +5,57 @@
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" name="name" class="form-control" id="name" [(ngModel)]="model.name" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('name')">{{ error }}</p>
                 </div>
                 <div class="form-group">
                     <label for="name_bn">নাম</label>
                     <input type="text" name="name_bn" class="form-control" id="name_bn" [(ngModel)]="model.name_bn" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('name_bn')">{{ error }}</p>
                 </div>
                 <div class="form-group">
                     <label for="host">Host</label>
                     <input type="text" name="host" class="form-control" id="host" [(ngModel)]="model.host" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('host')">{{ error }}</p>
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
                     <textarea class="form-control" id="address" name="address" [(ngModel)]="model.address" required></textarea>
+                    <p class="text-danger" *ngFor="let error of getErrors('address')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="contact_address">Contact Address</label>
+                    <textarea class="form-control" id="contact_address" name="contact_address" [(ngModel)]="model.contact_address"></textarea>
+                    <p class="text-danger" *ngFor="let error of getErrors('contact_address')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="email_address">Email Address</label>
+                    <input type="email" name="email_address" class="form-control" id="email_address" [(ngModel)]="model.email_address">
+                    <p class="text-danger" *ngFor="let error of getErrors('email_address')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">Phone Number</label>
+                    <input type="text" name="phone_number" class="form-control" id="phone_number" [(ngModel)]="model.phone_number">
+                    <p class="text-danger" *ngFor="let error of getErrors('phone_number')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="facebook">Facebook</label>
+                    <input type="text" name="facebook" class="form-control" id="facebook" [(ngModel)]="model.facebook">
+                    <p class="text-danger" *ngFor="let error of getErrors('facebook')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="youtube">Youtube</label>
+                    <input type="text" name="youtube" class="form-control" id="youtube" [(ngModel)]="model.youtube">
+                    <p class="text-danger" *ngFor="let error of getErrors('youtube')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="twitter">Twitter</label>
+                    <input type="text" name="twitter" class="form-control" id="twitter" [(ngModel)]="model.twitter">
+                    <p class="text-danger" *ngFor="let error of getErrors('twitter')">{{ error }}</p>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" name="active" id="active" [(ngModel)]="model.active">
+                    <label for="active">Active</label>
+                    <p class="text-danger" *ngFor="let error of getErrors('active')">{{ error }}</p>
                 </div>
                 <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input" name="has_shop" id="has_shop" [(ngModel)]="model.has_shop">
@@ -31,24 +70,28 @@
                     <select class="form-control" name="division_id" id="division_id" [(ngModel)]="model.division_id" required>
                         <option [value]="division.id" *ngFor="let division of divisions">{{ division | switchLanguageProp:'name' | async }}</option>
                     </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('division_id')">{{ error }}</p>
                 </div>
                 <div class="form-group">
                     <label for="district_id">District</label>
                     <select class="form-control" name="district_id" id="district_id" [(ngModel)]="model.district_id" required>
                         <option [value]="district.id" *ngFor="let district of districts">{{ district | switchLanguageProp:'name' | async }}</option>
                     </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('district_id')">{{ error }}</p>
                 </div>
                 <div class="form-group">
                     <label for="upazila_id">Upazila</label>
                     <select class="form-control" name="upazila_id" id="upazila_id" [(ngModel)]="model.upazila_id" [required]="!model.union_id">
                         <option [value]="upazila.id" *ngFor="let upazila of upazilas">{{ upazila | switchLanguageProp:'name' | async }}</option>
                     </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('upazila_id')">{{ error }}</p>
                 </div>
                 <div class="form-group">
-                    <label for="union_id">Unions</label>
+                    <label for="union_id">Union</label>
                     <select class="form-control" name="union_id" id="union_id" [(ngModel)]="model.union_id" [required]="!model.upazila_id">
                         <option [value]="union.id" *ngFor="let union of unions">{{ union | switchLanguageProp:'name' | async }}</option>
                     </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('union_id')">{{ error }}</p>
                 </div>
                 <div class="form-group">
                     <div class="row">

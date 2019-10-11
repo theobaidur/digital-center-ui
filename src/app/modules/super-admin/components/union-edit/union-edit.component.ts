@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 import { filter, switchMap, map, distinctUntilChanged, tap } from 'rxjs/operators';
 import { UnionService } from 'src/app/modules/admin/services/union.service';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-union-edit',
@@ -16,6 +18,12 @@ export class UnionEditComponent implements OnInit {
   model: Union = {};
   modelChanged: Subject<Union> = new Subject();
   processing = false;
+  errors: FieldError[] = [];
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
   constructor(
     private locationService: LocationService,
     private unionService: UnionService,
@@ -96,6 +104,7 @@ export class UnionEditComponent implements OnInit {
   }
 
   submit() {
+    this.errors = [];
     const data: any = {
       type: 'unions',
       id: this.model.id,
@@ -108,6 +117,11 @@ export class UnionEditComponent implements OnInit {
     this.aleartService.saving();
     this.unionService.update(this.model.id, {data}).subscribe(() => {
       this.aleartService.done();
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 }

@@ -5,10 +5,12 @@
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" name="name" class="form-control" id="name" [(ngModel)]="model.name" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('name')">{{ error }}</p>
                 </div>
                 <div class="form-group">
                     <label for="name_bn">নাম</label>
                     <input type="text" name="name_bn" class="form-control" id="name_bn" [(ngModel)]="model.name_bn" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('name_bn')">{{ error }}</p>
                 </div>
                 <div class="form-group">
                     <label for="division_id">Divison</label>
@@ -21,6 +23,7 @@
                     <select class="form-control" name="district_id" id="district_id" [(ngModel)]="model.district_id" required>
                         <option [value]="district.id" *ngFor="let district of districts">{{ district | switchLanguageProp:'name' | async }}</option>
                     </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('district_id')">{{ error }}</p>
                 </div>
                 
                 <div class="form-group">

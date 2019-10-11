@@ -1,5 +1,7 @@
 import Swal from 'sweetalert2';
 import { Injectable } from '@angular/core';
+import { LanguageService } from 'src/app/services/language.service';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +20,10 @@ export class SweetAlertService {
         }
         return this.swal;
     }
-    constructor() {}
+    constructor(
+        private langugeService: LanguageService,
+        private router: Router
+    ) {}
     saving(title: string = 'Saving...') {
         this.customSwal.fire({
             title,
@@ -27,6 +32,27 @@ export class SweetAlertService {
             allowOutsideClick: false,
             onBeforeOpen: () => {
                 this.customSwal.showLoading();
+            }
+        });
+    }
+
+    shopClosed() {
+        const lang = this.langugeService.language.getValue().toLowerCase();
+        let title = 'দোকান সাময়িকভাবে বন্ধ';
+        let text = 'কিছুদিন পর আবার চেষ্টা করুন';
+        if (lang === 'en') {
+            title = 'Shop closed temporarily';
+            text = 'Try again after few days';
+        }
+        this.customSwal.fire({
+            title,
+            text,
+            type: 'warning',
+            allowOutsideClick: false,
+            showCloseButton: true,
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                this.router.navigate(['/shop/stores']);
             }
         });
     }

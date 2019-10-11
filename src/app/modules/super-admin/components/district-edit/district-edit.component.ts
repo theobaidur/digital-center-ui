@@ -6,6 +6,8 @@ import { LocationService } from 'src/app/modules/admin/services/location.service
 import { ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 import { filter, switchMap, map, distinctUntilChanged, tap } from 'rxjs/operators';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-district-edit',
@@ -13,6 +15,7 @@ import { filter, switchMap, map, distinctUntilChanged, tap } from 'rxjs/operator
   styleUrls: ['./district-edit.component.scss']
 })
 export class DistrictEditComponent implements OnInit {
+  errors: FieldError[] = [];
   model: District = {};
   processing = false;
   constructor(
@@ -40,7 +43,14 @@ export class DistrictEditComponent implements OnInit {
     return this.locationService.divisions.getValue();
   }
 
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
+
   submit() {
+    this.errors = [];
     const data: any = {
       type: 'districts',
       id: this.model.id,
@@ -53,6 +63,11 @@ export class DistrictEditComponent implements OnInit {
     this.aleartService.saving();
     this.districtService.update(this.model.id, {data}).subscribe(() => {
       this.aleartService.done();
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 }

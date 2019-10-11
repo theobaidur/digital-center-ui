@@ -21,7 +21,6 @@ export class OtherStoresComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log(this.store);
     this.storeManager.all
     .pipe(
       untilDestroyed(this),

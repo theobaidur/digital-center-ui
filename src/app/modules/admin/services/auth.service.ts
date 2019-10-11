@@ -117,7 +117,7 @@ export class AuthService extends AdminBaseService<User> {
 
     logout() {
         this.authState.next(null);
-        this.router.navigate(['/admin/login']);
+        this.router.navigate(['/shop']);
     }
 
     redirect_login() {

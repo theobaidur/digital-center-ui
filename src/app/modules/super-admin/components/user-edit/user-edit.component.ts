@@ -10,6 +10,8 @@ import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.se
 import { RoleService } from 'src/app/modules/admin/services/role.service';
 import { DigitalCenterService } from 'src/app/modules/admin/services/digital-center.service';
 import { distinctUntilChanged, switchMap, filter, map, tap } from 'rxjs/operators';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-edit',
@@ -22,6 +24,14 @@ export class UserEditComponent implements OnInit {
   digitalCenters: DigitalCenter[] = [];
   nextPage = 1;
   loadMoreCenters: Subject<number> = new Subject();
+  errors: FieldError[] = [];
+  selectedRoles: any[] = [];
+  passwordChanged = false;
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
   constructor(
     private dataService: AuthService,
     private router: Router,
@@ -30,8 +40,6 @@ export class UserEditComponent implements OnInit {
     private digitalCenterService: DigitalCenterService,
     private route: ActivatedRoute
   ) { }
-  selectedRoles: any[] = [];
-  passwordChanged = false;
   ngOnInit() {
     this.roleService.all.subscribe(list => this.roles = [...list]);
     this.digitalCenterService.all.subscribe(list => this.digitalCenters = [...list]);
@@ -86,6 +94,7 @@ export class UserEditComponent implements OnInit {
   }
 
   submit() {
+    this.errors = [];
     const model = {...this.model};
     delete model.roles;
     delete model.digital_center_id;
@@ -118,7 +127,12 @@ export class UserEditComponent implements OnInit {
     this.dataService.update(model.id, {data}).subscribe(response => {
       this.aleartService.done();
       this.router.navigate(['/super-admin/user-edit', response.id]);
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 
 }

@@ -5,6 +5,8 @@ import { LocationService } from 'src/app/modules/admin/services/location.service
 import { ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 import { filter, map, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-division-edit',
@@ -14,6 +16,12 @@ import { filter, map, distinctUntilChanged, tap, switchMap } from 'rxjs/operator
 export class DivisionEditComponent implements OnInit {
   model: Division = {};
   processing = false;
+  errors: FieldError[] = [];
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
   constructor(
     private divisionService: DivisionService,
     private route: ActivatedRoute,
@@ -35,6 +43,7 @@ export class DivisionEditComponent implements OnInit {
   }
 
   submit() {
+    this.errors = [];
     const data: any = {
       type: 'divisions',
       id: this.model.id,
@@ -46,6 +55,11 @@ export class DivisionEditComponent implements OnInit {
     this.aleartService.saving();
     this.divisionService.update(this.model.id, {data}).subscribe(() => {
       this.aleartService.done();
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 }

@@ -8,7 +8,7 @@ export class TranslatePipe implements PipeTransform {
   constructor(
     private tokenService: TokenResolverService
   ) {}
-  transform(key: string, hasNumber = false): any {
+  transform(key: any, hasNumber = false): any {
     return this.tokenService.resolve(key, hasNumber);
   }
 

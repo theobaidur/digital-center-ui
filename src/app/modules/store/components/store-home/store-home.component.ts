@@ -14,7 +14,5 @@ export class StoreHomeComponent implements OnInit, OnChanges {
 
   ngOnInit() {
   }
-  ngOnChanges(c) {
-    console.log(c);
-  }
+  ngOnChanges() {}
 }

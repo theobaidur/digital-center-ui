@@ -5,6 +5,8 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DigitalCenterService } from 'src/app/modules/admin/services/digital-center.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-digital-center-add',
@@ -12,9 +14,11 @@ import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.se
   styleUrls: ['./digital-center-add.component.scss']
 })
 export class DigitalCenterAddComponent implements OnInit {
+  errors: FieldError[] = [];
   model: DigitalCenter = {
     has_shop: true,
-    shop_affiliate_only: false
+    shop_affiliate_only: false,
+    active: true
   };
   logoChangeEvent: Event;
   bannerChangeEvent: Event;
@@ -62,7 +66,7 @@ export class DigitalCenterAddComponent implements OnInit {
 
   get unions() {
     return this.locationService.unions.getValue()
-    .filter(union => !this.model.union_id || union.upazila_id === this.model.upazila_id);
+    .filter(union => !this.model.upazila_id || union.upazila_id === this.model.upazila_id);
   }
 
   toBlob(dataURI: string) {
@@ -85,7 +89,14 @@ export class DigitalCenterAddComponent implements OnInit {
     return new Blob([ia], {type: mimeString});
   }
 
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
+
   submit() {
+    this.errors = [];
     const form = new FormData();
     const data: any = {
       type: 'digital-centers',
@@ -95,7 +106,14 @@ export class DigitalCenterAddComponent implements OnInit {
         host: this.model.host,
         address: this.model.address,
         has_shop: this.model.has_shop,
-        shop_affiliate_only: this.model.shop_affiliate_only
+        shop_affiliate_only: this.model.shop_affiliate_only,
+        active: this.model.active,
+        contact_address: this.model.contact_address,
+        email_address: this.model.email_address,
+        phone_number: this.model.phone_number,
+        youtube: this.model.youtube,
+        facebook: this.model.facebook,
+        twitter: this.model.twitter
       }
     };
     if (this.model.union_id) {
@@ -105,12 +123,21 @@ export class DigitalCenterAddComponent implements OnInit {
       data.attributes.upazila_id = this.model.upazila_id;
     }
     form.append('data', JSON.stringify({data}));
-    form.append('logo', this.toBlob(this.logo), 'logo.jpeg');
-    form.append('store_banner', this.toBlob(this.banner), 'store_banner.jpeg');
+    if (this.logo) {
+      form.append('logo', this.toBlob(this.logo), 'logo.jpeg');
+    }
+    if (this.banner) {
+      form.append('store_banner', this.toBlob(this.banner), 'store_banner.jpeg');
+    }
     this.aleartService.saving();
     this.digitalCenterService.post(form).subscribe(response => {
       this.aleartService.done();
       this.router.navigate(['/super-admin/digital-center-edit', response.id]);
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 }

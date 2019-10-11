@@ -8,6 +8,8 @@ import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.se
 import { filter, switchMap, map, distinctUntilChanged, tap } from 'rxjs/operators';
 import { Upazila } from 'src/app/modules/admin/models/upazila';
 import { UpazilaService } from 'src/app/modules/admin/services/upazila.service';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-upazila-edit',
@@ -18,6 +20,12 @@ export class UpazilaEditComponent implements OnInit {
   model: Upazila = {};
   modelChanged: Subject<Upazila> = new Subject();
   processing = false;
+  errors: FieldError[] = [];
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
   constructor(
     private locationService: LocationService,
     private upazilaService: UpazilaService,
@@ -73,6 +81,7 @@ export class UpazilaEditComponent implements OnInit {
   }
 
   submit() {
+    this.errors = [];
     const data: any = {
       type: 'upazilas',
       id: this.model.id,
@@ -85,6 +94,11 @@ export class UpazilaEditComponent implements OnInit {
     this.aleartService.saving();
     this.upazilaService.update(this.model.id, {data}).subscribe(() => {
       this.aleartService.done();
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 }

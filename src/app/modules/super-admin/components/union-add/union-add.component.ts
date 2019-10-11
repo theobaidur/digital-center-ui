@@ -4,6 +4,8 @@ import { LocationService } from 'src/app/modules/admin/services/location.service
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 import { UnionService } from 'src/app/modules/admin/services/union.service';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-union-add',
@@ -13,6 +15,12 @@ import { UnionService } from 'src/app/modules/admin/services/union.service';
 export class UnionAddComponent implements OnInit {
   model: Union = {};
   processing = false;
+  errors: FieldError[] = [];
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
   constructor(
     private locationService: LocationService,
     private unionService: UnionService,
@@ -38,6 +46,7 @@ export class UnionAddComponent implements OnInit {
   }
 
   submit() {
+    this.errors = [];
     const data: any = {
       type: 'unions',
       attributes: {
@@ -59,6 +68,11 @@ export class UnionAddComponent implements OnInit {
     this.unionService.post({data}).subscribe(response => {
       this.aleartService.done();
       this.router.navigate(['/super-admin/union-edit', response.id]);
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 }

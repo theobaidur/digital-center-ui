@@ -5,6 +5,8 @@ import { LocationService } from 'src/app/modules/admin/services/location.service
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-division-add',
@@ -14,6 +16,12 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 export class DivisionAddComponent implements OnInit {
   model: Division = {};
   processing = false;
+  errors: FieldError[] = [];
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
   constructor(
     private divisionService: DivisionService,
     private router: Router,
@@ -24,6 +32,7 @@ export class DivisionAddComponent implements OnInit {
   }
 
   submit() {
+    this.errors = [];
     const data = {
       type: 'divisions',
       attributes: {
@@ -35,6 +44,11 @@ export class DivisionAddComponent implements OnInit {
     this.divisionService.post({data}).subscribe(response => {
       this.aleartService.done();
       this.router.navigate(['/super-admin/division-edit', response.id]);
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 }

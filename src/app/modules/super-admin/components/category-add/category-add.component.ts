@@ -5,6 +5,8 @@ import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.se
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { CategoryService } from 'src/app/modules/admin/services/category.service';
 import { map, tap } from 'rxjs/operators';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-category-add',
@@ -12,6 +14,7 @@ import { map, tap } from 'rxjs/operators';
   styleUrls: ['./category-add.component.scss']
 })
 export class CategoryAddComponent implements OnInit {
+  errors: FieldError[] = [];
   model: Category = {};
   iconChangeEvent: Event;
   thumbChangeEvent: Event;
@@ -80,7 +83,14 @@ export class CategoryAddComponent implements OnInit {
     && (this.model.category_banner || this.categoryBanner);
   }
 
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
+
   submit() {
+    this.errors = [];
     const form = new FormData();
     const data: any = {
       type: 'digital-centers',
@@ -111,7 +121,12 @@ export class CategoryAddComponent implements OnInit {
     this.dataService.post(form).subscribe(response => {
       this.aleartService.done();
       this.router.navigate(['/super-admin/category-edit', response.id]);
-    }, () => this.aleartService.failed());
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors) {
+        this.errors = err.error.errors;
+      }
+      this.aleartService.failed();
+    });
   }
 
 }

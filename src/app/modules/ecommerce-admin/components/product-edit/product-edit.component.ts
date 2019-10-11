@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/modules/admin/models/product.model';
 import { ProductService } from 'src/app/modules/admin/services/product.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 import { CategoryService } from 'src/app/modules/admin/services/category.service';
 import { AuthService } from 'src/app/modules/admin/services/auth.service';
 import { filter, map, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Roles } from 'src/app/enums/roles.enum';
+import { FieldError } from 'src/app/interfaces/field-error.interface';
 
 @Component({
   selector: 'app-product-edit',
@@ -15,6 +16,7 @@ import { Roles } from 'src/app/enums/roles.enum';
   styleUrls: ['./product-edit.component.scss']
 })
 export class ProductEditComponent implements OnInit {
+  errors: FieldError[] = [];
   model: Product = {};
   primaryImageChangeEvent: Event;
   primaryImageThumbChangeEvent: Event;
@@ -120,8 +122,14 @@ export class ProductEditComponent implements OnInit {
       }, () => this.aleartService.failed());
     }
   }
+  getErrors(field: string): string[] {
+    return this.errors.map(error => error.detail)
+    .filter(detail => !!detail)
+    .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
+  }
 
   submit() {
+    this.errors = [];
     const form = new FormData();
     this.model.digital_center_id = this.authService.authState.getValue().digital_center_id;
     const data = {
@@ -156,7 +164,7 @@ export class ProductEditComponent implements OnInit {
       form.append('product_images', this.toBlob(this.productImages), 'product_images.jpeg');
     }
     this.aleartService.saving();
-    this.dataService.update(this.model.id, form).subscribe(response => {
+    this.dataService.update(this.model.id, form).subscribe(() => {
       this.aleartService.done();
     }, () => this.aleartService.failed());
   }
