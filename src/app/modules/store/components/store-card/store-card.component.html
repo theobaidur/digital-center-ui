@@ -1,4 +1,7 @@
 <div class="card store-card">
+    <div class="shop-closed-overlay" *ngIf="!store?.active">
+        <h3>{{ 'shop_closed' | translate | async }}</h3>
+    </div>
     <div class="store-image-wrapper d-flex align-items-center justify-content-center" app-image-viewer [id]="store?.logo" type="mw-100">
     </div>
     <div class="card-body p-2 product-info">

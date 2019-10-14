@@ -6,6 +6,7 @@ import { HttpBase } from 'src/app/services/http.service';
 import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 import { RequestParam } from 'src/app/interfaces/request-param.interface';
 import { CartItem } from '../interfaces/cart-item.interface';
+import { LanguageService } from 'src/app/services/language.service';
 @Injectable({
     providedIn: 'root'
 })
@@ -81,6 +82,32 @@ export class StoreUiService {
 
     checkout(items: CartItem[], dagitalCenterId?: string) {
         const total = items.reduce((sum, curr) => sum + (curr.unit_price * curr.quantity), 0);
+        const lang = this.languageService.language.getValue().toLowerCase();
+        const token1 = lang === 'bn' ? 'পরবর্তি ধাপ &rarr;' : 'Next &rarr;';
+        const token2 = lang === 'bn' ? 'তথ্যাদি' : 'Credentials';
+        const token3 = lang === 'bn' ? 'আপনার নাম' : 'Enter your name';
+        const token4 = lang === 'bn' ? 'আপনার ফোন নাম্বার' : 'Enter your phone number';
+        const token5 = lang === 'bn' ? 'আপনার পাসওয়ার্ড' : 'Username/Password empty';
+        const token6 = lang === 'bn' ? 'সঠিক ফোন নাম্বার প্রয়োজন' : 'Valid phone number needed';
+        const token7 = lang === 'bn' ? 'ঠিকানা (যেখানে পন্য পাঠানো হবে)' : 'Shipping Address';
+        const token8 = lang === 'bn' ? 'দয়া করে বিস্তারিত ঠিকানা দিন' : 'Please! Provide detailed shipping address';
+        const token9 = lang === 'bn' ? 'কোন বিশেষ অনুরোধ আছে কি?' : 'Any special request?';
+        const token10 = lang === 'bn' ? 'আমরা ওয়াদা করতে পারছি না, তবে অনুরোধ রাখার জন্য সর্বোচ্চ চেষ্টা করবো।'
+        : `We can't promise but we will try our best to fullfil`;
+        const token11 = lang === 'bn' ? `<p>সর্বমোট ${total} টাকা</p><p>লেনদেনের পদ্ধতি: ডেলিভারির সময় নগদ</p>`
+        : `<p>Total BDT ${total}</p><p>Delivery method: Cash on Delivery</p>`;
+        const token12 = lang === 'bn' ? 'কিছু একটা সমস্যা হয়েছে' : 'Something went wrong';
+        const token13 = lang === 'bn' ? 'ভ্যারিফাই' : 'Verify';
+        const token14 = lang === 'bn' ? `আমরা আপনার ফোনে একটা নম্বর পাঠিয়েছি।
+         ভ্যারিফিকেশনের জন্য নম্বরটি লিখুন। ভ্যারিফিকেশন ব্যাতিত আপনার অর্ডার সম্পন্ন হবে না` : `We sent you a verification code.
+        Write the code here. The order won't be processed until verified`;
+        const token15 = lang === 'bn' ? 'পরে ভ্যারিফাই করব' : 'Verify later';
+        const token16 = lang === 'bn' ? 'নিশ্চিত করুন' : 'Confirm';
+        const token17 = lang === 'bn' ? 'প্রদত্ত তথ্য ঠিক নয়' : 'Not valid';
+        const token18 = lang === 'bn' ? 'অভিনন্দন!' : 'Congratulations!';
+        const token19 = lang === 'bn' ? 'বন্ধ করুন' : 'Close';
+        const token20 = lang === 'bn' ? 'সর্বমোট' : 'Total Amount';
+        const token22 = lang === 'bn' ? 'বাতিল করুন' : 'Cancel';
         return new Promise((resolve, reject) => {
             let address: any = {};
             let phoneOrEmail: string;
@@ -94,26 +121,27 @@ export class StoreUiService {
             // tslint:disable-next-line: variable-name
             let order_id: string;
             this.customSwal.mixin({
-                confirmButtonText: 'Next &rarr;',
+                confirmButtonText: token1,
+                cancelButtonText: token22,
                 showCancelButton: true,
-                progressSteps: ['1', '2', '3', '4', '5']
+                progressSteps: lang === 'bn' ? ['১', '২', '৩', '৪', '৫'] : ['1', '2', '3', '4', '5']
               }).queue([
                 {
-                    title: 'Credentials',
-                    html: '<input type="text" id="name" class="swal2-input" placeholder="Enter your name"></input>' +
-                      '<input type="text" id="emailOrPassword" class="swal2-input" placeholder="Enter your email or phone"></input>',
+                    title: token2,
+                    html: `<input type="text" id="name" class="swal2-input" placeholder="${token3}"></input>
+                    <input type="text" id="emailOrPassword" class="swal2-input" placeholder="${token4}"></input>`,
                     preConfirm: () => {
                       const nameValue = (Swal.getPopup().querySelector('#name') as HTMLInputElement).value;
                       const contactValue = (Swal.getPopup().querySelector('#emailOrPassword') as HTMLInputElement).value;
                       if (nameValue === '' || nameValue === '') {
-                        Swal.showValidationMessage(`Username/Password empty`);
-                    } else if (!this.validEmailorNumber(contactValue)) {
-                         Swal.showValidationMessage(`Valid phone number or email address needed`);
+                        Swal.showValidationMessage(token5);
+                    } else if (!this.isPhone(contactValue)) {
+                         Swal.showValidationMessage(token6);
                       } else {
                           name = nameValue;
                           phoneOrEmail = contactValue;
-                          isPhone = this.isPhone(contactValue);
-                          isEmail = this.isEmail(contactValue);
+                          isPhone = true;
+                          isEmail = false;
                           return this.userByEmailIOrPhone(contactValue).pipe(
                               map(response => {
                                   if (resolve && response.included && response.included[0]) {
@@ -125,36 +153,38 @@ export class StoreUiService {
                                   return response;
                               })
                           ).toPromise().then(() => {
+                              console.log(address);
                               return address;
                           });
                       }
                     }
                   },
                 {
-                    title: 'Shipping Address',
-                    text: 'Please! Provide detailed shipping address',
+                    title: token7,
+                    text: token8,
                     onBeforeOpen: (html) => {
+                        const val = address && address.detailed_address ? address.detailed_address : '';
                         if ((html.querySelector('textarea.swal2-textarea') as HTMLInputElement)) {
-                            (html.querySelector('textarea.swal2-textarea') as HTMLInputElement).value = address.detailed_address;
+                            (html.querySelector('textarea.swal2-textarea') as HTMLInputElement).value = val;
                         }
                     },
-                    inputValue: address.detailed_address || '',
+                    inputValue: address && address.detailed_address ? address.detailed_address : '',
                     input: 'textarea',
                     preConfirm: value => {
-                        shippingAddress = value;
+                        shippingAddress = value || '';
                     }
                 },
                 {
-                    title: 'Any special request?',
-                    text: `We can't promise but we will try our best to fullfil`,
+                    title: token9,
+                    text: token10,
                     input: 'textarea',
                     preConfirm: value => {
                         deliveryNote = value;
                     }
                 },
                 {
-                    title: 'Total Amount',
-                    html: `<p>Total BDT ${total}</p><p>Delivery method: Cash on Delivery</p>`,
+                    title: token20,
+                    html: token11,
                     type: 'question',
                     showLoaderOnConfirm: true,
                     preConfirm: () => {
@@ -196,26 +226,27 @@ export class StoreUiService {
                                     done = true;
                                     return true;
                                 }
-                                throw new Error('Something went wrong');
+                                throw new Error(token12);
                             })
                         ).toPromise().then(() => this.customSwal.insertQueueStep({
-                            title: 'Verify',
-                            text: `We sent you a verification code. Write the code here. The order won't be processed until verified`,
+                            title: token13,
+                            text: token14,
                             input: 'text',
                             showLoaderOnConfirm: true,
-                            cancelButtonText: `Verify later`,
-                            confirmButtonText: `Confirm`,
-                            inputValidator: value => value ? null : 'Not valid',
+                            cancelButtonText: token15,
+                            confirmButtonText: token16,
+                            inputValidator: value => value ? null : token17,
                             preConfirm: async (code: string) => {
+                                const token21 = lang === 'bn' ? `আপনার অর্ডারটি ভ্যারিফাইড হয়েছে` : `The order is verified`;
                                 data.attributes = {phoneOrEmail, code};
                                 endpoint = 'orders/verify';
                                 await this.httpService.post(endpoint, { data })
                                 .pipe(filter(response => this.validOrderResponse(response)), tap(() => verified = true)).toPromise();
                                 return this.customSwal.insertQueueStep({
-                                    title: 'Congratulations!',
-                                    html: `The order is verified. You can use this id <strong>(${order_id})</strong> to track your order`,
+                                    title: token18,
+                                    html: token21,
                                     showConfirmButton: false,
-                                    cancelButtonText: 'Close'
+                                    cancelButtonText: token19
                                 });
                             }
                         }));
@@ -232,6 +263,7 @@ export class StoreUiService {
     }
 
     constructor(
-        private httpService: HttpBase
+        private httpService: HttpBase,
+        private languageService: LanguageService
     ) {}
 }

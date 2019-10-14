@@ -2,7 +2,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 d-flex justify-content-center p-3">
-            <h3 class="mb-0">Our Categories</h3>
+            <h3 class="mb-0">{{ 'our_categories' | translate | async }}</h3>
         </div>
     </div>
     <app-category-list [store]="store"></app-category-list>

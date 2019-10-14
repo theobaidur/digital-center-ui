@@ -31,13 +31,20 @@ import { UpazilaListComponent } from './components/upazila-list/upazila-list.com
 import { UnionAddComponent } from './components/union-add/union-add.component';
 import { UnionEditComponent } from './components/union-edit/union-edit.component';
 import { UnionListComponent } from './components/union-list/union-list.component';
+import { ShippingChargeAddComponent } from './components/shipping-charge-add/shipping-charge-add.component';
+import { ShippingChargeEditComponent } from './components/shipping-charge-edit/shipping-charge-edit.component';
+import { ShippingChargeListComponent } from './components/shipping-charge-list/shipping-charge-list.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   declarations: [DigitalCenterAddComponent, DigitalCenterEditComponent,
     DigitalCenterListComponent, SuperAdminPageComponent, SuperAdminHomeComponent,
     CategoryAddComponent, CategoryEditComponent, CategoryListComponent, UserAddComponent,
-    UserEditComponent, UserListComponent, DivisionAddComponent, DivisionEditComponent, DivisionListComponent, DistrictAddComponent, DistrictEditComponent, DistrictListComponent, UpazilaAddComponent, UpazilaEditComponent, UpazilaListComponent, UnionAddComponent, UnionEditComponent, UnionListComponent],
+    UserEditComponent, UserListComponent, DivisionAddComponent, DivisionEditComponent,
+    DivisionListComponent, DistrictAddComponent, DistrictEditComponent, DistrictListComponent,
+    UpazilaAddComponent, UpazilaEditComponent, UpazilaListComponent, UnionAddComponent, UnionEditComponent,
+     UnionListComponent, ShippingChargeAddComponent, ShippingChargeEditComponent, ShippingChargeListComponent],
   imports: [
     CommonModule,
     SuperAdminRoutingModule,
@@ -46,7 +53,8 @@ import { UnionListComponent } from './components/union-list/union-list.component
     PipeModule,
     ImageCropperModule,
     NgMultiSelectDropDownModule.forRoot(),
-    NgSelectModule
+    NgSelectModule,
+    RouterModule
   ]
 })
 export class SuperAdminModule { }

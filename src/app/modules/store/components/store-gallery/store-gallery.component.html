@@ -1,6 +1,6 @@
 <div class="row py-3">
     <div class="col-12 justify-content-center d-flex">
-        <h2>Special Offers</h2>
+        <h2>{{ 'special_offers' | translate | async }}</h2>
     </div>
     <div class="slider-wrapper col-12 px-5 overflow-hidden">
         <div class="btn btn-sm control next" (click)="goto('next')">
@@ -16,6 +16,6 @@
         </div>
     </div>
     <div class="col-12 justify-content-center d-flex py-3">
-        <a routerLink="/shop/offers" [queryParams]="params" class="btn btn-info btn-sm">All Offers</a>
+        <a routerLink="/shop/offers" [queryParams]="params" class="btn btn-info btn-sm">{{ 'all_offers' | translate | async }}</a>
     </div>
 </div>

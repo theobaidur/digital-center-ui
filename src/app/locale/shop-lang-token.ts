@@ -67,7 +67,7 @@ tokenList.search_result = {
 };
 
 tokenList.checkout = {
-    bn: 'চেক-আউট',
+    bn: 'কেনাকাটা সম্পন্ন করুন',
     en: 'Checkout'
 };
 
@@ -92,5 +92,52 @@ tokenList.tnc = {
     bn: 'শর্তসমুহ',
     en: 'Terms and Conditions'
 };
+tokenList.our_categories = {
+    bn: 'আমাদের ক্যাটেগরিসমূহ',
+    en: 'Our Categories'
+};
+
+tokenList.our_categories = {
+    bn: 'আমাদের ক্যাটেগরিসমূহ',
+    en: 'Our Categories'
+};
+
+tokenList.special_offers = {
+    bn: 'বিশেষ ছাড়সমূহ',
+    en: 'Special Offers'
+};
+
+tokenList.all_offers = {
+    bn: 'সব ছাড়সমূহ',
+    en: 'All Offers'
+};
+
+tokenList.delivery_charge_excluded = {
+    bn: 'ডেলিভারি চার্জ ব্যাতিত',
+    en: 'Excluding delivery charge'
+};
+
+tokenList.delivery_charge = {
+    bn: 'ডেলিভারি চার্জ',
+    en: 'Delivery Charge'
+};
+
+tokenList.area = {
+    bn: 'এলাকা',
+    en: 'Area'
+};
+tokenList.charge = {
+    bn: 'চার্জ',
+    en: 'Charge'
+};
+
+tokenList.shop_closed = {
+    bn: 'দোকান বন্ধ',
+    en: 'Shop Closed'
+};
+
+
+
+
 
 

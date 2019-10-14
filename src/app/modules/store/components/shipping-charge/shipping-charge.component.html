@@ -1,0 +1,21 @@
+<table class="table table-sm table-striped" [ngClass]="{'table-loading': loading}">
+    <tr>
+        <th colspan="2">
+            <h3 class="my-0">
+                {{ 'delivery_charge' | translate | async }}
+            </h3>
+        </th>
+    </tr>
+    <tr>
+        <th>{{ 'area' | translate | async }}</th>
+        <th>{{ 'charge' | translate | async }}</th>
+    </tr>
+    <tr *ngFor="let item of list">
+        <td>
+            {{ item | switchLanguageProp:'location' | async }}
+        </td> 
+        <td>
+            ৳{{ item.charge | translate:true | async }}
+        </td>
+    </tr>
+</table>

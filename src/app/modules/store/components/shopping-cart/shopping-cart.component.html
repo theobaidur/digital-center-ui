@@ -24,6 +24,12 @@
                 </button>
             </div>
         </div>
+        <div class="card-footer disclaimer px-1 py-0" *ngIf="cartShown && totalItem">
+            <p><sup class="text-danger">*</sup> {{ 'delivery_charge_excluded' | translate | async }}</p>
+            <a class="text-info" [routerLink]="[ '/shop/shipping-charge']" [queryParams]="{'store': store}">
+                {{ 'delivery_charge' | translate | async }}
+            </a>
+        </div>
         <div class="card-footer p-0 d-flex">
             <button class="btn btn-sm btn-info"  *ngIf="!(cartShown && totalItem)">
                 <i class="fa fa-2x fa-weixin"></i>
@@ -32,7 +38,7 @@
                 {{ 'checkout' | translate | async}}
             </button>
             <button class="btn btn-sm btn-danger w-100 summery-btn" (click)="showCart()">
-                {{ totalItem | translate:true | async }} {{ 'item' | translate | async }} ( ৳{{totalPrice | translate:true | async}} )
+                {{ totalItem | translate:true | async }} {{ 'item' | translate | async }} ( ৳{{totalPrice | translate:true | async}}<sup class="text-white">*</sup> )
             </button>
             <button class="btn btn-sm btn-info" (click)="toggleCart()">
                 <i class="fa fa-2x fa-shopping-cart" *ngIf="!cartShown"></i>

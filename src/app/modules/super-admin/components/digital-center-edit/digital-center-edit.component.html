@@ -3,6 +3,9 @@
         <div class="col-md-12">
             <form #form="ngForm" class="form" (ngSubmit)="submit()">
                 <div class="form-group">
+                    <h3>Edit Digital Center</h3>
+                </div>
+                <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" name="name" class="form-control" id="name" [(ngModel)]="model.name" required>
                     <p class="text-danger" *ngFor="let error of getErrors('name')">{{ error }}</p>
@@ -147,4 +150,5 @@
             </form>
         </div>
     </div>
+    <app-shipping-charge-list *ngIf="model?.id" [digitalCenterId]="model.id"></app-shipping-charge-list>
 </div>

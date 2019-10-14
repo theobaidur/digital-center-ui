@@ -25,6 +25,9 @@ import { UpazilaListComponent } from './components/upazila-list/upazila-list.com
 import { UnionAddComponent } from './components/union-add/union-add.component';
 import { UnionEditComponent } from './components/union-edit/union-edit.component';
 import { UnionListComponent } from './components/union-list/union-list.component';
+import { ShippingChargeAddComponent } from './components/shipping-charge-add/shipping-charge-add.component';
+import { ShippingChargeEditComponent } from './components/shipping-charge-edit/shipping-charge-edit.component';
+import { ShippingChargeListComponent } from './components/shipping-charge-list/shipping-charge-list.component';
 
 export function crudUrl(prefix: string, add: any, edit: any, list: any): Routes {
   return [
@@ -59,7 +62,8 @@ const routes: Routes = [
       ...crudUrl('division', DivisionAddComponent, DivisionEditComponent, DivisionListComponent),
       ...crudUrl('district', DistrictAddComponent, DistrictEditComponent, DistrictListComponent),
       ...crudUrl('upazila', UpazilaAddComponent, UpazilaEditComponent, UpazilaListComponent),
-      ...crudUrl('union', UnionAddComponent, UnionEditComponent, UnionListComponent)
+      ...crudUrl('union', UnionAddComponent, UnionEditComponent, UnionListComponent),
+      ...crudUrl('shipping-charge', ShippingChargeAddComponent, ShippingChargeEditComponent, ShippingChargeListComponent),
     ]
   }
 ];

@@ -34,7 +34,6 @@ export class StoresComponent implements OnInit, OnChanges {
         return this.pageObserver.pipe(
           switchMap(page => {
             const filters = [...this.filters];
-            filters.push({property: 'filter[id]', value: `!eq,${this.storeDetails.id}`});
             return this.storeManager.getPage(page, filters);
           })
         );

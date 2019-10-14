@@ -11,6 +11,9 @@ $fa-font-path: "~font-awesome/fonts";
 
 body {
     font-size: .875rem;
+    *{
+        letter-spacing: 0px !important;
+    }
 }
 
 .product-card,
