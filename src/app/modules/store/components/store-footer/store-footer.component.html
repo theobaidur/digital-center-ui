@@ -20,11 +20,13 @@
                     <p class="text-align-justify">দেশীপণ্য বাংলাদেশের সর্ববৃহৎ অনলাইন চেইনশপ। “দশের জন্য দেশীপণ্য” এই স্লোগান নিয়েই দেশীপণ্য মোট 48 টি ওয়েব সাইট নিয়ে এই অনলাইন চেইনশপ তৈরী করা হয়েছে। বর্তমান সমাজের ব্যস্ততার মাঝে প্রত্যেকটি মানুষ তার নিত্য প্রয়োজনীয় জিনিস যেন ঘরে বসে অনায়াসেই কেনাকাটা করতে পারে সাথে সাথে খুচরা ব্যবসায়ীরাও যেন পণ্য ক্রয় করতে পারে এমন লক্ষ্য নিয়েই দেশীপণ্য এর যাত্রা শুরু।</p>
                 </div>
                 <div class="col-md-4">
-                    <p class="h5 mb-0">Find Us</p>
+                    <p class="h5 mb-0">
+                        {{ 'find_us' | translate | async }}
+                    </p>
                     <hr>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <p>{{ storeDetails?.contact_address }}</p>
+                            <p>{{ storeDetails | switchLanguageProp:'contact_address' | async }}</p>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link pl-0">{{ 'tnc' | translate | async }}</a>
@@ -33,7 +35,7 @@
                             <a href="mailto:{{ storeDetails?.email_address }}" class="nav-link pl-0">{{ storeDetails?.email_address }}</a>
                         </li>
                         <li class="nav-item" *ngIf="storeDetails?.phone_number">
-                            <a href="tel:{{ storeDetails?.phone_number }}" class="nav-link pl-0"><i class="fa fa-phone"></i> {{ storeDetails?.phone_number }}</a>
+                            <a href="tel:{{ storeDetails?.phone_number }}" class="nav-link pl-0"><i class="fa fa-phone"></i> {{ storeDetails | switchLanguageProp:'phone_number' | async }}</a>
                         </li>
                         <li class="nav-item">
                             <a *ngIf="storeDetails?.facebook" href="{{ storeDetails?.facebook }}" class="btn btn-sm btn-primary mx-1">

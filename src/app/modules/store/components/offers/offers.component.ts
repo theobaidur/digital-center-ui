@@ -29,8 +29,9 @@ export class OffersComponent implements OnInit, OnChanges {
       switchMap(() => this.storeManager.resolveBySlug(this.store))
     ).subscribe(store => {
       this.storeDetails = store;
+      const digitalCenterId = this.storeDetails.shop_affiliate_only ? this.storeDetails.affiliate_of : this.storeDetails.id;
       this.filters = [
-        {property: 'filter[digital_center_id]', value: `eq,${store.id}`},
+        {property: 'filter[digital_center_id]', value: `eq,${digitalCenterId}`},
         {property: 'filter[promotion_running]', value: `eq,1`},
         {property: 'sort', value: `sale_count`}
     ];

@@ -7,6 +7,7 @@ import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 import { RequestParam } from 'src/app/interfaces/request-param.interface';
 import { CartItem } from '../interfaces/cart-item.interface';
 import { LanguageService } from 'src/app/services/language.service';
+import { DeliveryArea } from '../../admin/models/delivery-area.model';
 @Injectable({
     providedIn: 'root'
 })
@@ -80,7 +81,7 @@ export class StoreUiService {
         return false;
     }
 
-    checkout(items: CartItem[], dagitalCenterId?: string) {
+    checkout(items: CartItem[], digitalCenterId?: string, deliveryAreas: DeliveryArea[] = []) {
         const total = items.reduce((sum, curr) => sum + (curr.unit_price * curr.quantity), 0);
         const lang = this.languageService.language.getValue().toLowerCase();
         const token1 = lang === 'bn' ? 'পরবর্তি ধাপ &rarr;' : 'Next &rarr;';
@@ -91,11 +92,8 @@ export class StoreUiService {
         const token6 = lang === 'bn' ? 'সঠিক ফোন নাম্বার প্রয়োজন' : 'Valid phone number needed';
         const token7 = lang === 'bn' ? 'ঠিকানা (যেখানে পন্য পাঠানো হবে)' : 'Shipping Address';
         const token8 = lang === 'bn' ? 'দয়া করে বিস্তারিত ঠিকানা দিন' : 'Please! Provide detailed shipping address';
-        const token9 = lang === 'bn' ? 'কোন বিশেষ অনুরোধ আছে কি?' : 'Any special request?';
-        const token10 = lang === 'bn' ? 'আমরা ওয়াদা করতে পারছি না, তবে অনুরোধ রাখার জন্য সর্বোচ্চ চেষ্টা করবো।'
-        : `We can't promise but we will try our best to fullfil`;
-        const token11 = lang === 'bn' ? `<p>সর্বমোট ${total} টাকা</p><p>লেনদেনের পদ্ধতি: ডেলিভারির সময় নগদ</p>`
-        : `<p>Total BDT ${total}</p><p>Delivery method: Cash on Delivery</p>`;
+        const token11 = lang === 'bn' ? `<p>সর্বমোট <span id="total-price-span"></span> টাকা</p><p>লেনদেনের পদ্ধতি: ডেলিভারির সময় নগদ</p>`
+        : `<p>Total BDT <span id="total-price-span"></span></p><p>Delivery method: Cash on Delivery</p>`;
         const token12 = lang === 'bn' ? 'কিছু একটা সমস্যা হয়েছে' : 'Something went wrong';
         const token13 = lang === 'bn' ? 'ভ্যারিফাই' : 'Verify';
         const token14 = lang === 'bn' ? `আমরা আপনার ফোনে একটা নম্বর পাঠিয়েছি।
@@ -108,14 +106,18 @@ export class StoreUiService {
         const token19 = lang === 'bn' ? 'বন্ধ করুন' : 'Close';
         const token20 = lang === 'bn' ? 'সর্বমোট' : 'Total Amount';
         const token22 = lang === 'bn' ? 'বাতিল করুন' : 'Cancel';
+        const token23 = lang === 'bn' ? 'ঠিকানা' : 'Address';
+        const token24 = lang === 'bn' ? 'এলাকা নির্বাচন করুন' : 'Select Area';
+        const token25 = lang === 'bn' ? 'দয়া করে আপনার ঠিকান দিন' : 'Please! Provide your address';
+
         return new Promise((resolve, reject) => {
             let address: any = {};
             let phoneOrEmail: string;
             let isPhone: boolean;
             let isEmail: boolean;
             let name: string;
-            let shippingAddress: string;
-            let deliveryNote: string;
+            let deliveryAddress: string;
+            let deliveryAreaId: string;
             let done = false;
             let verified = false;
             // tslint:disable-next-line: variable-name
@@ -124,7 +126,7 @@ export class StoreUiService {
                 confirmButtonText: token1,
                 cancelButtonText: token22,
                 showCancelButton: true,
-                progressSteps: lang === 'bn' ? ['১', '২', '৩', '৪', '৫'] : ['1', '2', '3', '4', '5']
+                progressSteps: lang === 'bn' ? ['১', '২', '৩', '৪'] : ['1', '2', '3', '4']
               }).queue([
                 {
                     title: token2,
@@ -153,7 +155,6 @@ export class StoreUiService {
                                   return response;
                               })
                           ).toPromise().then(() => {
-                              console.log(address);
                               return address;
                           });
                       }
@@ -162,24 +163,40 @@ export class StoreUiService {
                 {
                     title: token7,
                     text: token8,
-                    onBeforeOpen: (html) => {
+                    onBeforeOpen: async (html) => {
                         const val = address && address.detailed_address ? address.detailed_address : '';
-                        if ((html.querySelector('textarea.swal2-textarea') as HTMLInputElement)) {
-                            (html.querySelector('textarea.swal2-textarea') as HTMLInputElement).value = val;
+                        if ((html.querySelector('#delivery_address') as HTMLInputElement)) {
+                            (html.querySelector('#delivery_address') as HTMLInputElement).value = val;
+                        }
+                        if ((html.querySelector('#delivery_area') as HTMLInputElement)) {
+                            const options = deliveryAreas
+                            .filter(each => each.digital_center_id === digitalCenterId)
+                            .map(item => {
+                                const prop = item.selected ? 'selected' : '';
+                                return `<option value="${item.id}" ${ prop }>
+                                ${ lang === 'bn' ? item.delivery_area_bn || item.delivery_area : item.delivery_area}</option>`;
+                            });
+                            options.unshift(`<option value="">${ token24 }</option>`);
+                            (html.querySelector('#delivery_area') as HTMLInputElement).innerHTML = options.join('');
                         }
                     },
-                    inputValue: address && address.detailed_address ? address.detailed_address : '',
-                    input: 'textarea',
-                    preConfirm: value => {
-                        shippingAddress = value || '';
-                    }
-                },
-                {
-                    title: token9,
-                    text: token10,
-                    input: 'textarea',
-                    preConfirm: value => {
-                        deliveryNote = value;
+                    inputValue: address && address.delivery_address ? address.delivery_address : '',
+                    html: `
+                    <div class="form-group text-left">
+                        <label for="delivery_area">${token24}</label>
+                        <select id="delivery_area" class="swal2-input my-0"></select>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="delivery_address">${token23}</label>
+                        <textarea id="delivery_address" class="swal2-textarea my-0"></textarea>
+                    </div>
+                    `,
+                    preConfirm: () => {
+                        deliveryAddress = (Swal.getPopup().querySelector('#delivery_address') as HTMLInputElement).value;
+                        deliveryAreaId = (Swal.getPopup().querySelector('#delivery_area') as HTMLInputElement).value;
+                        if (!((deliveryAddress || '').trim() && (deliveryAreaId || '').trim())) {
+                            Swal.showValidationMessage(token25);
+                        }
                     }
                 },
                 {
@@ -187,29 +204,29 @@ export class StoreUiService {
                     html: token11,
                     type: 'question',
                     showLoaderOnConfirm: true,
+                    onBeforeOpen: html => {
+                        const deliveryCharge = deliveryAreas.filter(each => each.id === deliveryAreaId)
+                        .reduce((sum, curr) => sum + (+curr.delivery_charge), 0);
+                        html.querySelector('#total-price-span').innerHTML = (deliveryCharge + total).toFixed(2);
+                    },
                     preConfirm: () => {
                         const data: any = {};
                         data.type = 'orders';
                         data.attributes = {
-                            digital_center_id: dagitalCenterId,
-                            shipping_note: deliveryNote,
+                            digital_center_id: digitalCenterId,
+                            delivery_area_id: deliveryAreaId,
                             phoneOrEmail,
-                            address_info: {
-                                detailed_address: shippingAddress
-                            },
+                            deliveryAddress,
                             user_info: {
                                 name
                             }
                         };
-                        if (isEmail) {
-                            data.attributes.user_info.email = phoneOrEmail;
-                        }
                         if (isPhone) {
                             data.attributes.user_info.phone = phoneOrEmail;
                         }
 
-                        data.attributes.digital_center_id = dagitalCenterId;
-                        data.attributes.shipping_note = deliveryNote;
+                        data.attributes.digital_center_id = digitalCenterId;
+                        data.attributes.delivery_area_id = deliveryAreaId;
                         data.attributes['order-items'] = [];
                         items.forEach(item => {
                             data.attributes['order-items'].push({
@@ -264,6 +281,5 @@ export class StoreUiService {
 
     constructor(
         private httpService: HttpBase,
-        private languageService: LanguageService
-    ) {}
+        private languageService: LanguageService    ) {}
 }

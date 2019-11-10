@@ -16,9 +16,12 @@ export interface DigitalCenter extends Base {
     store_banner?: string;
     logo?: string;
     contact_address?: string;
+    contact_address_bn?: string;
     email_address?: string;
     phone_number?: string;
+    phone_number_bn?: string;
     facebook?: string;
     youtube?: string;
     twitter?: string;
+    affiliate_of?: string;
 }

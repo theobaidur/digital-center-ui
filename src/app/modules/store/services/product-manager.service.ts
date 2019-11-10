@@ -13,7 +13,7 @@ import { RequestParam } from 'src/app/interfaces/request-param.interface';
 export class ProductManagerService extends ManagerService<Product> {
     includes: string[] = ['attachments'];
     resourceEndPoint = 'products';
-    pageSize = 12;
+    pageSize = 30;
     defatulFilters: RequestParam[] = [
         {property: 'filter[product_status]', value: '!eq,out_of_stock'}
     ];

@@ -31,10 +31,10 @@ import { UpazilaListComponent } from './components/upazila-list/upazila-list.com
 import { UnionAddComponent } from './components/union-add/union-add.component';
 import { UnionEditComponent } from './components/union-edit/union-edit.component';
 import { UnionListComponent } from './components/union-list/union-list.component';
-import { ShippingChargeAddComponent } from './components/shipping-charge-add/shipping-charge-add.component';
-import { ShippingChargeEditComponent } from './components/shipping-charge-edit/shipping-charge-edit.component';
-import { ShippingChargeListComponent } from './components/shipping-charge-list/shipping-charge-list.component';
 import { RouterModule } from '@angular/router';
+import { DeliveryAreaAddComponent } from './delivery-area-add/delivery-area-add.component';
+import { DeliveryAreaEditComponent } from './delivery-area-edit/delivery-area-edit.component';
+import { DeliveryAreaListComponent } from './delivery-area-list/delivery-area-list.component';
 
 
 @NgModule({
@@ -44,7 +44,7 @@ import { RouterModule } from '@angular/router';
     UserEditComponent, UserListComponent, DivisionAddComponent, DivisionEditComponent,
     DivisionListComponent, DistrictAddComponent, DistrictEditComponent, DistrictListComponent,
     UpazilaAddComponent, UpazilaEditComponent, UpazilaListComponent, UnionAddComponent, UnionEditComponent,
-     UnionListComponent, ShippingChargeAddComponent, ShippingChargeEditComponent, ShippingChargeListComponent],
+     UnionListComponent, DeliveryAreaAddComponent, DeliveryAreaEditComponent, DeliveryAreaListComponent],
   imports: [
     CommonModule,
     SuperAdminRoutingModule,

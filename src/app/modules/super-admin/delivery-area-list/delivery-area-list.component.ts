@@ -1,16 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ShippingCharge } from 'src/app/modules/admin/models/shipping-charge.model';
-import { ShippingChargeService } from 'src/app/modules/admin/services/shipping-charge.service';
-import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
+import { DeliveryArea } from '../../admin/models/delivery-area.model';
+import { DeliveryAreaService } from '../../admin/services/delivery-area.service';
+import { SweetAlertService } from '../../admin/services/sweet-alert.service';
 
 @Component({
-  selector: 'app-shipping-charge-list',
-  templateUrl: './shipping-charge-list.component.html',
-  styleUrls: ['./shipping-charge-list.component.scss']
+  selector: 'app-delivery-area-list',
+  templateUrl: './delivery-area-list.component.html',
+  styleUrls: ['./delivery-area-list.component.scss']
 })
-export class ShippingChargeListComponent implements OnInit {
+export class DeliveryAreaListComponent implements OnInit {
   @Input() digitalCenterId: string;
-  list: ShippingCharge[] = [];
+  list: DeliveryArea[] = [];
   loading = false;
   ngOnInit(): void {
     if (this.digitalCenterId) {
@@ -23,10 +23,10 @@ export class ShippingChargeListComponent implements OnInit {
     }
   }
   createPageLink(): string {
-    return `/super-admin/shipping-charge-add`;
+    return `/super-admin/delivery-area-add`;
   }
   detailPageLink(id: string) {
-    return `/super-admin/shipping-charge-edit/${id}`;
+    return `/super-admin/delivery-area-edit/${id}`;
   }
 
   get params() {
@@ -53,7 +53,7 @@ export class ShippingChargeListComponent implements OnInit {
     });
 }
   constructor(
-    private dataService: ShippingChargeService,
+    private dataService: DeliveryAreaService,
     private alertService: SweetAlertService
   ) {}
 

@@ -34,6 +34,20 @@ export class TokenResolverService {
                             .replace(new RegExp('9', 'gi'), '৯');
 
                 }
+                if (lang === 'en' && hasNumber) {
+                    key = key.toString()
+                            .replace(new RegExp('০', 'gi'), '0')
+                            .replace(new RegExp('১', 'gi'), '1')
+                            .replace(new RegExp('২', 'gi'), '2')
+                            .replace(new RegExp('৩', 'gi'), '3')
+                            .replace(new RegExp('৪', 'gi'), '4')
+                            .replace(new RegExp('৫', 'gi'), '5')
+                            .replace(new RegExp('৬', 'gi'), '6')
+                            .replace(new RegExp('৭', 'gi'), '7')
+                            .replace(new RegExp('৮', 'gi'), '8')
+                            .replace(new RegExp('৯', 'gi'), '9');
+
+                }
                 return this.tokens.pipe(
                     map(() => {
                         const tokenList = this.tokens.getValue();

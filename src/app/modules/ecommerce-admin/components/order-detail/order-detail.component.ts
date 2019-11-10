@@ -10,6 +10,9 @@ import { Address } from 'src/app/modules/admin/models/address.model';
 import { AddressService } from 'src/app/modules/admin/services/address.service';
 import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
 import { AuthService } from 'src/app/modules/admin/services/auth.service';
+import { DeliveryAreaService } from 'src/app/modules/admin/services/delivery-area.service';
+import { DeliveryArea } from 'src/app/modules/admin/models/delivery-area.model';
+import { Roles } from 'src/app/enums/roles.enum';
 
 @Component({
   selector: 'app-order-detail',
@@ -18,13 +21,13 @@ import { AuthService } from 'src/app/modules/admin/services/auth.service';
 })
 export class OrderDetailComponent implements OnInit {
   order: Order = {};
-  model: Address = {};
+  model: DeliveryArea = {};
   constructor(
     private dataService: OrderService,
     private aleartService: SweetAlertService,
     private route: ActivatedRoute,
     private locationService: LocationService,
-    private addressService: AddressService,
+    private deliveryAreaService: DeliveryAreaService,
     private authService: AuthService
   ) { }
 
@@ -36,9 +39,9 @@ export class OrderDetailComponent implements OnInit {
       tap(() => this.aleartService.loading()),
       switchMap(id => this.dataService.get(id)),
       switchMap(data => {
-        this.order = data;
         console.log(data);
-        return this.addressService.get(this.order.shipping_address_id);
+        this.order = data;
+        return this.deliveryAreaService.get(this.order.delivery_area_id);
       }),
       tap(() => this.aleartService.close()),
     ).subscribe(data => {
@@ -58,9 +61,70 @@ export class OrderDetailComponent implements OnInit {
     }
   }
 
-  get ownerEarning() {
-    if (this.order.totalPrice) {
-      return this.order.totalPrice - this.order.affiliateEarning - this.order.cnsEarning;
+  get shopEarning() {
+    try {
+      if (this.order.earnings) {
+        const sales = this.order.earnings.find(e => e.earning_type === 'sales');
+        const commission = this.order.earnings.find(e => e.earning_type === 'sales-commision');
+        if (sales && commission) {
+          return (+sales.amount) - (+commission.amount) + (+this.order.delivery_charge || 0);
+        }
+      }
+    } catch (e) {}
+    return 0;
+  }
+
+  get sellerEarning() {
+    let earning = 0;
+    try {
+      earning = +this.order.earnings.find(e => e.earning_type === 'sales').amount;
+    } catch (e) {
+      console.log(e);
+    }
+    return earning - this.salesCommission + this.order.delivery_charge;
+  }
+
+  get salesCommission() {
+    try {
+      const commission = this.order.earnings.find(e => e.earning_type === 'sales-commision');
+      return +commission.amount;
+    } catch (e) {}
+    return 0;
+  }
+
+  get affiliateCommission() {
+    try {
+      const commission = this.order.earnings.find(e => e.earning_type === 'affilate-commision');
+      return +commission.amount;
+    } catch (e) {}
+    return 0;
+  }
+
+  get cnsEarning() {
+    return this.salesCommission - this.affiliateCommission;
+  }
+
+  get owner() {
+    return this.authService.isAdminOf(this.order.digital_center_id);
+  }
+
+  get cns() {
+    return this.authService.hasRole(Roles.SUPER_ADMIN);
+  }
+
+  get affiliate() {
+    return this.authService.isAdminOf(this.order.seller_id);
+  }
+
+  get hasAffiliate() {
+    return this.order.seller_id !== this.order.digital_center_id;
+  }
+
+  get total() {
+    if (this.order && this.order.items && this.order.items.length) {
+      try {
+        return this.order.items.reduce((total, curr) => total + ((+curr.unit_price) * (+curr.quantity)), this.order.delivery_charge || 0);
+      } catch (e) {}
     }
     return 0;
   }
@@ -107,7 +171,7 @@ export class OrderDetailComponent implements OnInit {
 
   saveAddress() {
     const data: HttpResponseItem<Address> = {
-      type: 'addresses',
+      type: 'delivery-areas',
       id: this.model.id,
       attributes: {
         detailed_address: this.model.detailed_address
@@ -143,7 +207,7 @@ export class OrderDetailComponent implements OnInit {
         }
       };
     }
-    return this.addressService.update(this.model.id, {data});
+    return this.deliveryAreaService.update(this.model.id, {data});
   }
 
   setStatus(status: 'confirmed' | 'paid' | 'complete' | 'shipped') {

@@ -1,1 +1,41 @@
-<p>earning-list works!</p>
+<div class="row">
+    <div class="col-12 pt-5">
+        <table class="table table-sm table-striped" [ngClass]="{'table-loading': loading}">
+            <tr>
+                <th colspan="4">
+                    <h3 class="my-0">
+                        Earning List
+                    </h3>
+                </th>
+            </tr>
+            <tr>
+                <th>Order Id</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Amount</th>
+            </tr>
+            <tr *ngFor="let item of list">
+                <td>
+                    <a [routerLink]="['/ecommerce-admin/order-detail', item?.order?.id]">
+                        {{item?.order?.order_id}}
+                    </a>
+                </td>
+                <td>
+                    {{ item?.earning_type }}
+                </td>
+                <td>
+                    {{ item.created_at | localDate }}
+                </td>
+                <td>
+                    {{item?.amount}}
+                </td>
+            </tr>
+            
+            <tr>
+                <th colspan="4" class="text-center">
+                    <button class="btn btn-sm btn-info" *ngIf="hasMore" (click)="loadNext()">Load More</button>
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>

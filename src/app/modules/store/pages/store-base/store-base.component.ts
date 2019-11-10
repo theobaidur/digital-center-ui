@@ -46,7 +46,7 @@ export class StoreBaseComponent implements OnInit {
     if (!slug) {
       return of(null);
     }
-    if (['offers', 'popular-items', 'stores', 'shipping-charge'].indexOf(slug.toLowerCase()) > -1) {
+    if (['offers', 'popular-items', 'stores', 'delivery-areas'].indexOf(slug.toLowerCase()) > -1) {
       return of({
         slug,
         type: slug,
@@ -81,7 +81,7 @@ export class StoreBaseComponent implements OnInit {
                 case 'offers':
                 case 'popular-items':
                 case 'stores':
-                case 'shipping-charge':
+                case 'delivery-areas':
                   return value[1].slug;
                 case 'p':
                   this.product = value[1].id;

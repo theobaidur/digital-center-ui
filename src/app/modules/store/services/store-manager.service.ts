@@ -9,6 +9,7 @@ import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interfac
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 import { RequestParam } from 'src/app/interfaces/request-param.interface';
+import { DeliveryAreaManagerService } from './delivery-area-manager.service';
 @Injectable({
     providedIn: 'root'
 })
@@ -26,10 +27,14 @@ export class StoreManagerService extends ManagerService<DigitalCenter> {
         if (response && response.included && Array.isArray(response.included)) {
             response.included.forEach(item => {
                 if (item && item.type && item.id && item.attributes) {
-                    const attachment: Attachment = item.attributes;
+                    const attachment: any = item.attributes;
                     attachment.id = item.id;
                     attachment._type = item.type;
-                    this.attachmentManager.register(attachment, false);
+                    if (item.type === 'delivery-areas') {
+                        this.deliveryAreaManagerService.register(attachment);
+                    } else {
+                        this.attachmentManager.register(attachment, false);
+                    }
                 }
             });
         }
@@ -69,7 +74,9 @@ export class StoreManagerService extends ManagerService<DigitalCenter> {
             switchMap(response => this.resolve(response.id))
         );
     }
-    constructor() {
+    constructor(
+        private deliveryAreaManagerService: DeliveryAreaManagerService
+    ) {
         super();
         this.getPage(1).subscribe();
         this.fetchOne('host').subscribe(response => {

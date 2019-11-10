@@ -1,50 +1,83 @@
 <div class="jumbtron jumbotron-fluid pt-5">
     <div class="row mx-0">
+        <div class="col-12 form-group">
+            <div class="input-group">
+                <input type="text" class="form-control"
+                ngxDaterangepickerMd
+                [(ngModel)]="selected"
+                (change)="rangeSelected()"
+                [showCustomRangeLabel]="true"
+                [alwaysShowCalendars]="true"
+                [ranges]="ranges"
+                [linkedCalendars]="true"
+                [isInvalidDate] = "isInvalidDate"
+                [showClearButton]="true"
+                placeholder="Select please..."/>
+                <span class="btn btn-info btn-sm input-group-append d-flex flex-column justify-content-center" (click)="refresh()">
+                    <i class="fa fa-2x fa-refresh" [ngClass]="{'fa-spin': refreshing}"></i>
+                </span>
+            </div>
+                
+        </div>
+    </div>
+    <div class="row mx-0">
         <div class="col-md-3 col-sm-2 mb-2">
             <div class="card text-white bg-success">
                 <div class="card-header h5">
-                    Total Orders
+                    Orders
                 </div>
                 <div class="card-body text-center">
                     <span class="h1 d-block p-3 text-white">
-                        {{ stat?.order_count }}
+                        {{ selectedStat?.order_count }}
                     </span>
+                </div>
+                <div class="card-footer text-center">
+                    <a [routerLink]="[ '/ecommerce-admin/order-list']" class="text-white">View all Orders</a>
                 </div>
             </div>
         </div>
         <div class="col-md-3 col-sm-2 mb-2">
             <div class="card text-white bg-info">
                 <div class="card-header h5">
-                    Total Orders Today
+                    Eanring
                 </div>
                 <div class="card-body text-center">
                     <span class="h1 d-block p-3 text-white">
-                        {{ stat?.order_count_today }}
+                        {{ selectedStat?.earning_count }}
                     </span>
+                </div>
+                <div class="card-footer text-center">
+                    <a [routerLink]="[ '/ecommerce-admin/earning-list']" class="text-white">View all Earnings</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 mb-2">
+            <div class="card text-white bg-success">
+                <div class="card-header h5">
+                    Due
+                </div>
+                <div class="card-body text-center">
+                    <span class="h1 d-block p-3 text-white">
+                        {{ due }}
+                    </span>
+                </div>
+                <div class="card-footer text-center">
+                    <a [routerLink]="[ '/ecommerce-admin/due-list']" class="text-white">View all Dues</a>
                 </div>
             </div>
         </div>
         <div class="col-md-3 col-sm-2 mb-2">
             <div class="card text-white bg-info">
                 <div class="card-header h5">
-                    Total Earning
+                    Paid
                 </div>
                 <div class="card-body text-center">
                     <span class="h1 d-block p-3 text-white">
-                        {{ stat?.earning_count }}
+                        {{ selectedStat?.payment_paid_count }}
                     </span>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-2 mb-2">
-            <div class="card text-white bg-info">
-                <div class="card-header h5">
-                    Total Earning Today
-                </div>
-                <div class="card-body text-center">
-                    <span class="h1 d-block p-3 text-white">
-                        {{ stat?.earning_count_today }}
-                    </span>
+                <div class="card-footer text-center">
+                    <a [routerLink]="[ '/ecommerce-admin/payment-list']" class="text-white">View all Payments</a>
                 </div>
             </div>
         </div>

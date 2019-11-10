@@ -3,11 +3,12 @@ import { Repository } from 'src/app/interfaces/repository.interface';
 import { HttpBase } from 'src/app/services/http.service';
 import { RequestParam } from 'src/app/interfaces/request-param.interface';
 import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, filter, switchMap } from 'rxjs/operators';
 import { ServiceLocator } from 'src/app/services/service-locator';
 import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 
 export abstract class AdminBaseService<T> {
+    public dataLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
     protected manager: BehaviorSubject<Repository<T>> = new BehaviorSubject({});
     protected repository: Repository<T> = {};
     protected http: HttpBase;
@@ -17,6 +18,11 @@ export abstract class AdminBaseService<T> {
     pageSize = 10;
     abstract normalize(responseItem: HttpResponseItem<T>): T;
     abstract saveIncludes(response: HttpResponse<any>): void;
+
+    cacheClean() {
+        this.repository = {};
+        this.notify();
+    }
 
     mergeFilters(...filters: RequestParam[]) {
         const merged = [...this.defatulFilters, ...filters];
@@ -49,6 +55,9 @@ export abstract class AdminBaseService<T> {
         }
         return this.http.get<HttpResponseItem<T>[]>(`${this.resourceEndPoint}`, this.includes, allFilters).pipe(
             map(response => {
+                if (!this.dataLoaded.getValue()) {
+                    this.dataLoaded.next(true);
+                }
                 this.saveIncludes(response);
                 const list = response.data.map(item => this.normalize(item));
                 const meta = response.meta;
@@ -119,8 +128,10 @@ export abstract class AdminBaseService<T> {
     }
 
     get all() {
-        return this.manager.pipe(
-            map(repository => Object.values(repository)),
+        return this.dataLoaded.pipe(
+            filter(loaded => loaded),
+            switchMap(() => this.manager),
+            map(repository => Object.values(repository))
         );
     }
 

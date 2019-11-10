@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { ShippingCharge } from 'src/app/modules/admin/models/shipping-charge.model';
+import { DeliveryArea } from '../../admin/models/delivery-area.model';
 import { FieldError } from 'src/app/interfaces/field-error.interface';
-import { DivisionService } from 'src/app/modules/admin/services/division.service';
+import { DeliveryAreaService } from '../../admin/services/delivery-area.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
+import { SweetAlertService } from '../../admin/services/sweet-alert.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ShippingChargeService } from 'src/app/modules/admin/services/shipping-charge.service';
 
 @Component({
-  selector: 'app-shipping-charge-add',
-  templateUrl: './shipping-charge-add.component.html',
-  styleUrls: ['./shipping-charge-add.component.scss']
+  selector: 'app-delivery-area-add',
+  templateUrl: './delivery-area-add.component.html',
+  styleUrls: ['./delivery-area-add.component.scss']
 })
-export class ShippingChargeAddComponent implements OnInit {
-  model: ShippingCharge = {};
+export class DeliveryAreaAddComponent implements OnInit {
+  model: DeliveryArea = {};
   processing = false;
   errors: FieldError[] = [];
   digitalCenterId?: string;
@@ -23,7 +22,7 @@ export class ShippingChargeAddComponent implements OnInit {
     .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
   }
   constructor(
-    private shippingChargeService: ShippingChargeService,
+    private deliveryAreaService: DeliveryAreaService,
     private router: Router,
     private route: ActivatedRoute,
     private aleartService: SweetAlertService
@@ -42,16 +41,16 @@ export class ShippingChargeAddComponent implements OnInit {
   submit() {
     this.errors = [];
     const data = {
-      type: 'shipping-charges',
+      type: 'delivery-areas',
       attributes: {
-        location: this.model.location,
-        location_bn: this.model.location_bn,
-        charge: this.model.charge,
+        delivery_area: this.model.delivery_area,
+        delivery_area_bn: this.model.delivery_area_bn,
+        delivery_charge: this.model.delivery_charge,
         digital_center_id: this.digitalCenterId,
       }
     };
     this.aleartService.saving();
-    this.shippingChargeService.post({data}).subscribe(response => {
+    this.deliveryAreaService.post({data}).subscribe(response => {
       this.aleartService.done();
       this.router.navigate(['/super-admin/digital-center-edit', this.digitalCenterId]);
     }, (err: HttpErrorResponse) => {

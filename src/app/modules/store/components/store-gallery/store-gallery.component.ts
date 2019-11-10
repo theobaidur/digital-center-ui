@@ -31,8 +31,8 @@ export class StoreGalleryComponent implements OnInit, OnChanges, OnDestroy {
     this.storeObserver.next(this.store);
     this.storeObserver.pipe(
       filter(slug => !!slug),
-      switchMap(slug => slug === 'host' ? this.storeManager.resolve('host') : this.slugManager.resolve(slug)),
-      map(slug => slug.id),
+      switchMap(() => this.storeManager.resolveBySlug(this.store)),
+      map(store => store.shop_affiliate_only ? store.affiliate_of : store.id),
       switchMap(storeId => {
         const filters: RequestParam[] = [];
         filters.push({

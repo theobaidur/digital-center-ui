@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { ShippingCharge } from 'src/app/modules/admin/models/shipping-charge.model';
+import { DeliveryArea } from '../../admin/models/delivery-area.model';
+import { DeliveryAreaService } from '../../admin/services/delivery-area.service';
 import { FieldError } from 'src/app/interfaces/field-error.interface';
-import { DivisionService } from 'src/app/modules/admin/services/division.service';
 import { ActivatedRoute } from '@angular/router';
-import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
+import { SweetAlertService } from '../../admin/services/sweet-alert.service';
 import { filter, map, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ShippingChargeService } from 'src/app/modules/admin/services/shipping-charge.service';
 
 @Component({
-  selector: 'app-shipping-charge-edit',
-  templateUrl: './shipping-charge-edit.component.html',
-  styleUrls: ['./shipping-charge-edit.component.scss']
+  selector: 'app-delivery-area-edit',
+  templateUrl: './delivery-area-edit.component.html',
+  styleUrls: ['./delivery-area-edit.component.scss']
 })
-export class ShippingChargeEditComponent implements OnInit {
-  model: ShippingCharge = {};
+export class DeliveryAreaEditComponent implements OnInit {
+  model: DeliveryArea = {};
   processing = false;
   errors: FieldError[] = [];
   getErrors(field: string): string[] {
@@ -23,7 +22,7 @@ export class ShippingChargeEditComponent implements OnInit {
     .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
   }
   constructor(
-    private shippingChargeService: ShippingChargeService,
+    private deliveryAreaService: DeliveryAreaService,
     private route: ActivatedRoute,
     private aleartService: SweetAlertService
   ) { }
@@ -34,7 +33,7 @@ export class ShippingChargeEditComponent implements OnInit {
       map(params => params.id),
       distinctUntilChanged(),
       tap(() => this.aleartService.loading()),
-      switchMap(id => this.shippingChargeService.get(id)),
+      switchMap(id => this.deliveryAreaService.get(id)),
       tap(() => this.aleartService.close())
     )
     .subscribe(response => {
@@ -46,15 +45,16 @@ export class ShippingChargeEditComponent implements OnInit {
     this.errors = [];
     const data: any = {
       id: this.model.id,
-      type: 'shipping-charges',
+      type: 'delivery-areas',
       attributes: {
-        location: this.model.location,
-        location_bn: this.model.location_bn,
-        charge: this.model.charge
+        delivery_area: this.model.delivery_area,
+        delivery_area_bn: this.model.delivery_area_bn,
+        delivery_charge: this.model.delivery_charge,
+        digital_center_id: this.model.digital_center_id,
       }
     };
     this.aleartService.saving();
-    this.shippingChargeService.update(this.model.id, {data}).subscribe(() => {
+    this.deliveryAreaService.update(this.model.id, {data}).subscribe(() => {
       this.aleartService.done();
     }, (err: HttpErrorResponse) => {
       if (err && err.error && err.error.errors) {

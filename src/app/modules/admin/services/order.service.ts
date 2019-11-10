@@ -8,18 +8,32 @@ import { AuthService } from './auth.service';
 import { AddressService } from './address.service';
 import { Injectable } from '@angular/core';
 import { DigitalCenterService } from './digital-center.service';
+import { DeliveryAreaService } from './delivery-area.service';
+import { EarningService } from './earning.service';
+import { ServiceLocator } from 'src/app/services/service-locator';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class OrderService extends AdminBaseService<Order> {
-    includes: string[] = ['address', 'customer', 'seller' , 'items', 'digitalCenter'];
+    includes: string[] = ['customer', 'deliveryArea', 'seller', 'items', 'digitalCenter', 'earnings'];
     resourceEndPoint = 'orders';
+    earningService: EarningService;
     normalize(item: HttpResponseItem<Order>): Order {
         item.attributes.id = item.id;
         item.attributes._type = item.type;
         item.attributes.items = [];
+        // tslint:disable-next-line: no-string-literal
+        if (item && item['relationships'] && item['relationships'].earnings
+            // tslint:disable-next-line: no-string-literal
+            && Array.isArray(item['relationships'].earnings.data)) {
+            // tslint:disable-next-line: no-string-literal
+            item.attributes.earnings = item['relationships'].earnings.data.map(earning => {
+                return this.earningService.fromCache(earning.id);
+            });
+        }
+
         // tslint:disable-next-line: no-string-literal
         if (item && item['relationships'] && item['relationships'].items
             // tslint:disable-next-line: no-string-literal
@@ -40,12 +54,12 @@ export class OrderService extends AdminBaseService<Order> {
         }
 
         // tslint:disable-next-line: no-string-literal
-        if (item && item['relationships'] && item['relationships'].address
+        if (item && item['relationships'] && item['relationships'].deliveryArea
             // tslint:disable-next-line: no-string-literal
-            && item['relationships'].address.data) {
+            && item['relationships'].deliveryArea.data) {
                 // tslint:disable-next-line: no-string-literal
-                const data = item['relationships'].address.data;
-                item.attributes.address = this.addressService.fromCache(data.id);
+                const data = item['relationships'].deliveryArea.data;
+                item.attributes.deliveryArea = this.deliveryAreaService.fromCache(data.id);
         }
         // tslint:disable-next-line: no-string-literal
         if (item && item['relationships'] && item['relationships'].seller
@@ -73,11 +87,14 @@ export class OrderService extends AdminBaseService<Order> {
                 data.id = include.id;
                 data._type = include.type;
                 switch (include.type) {
-                    case 'addresses':
-                        this.addressService.cache(data, false);
+                    case 'delivery-areas':
+                        this.deliveryAreaService.cache(data, false);
                         break;
                     case 'users':
                         this.authService.cache(data, false);
+                        break;
+                    case 'earnings':
+                        this.earningService.cache(data, false);
                         break;
                     case 'order-items':
                         this.orderItemService.cache(data, false);
@@ -92,16 +109,17 @@ export class OrderService extends AdminBaseService<Order> {
         }
         this.authService.notify();
         this.orderItemService.notify();
-        this.addressService.notify();
+        this.deliveryAreaService.notify();
         this.digitalCenterService.notify();
     }
 
     constructor(
         private orderItemService: OrderItemService,
         private authService: AuthService,
-        private addressService: AddressService,
+        private deliveryAreaService: DeliveryAreaService,
         private digitalCenterService: DigitalCenterService
     ) {
         super();
+        this.earningService = ServiceLocator.injector.get(EarningService);
     }
 }

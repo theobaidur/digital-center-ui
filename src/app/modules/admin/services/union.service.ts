@@ -11,6 +11,7 @@ import { Injectable } from '@angular/core';
 export class UnionService extends AdminBaseService<Union> {
     includes: string[] = [];
     resourceEndPoint = 'unions';
+    pageSize = -1;
     normalize(item: HttpResponseItem<Union>): Union {
         const data = item.attributes;
         data._type = item.type;

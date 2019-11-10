@@ -13,6 +13,10 @@ import { EarningListComponent } from './components/earning-list/earning-list.com
 import { AffiliateOrderListComponent } from './components/affiliate-order-list/affiliate-order-list.component';
 import { HasEcommerce } from './guands/has-ecommerce.guard';
 import { CanSell } from './guands/can-sell.guard';
+import { PaymentListComponent } from './components/payment-list/payment-list.component';
+import { PaymentAddComponent } from './components/payment-add/payment-add.component';
+import { PaymentEditComponent } from './components/payment-edit/payment-edit.component';
+import { DueListComponent } from './components/due-list/due-list.component';
 
 const routes: Routes = [
   {
@@ -59,6 +63,34 @@ const routes: Routes = [
       {
         path: 'order-detail/:id',
         component: OrderDetailComponent
+      },
+      {
+        path: 'earning-list',
+        component: EarningListComponent
+      },
+      {
+        path: 'payment-list',
+        component: PaymentListComponent
+      },
+      {
+        path: 'due-list',
+        component: DueListComponent
+      },
+      {
+        path: 'payment-add',
+        component: PaymentAddComponent,
+        canActivate: [RoleGuard],
+        data: {
+          roles: [Role.SUPER_ADMIN]
+        }
+      },
+      {
+        path: 'payment-edit/:id',
+        component: PaymentEditComponent,
+        canActivate: [RoleGuard],
+        data: {
+          roles: [Role.SUPER_ADMIN]
+        }
       }
     ]
   }

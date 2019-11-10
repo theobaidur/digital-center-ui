@@ -10,12 +10,9 @@ import { environment } from 'src/environments/environment';
 export class EcommerceAdminService {
     public adminStat: any;
     refreshStat: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    constructor(private httpClient: HttpClient) {
-        this.refreshStat.pipe(
-            switchMap(() => {
-                const url = `${environment.apiRoot}/utility/ecommerce-home-stat`;
-                return this.httpClient.get(url);
-            })
-        ).subscribe(response => this.adminStat = response);
+    constructor(private httpClient: HttpClient) {}
+    fetchStat(from: string, to: string) {
+        const url = `${environment.apiRoot}/utility/ecommerce-stat/${from}/${to}`;
+        return this.httpClient.get(url);
     }
 }

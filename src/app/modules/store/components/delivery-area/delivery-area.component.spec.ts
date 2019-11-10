@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShippingChargeAddComponent } from './shipping-charge-add.component';
+import { DeliveryAreaComponent } from './delivery-area.component';
 
-describe('ShippingChargeAddComponent', () => {
-  let component: ShippingChargeAddComponent;
-  let fixture: ComponentFixture<ShippingChargeAddComponent>;
+describe('DeliveryAreaComponent', () => {
+  let component: DeliveryAreaComponent;
+  let fixture: ComponentFixture<DeliveryAreaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShippingChargeAddComponent ]
+      declarations: [ DeliveryAreaComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShippingChargeAddComponent);
+    fixture = TestBed.createComponent(DeliveryAreaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

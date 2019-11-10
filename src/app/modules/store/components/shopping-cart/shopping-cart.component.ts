@@ -5,6 +5,10 @@ import { CartItem } from '../../interfaces/cart-item.interface';
 import { DigitalCenter } from 'src/app/model/digital-center.interface';
 import { StoreService } from '../../services/store.service';
 import { StoreUiService } from '../../services/store-ui.service';
+import { DeliveryAreaManagerService } from '../../services/delivery-area-manager.service';
+import { DeliveryArea } from 'src/app/modules/admin/models/delivery-area.model';
+import { StoreManagerService } from '../../services/store-manager.service';
+import { filter, switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -16,16 +20,30 @@ export class ShoppingCartComponent implements OnInit, OnChanges {
   inputObserver: BehaviorSubject<ComponentInput> = new BehaviorSubject(null);
   storeDetails: DigitalCenter;
   cartShown = false;
+  deliveryAreas: DeliveryArea[] = [];
+  selectedDeliveryArea = '';
   constructor(
     private storeService: StoreService,
-    private uiService: StoreUiService
-  ) { }
+    private storeManagerService: StoreManagerService,
+    private uiService: StoreUiService,
+    private deliveryAreaService: DeliveryAreaManagerService
+  ) {
+    this.inputObserver.pipe(
+      filter(input => !!(input && input.store)),
+      map(input => input.store),
+      switchMap(slug => this.storeManagerService.resolveBySlug(slug)),
+      filter(center => !!center),
+      switchMap(center => this.deliveryAreaService.getPage(-1, [{
+        property: `filter[digital_center_id]`,
+        value: center.shop_affiliate_only ? center.affiliate_of : center.id
+      }]))
+    ).subscribe(({list}) => this.deliveryAreas = list);
+  }
 
   ngOnInit() {
     this.inputObserver.next({
       store: this.store
     });
-
     this.uiService.cartShown.subscribe(val => this.cartShown = val);
   }
 
@@ -50,7 +68,8 @@ export class ShoppingCartComponent implements OnInit, OnChanges {
   }
 
   get totalPrice() {
-    return this.cartItems.reduce((total, current) => total + (current.quantity * current.unit_price) , 0).toFixed(2);
+    return (this.deliveryCharge
+      + this.cartItems.reduce((total, current) => total + (current.quantity * current.unit_price) , 0)).toFixed(2);
   }
 
   showCart() {
@@ -75,7 +94,24 @@ export class ShoppingCartComponent implements OnInit, OnChanges {
   }
 
   checkout() {
-    this.uiService.checkout(this.cartItems, this.storeService.currentCartDigitalCenter).then(() => this.storeService.clearCart());
+    const areas = [...this.deliveryAreas].map(each => {
+      if (each.id === this.selectedDeliveryArea) {
+        each.selected = true;
+      }
+      return each;
+    });
+    this.uiService.checkout(this.cartItems, this.storeService.currentCartDigitalCenter,
+      areas.filter(each => each.digital_center_id === this.storeService.currentCartDigitalCenter))
+      .then(() => this.storeService.clearCart());
+  }
+
+  get deliveryCharge() {
+    const area = this.deliveryAreas.find(each => each.id === this.selectedDeliveryArea);
+    if (!area) {
+      return 0;
+    }
+    return +area.delivery_charge;
+
   }
 
 }

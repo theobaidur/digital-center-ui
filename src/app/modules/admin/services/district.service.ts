@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 export class DistrictService extends AdminBaseService<District> {
     includes: string[] = [];
     resourceEndPoint = 'districts';
+    pageSize = -1;
     normalize(item: HttpResponseItem<District>): District {
         const data = item.attributes;
         data._type = item.type;

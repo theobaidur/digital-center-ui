@@ -8,7 +8,7 @@
           <li class="nav-item" *ngIf="isSuperAdmin || canSell">
             <a class="nav-link active">
               <span data-feather="home"></span>
-              Products <span class="sr-only">(current)</span> {{canSell}}
+              Products <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item" *ngIf="canSell">
@@ -41,6 +41,42 @@
             <a class="nav-link py-1" routerLink="/ecommerce-admin/affiliate-order-list">
               <i class="fa fa-list"></i>
               Affiliate Order
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active">
+              <span data-feather="home"></span>
+              Earning <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-1" routerLink="/ecommerce-admin/earning-list">
+              <i class="fa fa-list"></i>
+              Earnings List
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-1" routerLink="/ecommerce-admin/due-list">
+              <i class="fa fa-list"></i>
+              Dues List
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active">
+              <span data-feather="home"></span>
+              Payment <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-1" routerLink="/ecommerce-admin/payment-list">
+              <i class="fa fa-list"></i>
+              Payment List
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="isSuperAdmin">
+            <a class="nav-link py-1" routerLink="/ecommerce-admin/payment-add">
+              <i class="fa fa-list"></i>
+              Make/Receive Payment
             </a>
           </li>
         </ul>

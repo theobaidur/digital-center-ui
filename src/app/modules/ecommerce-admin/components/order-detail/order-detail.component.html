@@ -8,6 +8,9 @@
                         <p class="mb-0">
                             {{ order?.customer?.phone || order?.customer?.email }}
                         </p>
+                        <p class="mb-0">
+                            {{ order?.delivery_address }}
+                        </p>
                     </div>
                     <div class="col-md-6 text-right">
                         <h3 class="mb-0 text-info">{{ order?.order_id }}</h3>
@@ -31,28 +34,48 @@
         </tr>
         <tr *ngFor="let item of order.items" [item]="item" app-order-item></tr>
         <tr>
+            <td colspan="3">Delivery Charge</td>
+            <td>{{ order?.delivery_charge }}</td>
+        </tr>
+        <tr>
             <td></td>
             <td colspan="2">
                 <p class="text-info">Grand Total</p>
             </td>
             <td>
-                {{ order?.totalPrice }}
+                {{ total }}
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="owner">
             <td></td>
-            <td colspan="2">CNS Earning</td>
-            <td>({{ (order.cnsEarning || 0).toFixed(2) }})</td>
+            <td colspan="2">CNS Commission</td>
+            <td>({{ (salesCommission || 0).toFixed(2) }})</td>
         </tr>
-        <tr>
+        <tr *ngIf="owner">
             <td></td>
-            <td colspan="2">Affiliate Earning</td>
-            <td>({{ (order.affiliateEarning || 0).toFixed(2) }})</td>
+            <td colspan="2">Your Earning</td>
+            <td>{{ (sellerEarning || 0).toFixed(2) }}</td>
         </tr>
-        <tr>
+
+        <tr *ngIf="cns">
             <td></td>
-            <td colspan="2" class="h4">Owner Earning</td>
-            <td class="h4">{{ (ownerEarning || 0).toFixed(2) }}</td>
+            <td colspan="2">CNS Commission</td>
+            <td>{{ (salesCommission || 0).toFixed(2) }}</td>
+        </tr>
+        <tr *ngIf="cns">
+            <td></td>
+            <td colspan="2">Affiliate Commission</td>
+            <td>({{ (affiliateCommission || 0).toFixed(2) }})</td>
+        </tr>
+        <tr *ngIf="cns">
+            <td></td>
+            <td colspan="2">Your Earning</td>
+            <td>{{ (cnsEarning || 0).toFixed(2) }}</td>
+        </tr>
+        <tr *ngIf="hasAffiliate && affiliate">
+            <td></td>
+            <td colspan="2">Your Earning</td>
+            <td>{{ (affiliateCommission || 0).toFixed(2) }}</td>
         </tr>
     </table>
 </div>

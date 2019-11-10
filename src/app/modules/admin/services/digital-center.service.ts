@@ -13,6 +13,7 @@ import { Injectable } from '@angular/core';
 export class DigitalCenterService extends AdminBaseService<DigitalCenter> {
     includes: string[] = ['attachments'];
     resourceEndPoint = 'digital-centers';
+    pageSize = -1;
     normalize(item: HttpResponseItem<DigitalCenter>): DigitalCenter {
         item.attributes.id = item.id;
         item.attributes._type = item.type;
@@ -47,5 +48,6 @@ export class DigitalCenterService extends AdminBaseService<DigitalCenter> {
         private attachmentService: AttachmentService
     ) {
         super();
+        this.getList().subscribe();
     }
 }

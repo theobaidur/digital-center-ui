@@ -29,6 +29,7 @@
     "font-awesome": "^4.7.0",
     "moment": "^2.24.0",
     "ng-multiselect-dropdown": "^0.2.5",
+    "ngx-daterangepicker-material": "^2.1.8",
     "ngx-image-cropper": "^1.4.1",
     "ngx-image-zoom": "^0.4.1",
     "ngx-take-until-destroy": "^5.4.0",

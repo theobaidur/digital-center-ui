@@ -4,7 +4,7 @@ import { User } from '../models/user.model';
 import { HttpBase } from 'src/app/services/http.service';
 import { LoginData } from '../interfaces/login-data.interface';
 import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
-import { tap } from 'rxjs/operators';
+import { tap, catchError, map, filter, switchMap } from 'rxjs/operators';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { LocalStorageKeys } from 'src/app/modules/admin/enums/local-storage.key';
 import { Router } from '@angular/router';
@@ -16,6 +16,7 @@ import { Base } from 'src/app/model/_base.interface';
 import { Roles } from 'src/app/enums/roles.enum';
 import { PasswordReset } from '../models/password-reset.model';
 import { PasswordUpdate } from '../models/password-update.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +24,7 @@ import { PasswordUpdate } from '../models/password-update.model';
 export class AuthService extends AdminBaseService<User> {
     includes: string[] = ['roles', 'digitalCenter'];
     resourceEndPoint = 'users';
-    authState: BehaviorSubject<User> = new BehaviorSubject(this.localStorageService.get(LocalStorageKeys.AUTH));
+    authState: BehaviorSubject<User> = new BehaviorSubject(this.cachedUser);
     normalize(item: HttpResponseItem<User>): User {
         item.attributes.id = item.id;
         item.attributes._type = item.type;
@@ -85,15 +86,37 @@ export class AuthService extends AdminBaseService<User> {
         public digitalCenterService: DigitalCenterService
         ) {
             super();
-            this.authState.subscribe(user => {
+            this.authState.pipe(
+                filter(user => user && user.fromCache),
+                switchMap(() => this.verifyToken()),
+                catchError((err: HttpErrorResponse) => {
+                    this.redirect_login();
+                    return err.message;
+                })
+            ).subscribe();
+            this.authState.pipe(
+                filter(user => !user || !user.fromCache),
+            ).subscribe(user => {
                 this.localStorageService.store(LocalStorageKeys.AUTH, user);
             });
+    }
+    get cachedUser() {
+        const cachedUser: User = this.localStorageService.get(LocalStorageKeys.AUTH);
+        if (cachedUser) {
+            cachedUser.fromCache = true;
+        }
+        return cachedUser;
     }
     login(data: LoginData) {
         const loginurl = `${this.resourceEndPoint}/login`;
         return this.post(data, loginurl).pipe(
             tap(user => this.authState.next(user))
         );
+    }
+
+    verifyToken() {
+        const verifyUrl = `${this.resourceEndPoint}/verify-token`;
+        return this.http.get(verifyUrl);
     }
 
     initPasswordReset(data: PasswordReset) {

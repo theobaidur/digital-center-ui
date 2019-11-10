@@ -28,6 +28,11 @@
                     <p class="text-danger" *ngFor="let error of getErrors('contact_address')">{{ error }}</p>
                 </div>
                 <div class="form-group">
+                    <label for="contact_address_bn">যোগাযোগের ঠিকানা</label>
+                    <textarea class="form-control" id="contact_address_bn" name="contact_address_bn" [(ngModel)]="model.contact_address_bn"></textarea>
+                    <p class="text-danger" *ngFor="let error of getErrors('contact_address_bn')">{{ error }}</p>
+                </div>
+                <div class="form-group">
                     <label for="email_address">Email Address</label>
                     <input type="email" name="email_address" class="form-control" id="email_address" [(ngModel)]="model.email_address">
                     <p class="text-danger" *ngFor="let error of getErrors('email_address')">{{ error }}</p>
@@ -36,6 +41,11 @@
                     <label for="phone_number">Phone Number</label>
                     <input type="text" name="phone_number" class="form-control" id="phone_number" [(ngModel)]="model.phone_number">
                     <p class="text-danger" *ngFor="let error of getErrors('phone_number')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="phone_number_bn">ফোন নাম্বার</label>
+                    <input type="text" name="phone_number_bn" class="form-control" id="phone_number_bn" [(ngModel)]="model.phone_number_bn">
+                    <p class="text-danger" *ngFor="let error of getErrors('phone_number_bn')">{{ error }}</p>
                 </div>
                 <div class="form-group">
                     <label for="facebook">Facebook</label>
@@ -64,6 +74,13 @@
                 <div class="form-group form-check" *ngIf="model.has_shop">
                     <input type="checkbox" class="form-check-input" name="shop_affiliate_only" id="shop_affiliate_only" [(ngModel)]="model.shop_affiliate_only">
                     <label for="shop_affiliate_only">Affiliate Only</label>
+                </div>
+                <div class="form-group" *ngIf="model.shop_affiliate_only">
+                    <label for="affiliate_of">Affiliate Of</label>
+                    <select class="form-control" name="affiliate_of" id="affiliate_of" [(ngModel)]="model.affiliate_of" [required]="model.shop_affiliate_only">
+                        <option [value]="center.id" *ngFor="let center of digitalCenters | async">{{ center | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('affiliate_of')">{{ error }}</p>
                 </div>
                 <div class="form-group">
                     <label for="division_id">Divison</label>

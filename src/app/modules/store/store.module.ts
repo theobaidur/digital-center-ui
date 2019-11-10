@@ -40,11 +40,12 @@ import { TokenResolverService } from 'src/app/services/token-resolver.service';
 import { tokenList } from 'src/app/locale/shop-lang-token';
 import { DirectiveModule } from 'src/app/directives/directive.module';
 import { ShippingChargeComponent } from './components/shipping-charge/shipping-charge.component';
+import { DeliveryAreaComponent } from './components/delivery-area/delivery-area.component';
 
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
-  declarations: [StoreBaseComponent, HeaderComponent, LeftSidebarComponent, OtherStoresComponent, StoreFooterComponent, ProductDetailComponent, ProductCardComponent, CategoryListComponent, ChooseSubCategoryComponent, SpecialProductsComponent, SpecialProductCardComponent, StoreBannerComponent, RootCategoryCardComponent, NotFoundComponent, StoreHomeComponent, CategoryProductListComponent, ProductOrSubCategoryComponent, ProductListComponent, StorePromotionComponent, StoreGalleryComponent, StoreCardComponent, ImageViewerComponent, OtherStoreListComponent, CategoryBannerComponent, OffersComponent, PopularItemsComponent, StoresComponent, StarRattingComponent, SearchResultComponent, ShoppingCartComponent, ShippingChargeComponent],
+  declarations: [StoreBaseComponent, HeaderComponent, LeftSidebarComponent, OtherStoresComponent, StoreFooterComponent, ProductDetailComponent, ProductCardComponent, CategoryListComponent, ChooseSubCategoryComponent, SpecialProductsComponent, SpecialProductCardComponent, StoreBannerComponent, RootCategoryCardComponent, NotFoundComponent, StoreHomeComponent, CategoryProductListComponent, ProductOrSubCategoryComponent, ProductListComponent, StorePromotionComponent, StoreGalleryComponent, StoreCardComponent, ImageViewerComponent, OtherStoreListComponent, CategoryBannerComponent, OffersComponent, PopularItemsComponent, StoresComponent, StarRattingComponent, SearchResultComponent, ShoppingCartComponent, ShippingChargeComponent, DeliveryAreaComponent],
   imports: [
     CommonModule,
     FormsModule,

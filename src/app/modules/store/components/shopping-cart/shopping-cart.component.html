@@ -1,6 +1,14 @@
 <div class="shopping-cart"  [ngClass]="{'max-height': cartShown}">
     <div class="card d-flex flex-column" [ngClass]="{'h-100': cartShown}">
         <div class="card-body overflow-auto p-1 d-flex flex-column" *ngIf="cartShown">
+            <div class="d-flex my-1 border-bottom border-light">
+                <select [(ngModel)]="selectedDeliveryArea" class="form-control">
+                    <option value="">{{ 'select_delivery_area' | translate | async }}</option>
+                    <option [value]="area.id" *ngFor="let area of deliveryAreas">
+                        {{ area | switchLanguageProp:'delivery_area' | async }}
+                    </option>
+                </select>
+            </div>
             <div class="d-flex my-1 border-bottom border-light" *ngFor="let item of cartItems">
                 <div class="quantity-btn d-flex flex-column">
                     <button class="btn btn-sm d-block p-1" (click)="increase(item)">
@@ -25,8 +33,8 @@
             </div>
         </div>
         <div class="card-footer disclaimer px-1 py-0" *ngIf="cartShown && totalItem">
-            <p><sup class="text-danger">*</sup> {{ 'delivery_charge_excluded' | translate | async }}</p>
-            <a class="text-info" [routerLink]="[ '/shop/shipping-charge']" [queryParams]="{'store': store}">
+            <p><sup class="text-danger">*</sup> {{ 'delivery_charge' | translate | async }} ৳{{ deliveryCharge | translate:true | async }}</p>
+            <a class="text-info" [routerLink]="[ '/shop/delivery-areas']" [queryParams]="{'store': store}">
                 {{ 'delivery_charge' | translate | async }}
             </a>
         </div>

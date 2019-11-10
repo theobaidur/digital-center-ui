@@ -3,6 +3,7 @@ import { LoginData } from '../../interfaces/login-data.interface';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Roles } from 'src/app/enums/roles.enum';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { Roles } from 'src/app/enums/roles.enum';
 export class LoginComponent implements OnInit {
   loginData: LoginData = {};
   processing = false;
+  errorMessage = '';
   constructor(
     public authService: AuthService,
     public router: Router
@@ -31,12 +33,16 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.errorMessage = '';
     this.processing = true;
     this.authService.login(this.loginData).subscribe(response => {
       this.processing = false;
-      console.log(response);
-    }, (err) => {
-      console.log(err);
+    }, (err: HttpErrorResponse) => {
+      if (err && err.error && err.error.errors && Array.isArray(err.error.errors)) {
+        err.error.errors.map(each => {
+          this.errorMessage += `<p class="text-danger">${each.detail}</p>`;
+        });
+      }
       this.processing = false;
     });
   }

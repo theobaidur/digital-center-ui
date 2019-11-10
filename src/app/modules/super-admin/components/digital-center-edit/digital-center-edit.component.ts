@@ -110,6 +110,12 @@ export class DigitalCenterEditComponent implements OnInit {
     this.banner = e.base64;
   }
 
+  get digitalCenters() {
+    return this.digitalCenterService.all.pipe(
+      map(list => (list || []).filter(each => each.id !== this.model.id))
+    );
+  }
+
   get divisions() {
     return this.locationService.divisions.getValue();
   }
@@ -188,11 +194,14 @@ export class DigitalCenterEditComponent implements OnInit {
         shop_affiliate_only: this.model.shop_affiliate_only,
         active: this.model.active,
         contact_address: this.model.contact_address,
+        contact_address_bn: this.model.contact_address_bn,
         email_address: this.model.email_address,
         phone_number: this.model.phone_number,
+        phone_number_bn: this.model.phone_number_bn,
         youtube: this.model.youtube,
         facebook: this.model.facebook,
-        twitter: this.model.twitter
+        twitter: this.model.twitter,
+        affiliate_of: this.model.shop_affiliate_only ? this.model.affiliate_of : null
       }
     };
     if (this.model.union_id) {

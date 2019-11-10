@@ -46,7 +46,8 @@ export class ProductListComponent implements OnInit, OnChanges {
           switchMap(page => {
             this.loading = true;
             const filters = [...this.filters];
-            filters.push({property: 'filter[digital_center_id]', value: this.storeDetails.id});
+            const digitalCenterId = this.storeDetails.shop_affiliate_only ? this.storeDetails.affiliate_of : this.storeDetails.id;
+            filters.push({property: 'filter[digital_center_id]', value: digitalCenterId});
             return this.productManager.getPage(page, filters);
           })
         );

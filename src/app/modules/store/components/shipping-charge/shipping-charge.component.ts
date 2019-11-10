@@ -26,7 +26,7 @@ export class ShippingChargeComponent implements OnInit {
         filter(host => !!host.id),
         switchMap(host => this.http.get<HttpResponseItem<any>[]>('shipping-charges', [], [{
           property: 'filter[digital_center_id]',
-          value: host.id
+          value: host.shop_affiliate_only ? host.affiliate_of : host.id
         }]))
       ).subscribe(list => {
         this.loading = false;

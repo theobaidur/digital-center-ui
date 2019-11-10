@@ -136,6 +136,15 @@ tokenList.shop_closed = {
     en: 'Shop Closed'
 };
 
+tokenList.find_us = {
+    bn: 'আমাদের ঠিকানা',
+    en: 'Find Us'
+};
+
+tokenList.select_delivery_area = {
+    bn: 'ডেলিভারী এরিয়া নির্বাচন করুন',
+    en: 'Select Delivery Area'
+};
 
 
 

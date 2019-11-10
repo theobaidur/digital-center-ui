@@ -17,6 +17,7 @@
                     <label for="password">Password</label>
                     <input type="password" name="password" class="form-control" [(ngModel)]="loginData.password" required>
                 </div>
+                <div class="form-group" [innerHtml]="errorMessage"></div>
                 <div class="form-group text-center">
                     <button type="submit" [disabled]="loginForm.invalid || processing" class="btn btn-sm btn-info" (click)="login()">
                         <span *ngIf="!processing">Login</span>

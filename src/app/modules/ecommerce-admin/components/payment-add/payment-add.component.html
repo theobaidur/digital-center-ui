@@ -1,0 +1,39 @@
+<div class="white-bg py-4">
+    <div class="row">
+        <div class="col-md-12">
+            <form #form="ngForm" class="form" (ngSubmit)="submit()">
+                <div class="form-group">
+                    <h3>Add Payment</h3>
+                </div>
+                <div class="form-group">
+                    <label for="selectedMode">Payment Type</label>
+                    <select class="form-control" name="selectedMode" id="selectedMode" [(ngModel)]="model.selectedMode" required>
+                        <option [value]="mode" *ngFor="let mode of modes">{{ mode }}</option>
+                    </select>
+                </div>
+                <div class="form-group" *ngIf="selectedMode === 'Pay'">
+                    <label for="paid_to">Paid To</label>
+                    <select class="form-control" name="paid_to" id="paid_to" [(ngModel)]="model.paid_to" required>
+                        <option [value]="center.id" *ngFor="let center of digitalCenters">{{ center | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('paid_to')">{{ error }}</p>
+                </div>
+                <div class="form-group" *ngIf="selectedMode === 'Receive'">
+                    <label for="paid_by">Received From</label>
+                    <select class="form-control" name="paid_by" id="paid_by" [(ngModel)]="model.paid_by" required>
+                        <option [value]="center.id" *ngFor="let center of digitalCenters">{{ center | switchLanguageProp:'name' | async }}</option>
+                    </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('paid_by')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" name="amount" class="form-control" id="amount" [(ngModel)]="model.amount" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('amount')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

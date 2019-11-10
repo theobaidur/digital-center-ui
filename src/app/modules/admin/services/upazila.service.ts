@@ -11,6 +11,7 @@ import { Injectable } from '@angular/core';
 export class UpazilaService extends AdminBaseService<Upazila> {
     includes: string[] = [];
     resourceEndPoint = 'upazilas';
+    pageSize = -1;
     normalize(item: HttpResponseItem<Upazila>): Upazila {
         const data = item.attributes;
         data._type = item.type;

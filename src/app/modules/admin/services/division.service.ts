@@ -11,6 +11,7 @@ import { Injectable } from '@angular/core';
 export class DivisionService extends AdminBaseService<Division> {
     includes: string[] = [];
     resourceEndPoint = 'divisions';
+    pageSize = -1;
     normalize(item: HttpResponseItem<Division>): Division {
         const data = item.attributes;
         data._type = item.type;

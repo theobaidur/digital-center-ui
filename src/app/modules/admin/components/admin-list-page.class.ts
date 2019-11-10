@@ -25,6 +25,7 @@ export abstract class AdminListPage<T> {
         dataService: AdminBaseService<T>
     ) {
         this.dataService = dataService;
+        this.dataService.cacheClean();
         this.alertService = ServiceLocator.injector.get(SweetAlertService);
         this.dataService.all.subscribe(list => this.list = list);
         merge(this.searchObserver.pipe(

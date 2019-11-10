@@ -4,7 +4,7 @@
             <tr>
                 <th colspan="2">
                     <h3 class="my-0">
-                        Shipping Charges <a [routerLink]="createPageLink()" [queryParams]="params" class="btn btn-sm btn-info">Add New</a>
+                        Delivery Area <a [routerLink]="createPageLink()" [queryParams]="params" class="btn btn-sm btn-info">Add New</a>
                     </h3>
                 </th>
             </tr>
@@ -16,13 +16,13 @@
             </tr>
             <tr *ngFor="let item of list">
                 <td>
-                    <a [routerLink]="detailPageLink(item.id)">{{ item.location }}</a>
+                    <a [routerLink]="detailPageLink(item.id)">{{ item.delivery_area }}</a>
                 </td>
                 <td>
-                    {{ item.location_bn }}
+                    {{ item.delivery_area_bn }}
                 </td>
                 <td>
-                    {{ item.charge }}
+                    {{ item.delivery_charge }}
                 </td>
                 <td>
                     <button class="btn btn-sm btn-danger" (click)="delete(item.id)">

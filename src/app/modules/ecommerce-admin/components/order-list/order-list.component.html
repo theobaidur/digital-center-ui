@@ -2,7 +2,7 @@
     <div class="col-12 pt-5">
         <table class="table table-sm table-striped" [ngClass]="{'table-loading': loading}">
             <tr>
-                <th colspan="4">
+                <th colspan="3">
                     <h3 class="my-0">
                         Order List
                     </h3>
@@ -22,7 +22,6 @@
                 <th>Seller</th>
                 <th>Total Item</th>
                 <th>Total Amount</th>
-                <th>Earning</th>
                 <th>Status</th>
             </tr>
             <tr *ngFor="let item of list">
@@ -39,10 +38,7 @@
                     {{ totalItem(item) }}
                 </td>
                 <td>
-                    {{ (item.totalPrice || 0).toFixed(2) }}
-                </td>
-                <td>
-                    {{ getEarning(item) }}
+                    {{ total(item) }}
                 </td>
                 <td>
                     <span class="badge {{badgeClass(item.status)}}">
@@ -52,7 +48,7 @@
             </tr>
             
             <tr>
-                <th colspan="7" class="text-center">
+                <th colspan="6" class="text-center">
                     <button class="btn btn-sm btn-info" *ngIf="hasMore" (click)="loadNext()">Load More</button>
                 </th>
             </tr>
