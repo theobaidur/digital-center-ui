@@ -23,6 +23,10 @@ export const routes: Routes = [
   {
     path: 'ecommerce-admin',
     loadChildren: './modules/ecommerce-admin/ecommerce-admin.module#EcommerceAdminModule'
+  },
+  {
+    path: 'training-admin',
+    loadChildren: './modules/training-admin/training-admin.module#TrainingAdminModule'
   }
 ];
 

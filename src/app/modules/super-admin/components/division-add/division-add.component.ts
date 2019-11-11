@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Division } from 'src/app/modules/admin/models/division.model';
 import { DivisionService } from 'src/app/modules/admin/services/division.service';
-import { LocationService } from 'src/app/modules/admin/services/location.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FieldError } from 'src/app/interfaces/field-error.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 

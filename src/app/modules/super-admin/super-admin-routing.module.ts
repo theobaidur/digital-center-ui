@@ -25,9 +25,9 @@ import { UpazilaListComponent } from './components/upazila-list/upazila-list.com
 import { UnionAddComponent } from './components/union-add/union-add.component';
 import { UnionEditComponent } from './components/union-edit/union-edit.component';
 import { UnionListComponent } from './components/union-list/union-list.component';
-import { DeliveryAreaAddComponent } from './delivery-area-add/delivery-area-add.component';
-import { DeliveryAreaEditComponent } from './delivery-area-edit/delivery-area-edit.component';
-import { DeliveryAreaListComponent } from './delivery-area-list/delivery-area-list.component';
+import { DeliveryAreaAddComponent } from './components/delivery-area-add/delivery-area-add.component';
+import { DeliveryAreaEditComponent } from './components/delivery-area-edit/delivery-area-edit.component';
+import { DeliveryAreaListComponent } from './components/delivery-area-list/delivery-area-list.component';
 
 export function crudUrl(prefix: string, add: any, edit: any, list: any): Routes {
   return [
