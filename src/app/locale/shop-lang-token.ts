@@ -141,6 +141,11 @@ tokenList.find_us = {
     en: 'Find Us'
 };
 
+tokenList.admin = {
+    bn: 'এডমিন',
+    en: 'Admin'
+};
+
 tokenList.select_delivery_area = {
     bn: 'ডেলিভারী এরিয়া নির্বাচন করুন',
     en: 'Select Delivery Area'
