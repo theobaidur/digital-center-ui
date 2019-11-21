@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/admin/services/auth.service';
 import { User } from 'src/app/modules/admin/models/user.model';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'app-left-sidebar',
@@ -13,6 +14,7 @@ import { User } from 'src/app/modules/admin/models/user.model';
 })
 export class LeftSidebarComponent implements OnInit {
   @Input() store;
+  language = 'EN';
   user: User;
   parents: Category[] = [];
   children: Category[] = [];
@@ -21,9 +23,17 @@ export class LeftSidebarComponent implements OnInit {
   selectedSubCategory: Subject<string> = new Subject();
   constructor(
     private categoryManager: CategoryManagerService,
-    private authService: AuthService
+    private authService: AuthService,
+    private languageService: LanguageService
   ) {
     this.authService.authState.subscribe(user => this.user = user);
+    this.languageService.language.subscribe(lang => {
+      if (lang.toLowerCase() === 'bn') {
+        this.language = 'EN';
+      } else {
+        this.language = 'বাংলা';
+      }
+    });
   }
 
   ngOnInit() {
@@ -46,6 +56,13 @@ export class LeftSidebarComponent implements OnInit {
     return {
       store: this.store
     };
+  }
+  toggleLang() {
+    if (this.languageService.language.getValue().toLowerCase() === 'bn') {
+      this.languageService.language.next('EN');
+    } else {
+      this.languageService.language.next('BN');
+    }
   }
   logout() {
     this.authService.logout();

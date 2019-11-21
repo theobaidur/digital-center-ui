@@ -144,3 +144,13 @@ body {
     pointer-events: none;
     opacity: .6;
 }
+
+.fb_dialog{
+    visibility: hidden !important;
+    z-index: 0 !important;
+}
+
+.fb-customerchat iframe{
+    right: 0 !important;
+    bottom: 40px !important;
+}

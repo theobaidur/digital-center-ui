@@ -27,7 +27,7 @@ export class ProductManagerService extends ManagerService<Product> {
             // tslint:disable-next-line: no-string-literal
             item['relationships'].attachments.data.forEach(attachment => {
                 const info: Attachment = this.attachmentManager.getOrDefault(attachment.id);
-                item.attributes.product_image = info.id;
+                item.attributes[info.group] = info.id;
             });
         }
         this.register(item.attributes, false);

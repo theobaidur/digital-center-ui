@@ -81,6 +81,15 @@ export class StoreUiService {
         return false;
     }
 
+    startChat() {
+        try {
+            // tslint:disable-next-line: no-string-literal
+            window['FB']['CustomerChat'].show(true);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     checkout(items: CartItem[], digitalCenterId?: string, deliveryAreas: DeliveryArea[] = []) {
         const total = items.reduce((sum, curr) => sum + (curr.unit_price * curr.quantity), 0);
         const lang = this.languageService.language.getValue().toLowerCase();

@@ -20,7 +20,7 @@
                     </button>
                 </div>
                 <div class="cart-item-info d-flex w-100">
-                    <div class="product-img d-flex align-items-center justify-content-center p-1" app-image-viewer [id]="item.product_image" type="cart-photo"></div>
+                    <div class="product-img d-flex align-items-center justify-content-center p-1" app-image-viewer [id]="item.primary_image_thumb" type="cart-photo"></div>
                     <div class="proudct-info w-100 flex-column d-flex align-items-stretch justify-content-center">
                         <p class="font-weight-bold mb-0 text-dark">{{ item | switchLanguageProp:'name' | async }}</p>
                         <p class="mb-0 text-muted h6">{{ item.unit_price | translate:true | async }}/{{ item.product_unit }}</p>
@@ -39,7 +39,7 @@
             </a>
         </div>
         <div class="card-footer p-0 d-flex">
-            <button class="btn btn-sm btn-info"  *ngIf="!(cartShown && totalItem)">
+            <button class="btn btn-sm btn-info"  *ngIf="!(cartShown && totalItem)" (click)="openFb()">
                 <i class="fa fa-2x fa-weixin"></i>
             </button>
             <button (click)="checkout()" class="btn btn-sm btn-info"  *ngIf="cartShown && totalItem">

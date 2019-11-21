@@ -10,6 +10,10 @@ export const environment = {
   apiRoot: 'http://127.0.0.1:8000/api/v1',
 };
 
+/**
+ * EAAOB96qLmxABADsPAxSTBPBX9PKTKFj1zcnwUZCQqC5NZBF6GYeokKb70KH70FAUmq3Nf1WiXsGAipOw3q77WVTmjKzUn5HJYNxmb0GEYJBvZAxHmKRKvoEemKaAqy5rhzOoW5a1NCw2N47G3sAZAP4rdcuYkByWo4b3jpxZCsVOaWwMWaZC0X
+ */
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -56,6 +56,11 @@ tokenList.no_product_found = {
     en: 'No Product Found'
 };
 
+tokenList.not_found = {
+    bn: 'কিছু পাওয়া যায়নি',
+    en: 'Nothing found'
+};
+
 tokenList.load_more = {
     bn: 'আরও দেখুন',
     en: 'Load More'
@@ -112,6 +117,11 @@ tokenList.all_offers = {
     en: 'All Offers'
 };
 
+tokenList.track_or_verify = {
+    bn: 'অর্ডার ভ্যারিফাই/ট্র্যাক করুন',
+    en: 'Verify/Track Order'
+};
+
 tokenList.delivery_charge_excluded = {
     bn: 'ডেলিভারি চার্জ ব্যাতিত',
     en: 'Excluding delivery charge'
@@ -141,11 +151,63 @@ tokenList.find_us = {
     en: 'Find Us'
 };
 
+tokenList.admin = {
+    bn: 'এডমিন',
+    en: 'Admin'
+};
+
 tokenList.select_delivery_area = {
     bn: 'ডেলিভারী এরিয়া নির্বাচন করুন',
     en: 'Select Delivery Area'
 };
 
+tokenList.track_your_order = {
+    bn: 'আপনার অর্ডার ট্র্যাক করুন',
+    en: 'Track Your Order'
+};
+
+tokenList.verify_your_order = {
+    bn: 'আপনার ভ্যারিফাই করুন',
+    en: 'Verify Your Order'
+};
+
+tokenList.your_order_status = {
+    bn: 'আপনার অর্ডারের অবস্থা',
+    en: 'Your order status'
+};
+
+tokenList.order_id = {
+    bn: 'আপনার অর্ডারের নাম্বার',
+    en: 'Order Id'
+};
+tokenList.step_in_progress = {
+    bn: 'অপেক্ষমান',
+    en: 'In Progress'
+};
+tokenList.step_done = {
+    bn: 'সম্পন্ন হয়েছে',
+    en: 'Done'
+};
+
+tokenList.track = {
+    bn: 'ট্র্যাক',
+    en: 'Track'
+};
+
+tokenList.verify = {
+    bn: 'ভ্যারিফাই',
+    en: 'Verify'
+};
+
+tokenList.code = {
+    bn: 'কোড',
+    en: 'Code'
+};
+
+tokenList.phone_or_email = {
+    bn: 'ফোন নাম্বার',
+    en: 'Phone'
+};
 
 
 

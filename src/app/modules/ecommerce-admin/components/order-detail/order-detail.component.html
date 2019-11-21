@@ -1,6 +1,13 @@
 <div class="row pt-5">
     <table class="table table-stripped table-sm">
         <tr>
+            <th colspan="4" class="text-center">
+                <h2 class="mb-0">DeshiPonno</h2>
+                <p class="text-muted mb-0 h5">{{ order?.digitalCenter?.name }}</p>
+                <p class="text-muted mb-0">{{ order?.created_at | localDate }}</p>
+            </th>
+        </tr>
+        <tr>
             <th colspan="4">
                 <div class="row">
                     <div class="col-md-6">
@@ -17,11 +24,14 @@
                         <p class="mb-0">
                             <strong>Sold By: </strong> {{ order?.seller?.name }}
                         </p>
-                        <p>
+                        <p class="d-print-none">
                             <span class="badge {{badgeClass(order.status)}}">
                                 {{order.status}}
                             </span>
                         </p>
+                        <button class="btn btn-info d-print-none btn-sm" onclick="window.print()">
+                                <i class="fa fa-print"></i> Print
+                            </button>
                     </div>
                 </div> 
             </th>
@@ -35,83 +45,59 @@
         <tr *ngFor="let item of order.items" [item]="item" app-order-item></tr>
         <tr>
             <td colspan="3">Delivery Charge</td>
-            <td>{{ order?.delivery_charge }}</td>
+            <td>৳{{ order?.delivery_charge }}</td>
         </tr>
         <tr>
             <td></td>
             <td colspan="2">
-                <p class="text-info">Grand Total</p>
+                <p class="text-info mb-0">Grand Total</p>
             </td>
             <td>
-                {{ total }}
+                ৳{{ (total || 0).toFixed(2) }}
             </td>
         </tr>
-        <tr *ngIf="owner">
+        <tr *ngIf="owner" class="d-print-none">
             <td></td>
             <td colspan="2">CNS Commission</td>
-            <td>({{ (salesCommission || 0).toFixed(2) }})</td>
+            <td>৳({{ (salesCommission || 0).toFixed(2) }})</td>
         </tr>
-        <tr *ngIf="owner">
+        <tr *ngIf="owner" class="d-print-none">
             <td></td>
             <td colspan="2">Your Earning</td>
-            <td>{{ (sellerEarning || 0).toFixed(2) }}</td>
+            <td>৳{{ (sellerEarning || 0).toFixed(2) }}</td>
         </tr>
 
-        <tr *ngIf="cns">
+        <tr *ngIf="cns" class="d-print-none">
             <td></td>
             <td colspan="2">CNS Commission</td>
-            <td>{{ (salesCommission || 0).toFixed(2) }}</td>
+            <td>৳{{ (salesCommission || 0).toFixed(2) }}</td>
         </tr>
-        <tr *ngIf="cns">
+        <tr *ngIf="cns" class="d-print-none">
             <td></td>
             <td colspan="2">Affiliate Commission</td>
-            <td>({{ (affiliateCommission || 0).toFixed(2) }})</td>
+            <td>৳({{ (affiliateCommission || 0).toFixed(2) }})</td>
         </tr>
-        <tr *ngIf="cns">
+        <tr *ngIf="cns" class="d-print-none">
             <td></td>
             <td colspan="2">Your Earning</td>
-            <td>{{ (cnsEarning || 0).toFixed(2) }}</td>
+            <td>৳{{ (cnsEarning || 0).toFixed(2) }}</td>
         </tr>
-        <tr *ngIf="hasAffiliate && affiliate">
+        <tr *ngIf="hasAffiliate && affiliate && !cns" class="d-print-none">
             <td></td>
             <td colspan="2">Your Earning</td>
-            <td>{{ (affiliateCommission || 0).toFixed(2) }}</td>
+            <td>৳{{ (affiliateCommission || 0).toFixed(2) }}</td>
         </tr>
     </table>
 </div>
-<div class="row pt-3" *ngIf="canEdit | async">
+<div class="row pt-3 d-print-none" *ngIf="order && (canEdit | async)">
     <div class="col-12">
             <div class="form-group">
                 <h4>Process Order</h4>
             </div>
             <form #form="ngForm" class="form">
                 <div class="form-group">
-                    <label for="division_id">Divison</label>
-                    <select class="form-control" name="division_id" id="division_id" [(ngModel)]="model.division_id" (change)="divisionChanged()" required>
-                        <option [value]="division.id" *ngFor="let division of divisions">{{ division | switchLanguageProp:'name' | async }}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="district_id">District</label>
-                    <select class="form-control" name="district_id" id="district_id" [(ngModel)]="model.district_id" (change)="districtChanged()" required>
-                        <option [value]="district.id" *ngFor="let district of districts">{{ district | switchLanguageProp:'name' | async }}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="upazila_id">Upazila</label>
-                    <select class="form-control" name="upazila_id" id="upazila_id" [(ngModel)]="model.upazila_id" (change)="upazilaChanged()" [required]="!model.union_id">
-                        <option [value]="upazila.id" *ngFor="let upazila of upazilas">{{ upazila | switchLanguageProp:'name' | async }}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="union_id">Unions</label>
-                    <select class="form-control" name="union_id" id="union_id" [(ngModel)]="model.union_id" [required]="!model.upazila_id">
-                        <option [value]="union.id" *ngFor="let union of unions">{{ union | switchLanguageProp:'name' | async }}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="detailed_address">Detailed Address</label>
-                    <textarea class="form-control" name="detailed_address" id="detailed_address" [(ngModel)]="model.detailed_address"></textarea>
+                    <label for="delivery_address">Delivery Address</label>
+                    <textarea class="form-control" name="delivery_address" id="delivery_address" [(ngModel)]="order.delivery_address"></textarea>
                 </div>
                 <div class="form-group">
                     <button *ngIf="order.status === 'verified'" type="button" class="btn btn-sm btn-info" (click)="setStatus('confirmed')" [disabled]="form.invalid">Confirm</button>

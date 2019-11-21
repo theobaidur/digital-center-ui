@@ -1,1 +1,12 @@
-<p>not-found works!</p>
+<app-store-banner [store]="store"></app-store-banner>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 py-5 d-flex not-found justify-content-center align-item-center">
+            <div class="d-inline-block text-center">
+                <h3>404</h3>
+                <i class="fa fa-4x fa-frown-o" aria-hidden="true"></i>
+                <h3>{{ 'not_found' | translate | async }}</h3>
+            </div>
+        </div>
+    </div>
+</div>

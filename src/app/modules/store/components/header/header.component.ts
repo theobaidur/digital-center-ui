@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  toggleLink() {
+  toggleLang() {
     if (this.languageService.language.getValue().toLowerCase() === 'bn') {
       this.languageService.language.next('EN');
     } else {

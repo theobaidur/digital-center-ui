@@ -4,14 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { OrderService } from 'src/app/modules/admin/services/order.service';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 import { filter, map, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { LocationService } from 'src/app/modules/admin/services/location.service';
-import { Address } from 'src/app/modules/admin/models/address.model';
-import { AddressService } from 'src/app/modules/admin/services/address.service';
-import { HttpResponseItem } from 'src/app/interfaces/http-response-item.interface';
 import { AuthService } from 'src/app/modules/admin/services/auth.service';
-import { DeliveryAreaService } from 'src/app/modules/admin/services/delivery-area.service';
-import { DeliveryArea } from 'src/app/modules/admin/models/delivery-area.model';
 import { Roles } from 'src/app/enums/roles.enum';
 
 @Component({
@@ -21,13 +14,10 @@ import { Roles } from 'src/app/enums/roles.enum';
 })
 export class OrderDetailComponent implements OnInit {
   order: Order = {};
-  model: DeliveryArea = {};
   constructor(
     private dataService: OrderService,
     private aleartService: SweetAlertService,
     private route: ActivatedRoute,
-    private locationService: LocationService,
-    private deliveryAreaService: DeliveryAreaService,
     private authService: AuthService
   ) { }
 
@@ -37,15 +27,10 @@ export class OrderDetailComponent implements OnInit {
       map(params => params.id),
       distinctUntilChanged(),
       tap(() => this.aleartService.loading()),
-      switchMap(id => this.dataService.get(id)),
-      switchMap(data => {
-        console.log(data);
-        this.order = data;
-        return this.deliveryAreaService.get(this.order.delivery_area_id);
-      }),
+      switchMap(id => this.dataService.get(id, true)),
       tap(() => this.aleartService.close()),
     ).subscribe(data => {
-      this.model = data;
+      this.order = data;
     });
   }
 
@@ -129,85 +114,10 @@ export class OrderDetailComponent implements OnInit {
     return 0;
   }
 
-  get divisions() {
-    return this.locationService.divisions.getValue();
-  }
-
-  get districts() {
-    return this.locationService.districts.getValue()
-    .filter(district => !this.model.division_id || district.division_id === this.model.division_id);
-  }
-
-  get upazilas() {
-    return this.locationService.upazilas.getValue()
-    .filter(upazila => !this.model.district_id || upazila.district_id === this.model.district_id);
-  }
-
-  get unions() {
-    return this.locationService.unions.getValue()
-    .filter(union => !this.model.upazila_id || union.upazila_id === this.model.upazila_id);
-  }
-
   get canEdit() {
     return this.authService.authState.pipe(
       map(user => user && user.digital_center && user.digital_center_id === this.order.digital_center_id)
     );
-  }
-
-  divisionChanged() {
-    this.model.district_id = null;
-    this.model.upazila_id = null;
-    this.model.union_id = null;
-  }
-
-  districtChanged() {
-    this.model.upazila_id = null;
-    this.model.union_id = null;
-  }
-
-  upazilaChanged() {
-    this.model.union_id = null;
-  }
-
-  saveAddress() {
-    const data: HttpResponseItem<Address> = {
-      type: 'delivery-areas',
-      id: this.model.id,
-      attributes: {
-        detailed_address: this.model.detailed_address
-      },
-      relationships: {
-        division: {
-          data: {
-            type: 'divisions',
-            id: this.model.division_id
-          }
-        },
-        district: {
-          data: {
-            type: 'districts',
-            id: this.model.district_id
-          }
-        }
-      }
-    };
-    if (this.model.upazila_id) {
-      data.relationships.upazila = {
-        data: {
-          type: 'upazilas',
-          id: this.model.upazila_id
-        }
-      };
-    }
-    if (this.model.union_id) {
-      data.relationships.union = {
-        data: {
-          type: 'unions',
-          id: this.model.union_id
-        }
-      };
-    }
-    return this.deliveryAreaService.update(this.model.id, {data});
   }
 
   setStatus(status: 'confirmed' | 'paid' | 'complete' | 'shipped') {
@@ -215,12 +125,12 @@ export class OrderDetailComponent implements OnInit {
       type: 'orders',
       id: this.order.id,
       attributes: {
-        status
+        status,
+        delivery_address: this.order.delivery_address
       }
     };
     this.aleartService.saving();
-    (status === 'confirmed' ? this.saveAddress() : of(null)).pipe(
-      switchMap(() => this.dataService.update(this.order.id, {data})),
+    this.dataService.update(this.order.id, {data}).pipe(
       tap(() => this.aleartService.done('Saved..'))
     ).subscribe(order => this.order = order);
   }

@@ -80,6 +80,7 @@ export class StoreManagerService extends ManagerService<DigitalCenter> {
         super();
         this.getPage(1).subscribe();
         this.fetchOne('host').subscribe(response => {
+            this.saveIncludes(response);
             const host: DigitalCenter = this.normalize(response.data);
             this.host.next(host);
         });

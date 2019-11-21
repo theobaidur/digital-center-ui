@@ -29,7 +29,7 @@
                             <p>{{ storeDetails | switchLanguageProp:'contact_address' | async }}</p>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link pl-0">{{ 'tnc' | translate | async }}</a>
+                            <a routerLink="/shop/terms-and-condition" class="nav-link pl-0">{{ 'tnc' | translate | async }}</a>
                         </li>
                         <li class="nav-item" *ngIf="storeDetails?.email_address">
                             <a href="mailto:{{ storeDetails?.email_address }}" class="nav-link pl-0">{{ storeDetails?.email_address }}</a>

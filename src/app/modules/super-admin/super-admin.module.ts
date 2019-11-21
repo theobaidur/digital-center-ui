@@ -35,6 +35,13 @@ import { RouterModule } from '@angular/router';
 import { DeliveryAreaAddComponent } from './delivery-area-add/delivery-area-add.component';
 import { DeliveryAreaEditComponent } from './delivery-area-edit/delivery-area-edit.component';
 import { DeliveryAreaListComponent } from './delivery-area-list/delivery-area-list.component';
+import { AdvertisementEditComponent } from './components/advertisement-edit/advertisement-edit.component';
+import { AdvertisementListComponent } from './components/advertisement-list/advertisement-list.component';
+import { DigitalCenterSettingsEditComponent } from './components/digital-center-settings-edit/digital-center-settings-edit.component';
+import { DigitalCenterSettingsListComponent } from './components/digital-center-settings-list/digital-center-settings-list.component';
+import { GlobalSettingsEditComponent } from './components/global-settings-edit/global-settings-edit.component';
+import { AdvertisementAddComponent } from './components/advertisement-add/advertisement-add.component';
+import { DigitalCenterSettingsAddComponent } from './components/digital-center-settings-add/digital-center-settings-add.component';
 
 
 @NgModule({
@@ -44,7 +51,9 @@ import { DeliveryAreaListComponent } from './delivery-area-list/delivery-area-li
     UserEditComponent, UserListComponent, DivisionAddComponent, DivisionEditComponent,
     DivisionListComponent, DistrictAddComponent, DistrictEditComponent, DistrictListComponent,
     UpazilaAddComponent, UpazilaEditComponent, UpazilaListComponent, UnionAddComponent, UnionEditComponent,
-     UnionListComponent, DeliveryAreaAddComponent, DeliveryAreaEditComponent, DeliveryAreaListComponent],
+     UnionListComponent, DeliveryAreaAddComponent, DeliveryAreaEditComponent, DeliveryAreaListComponent,
+     AdvertisementEditComponent, AdvertisementListComponent, DigitalCenterSettingsEditComponent,
+     DigitalCenterSettingsListComponent, GlobalSettingsEditComponent, AdvertisementAddComponent, DigitalCenterSettingsAddComponent],
   imports: [
     CommonModule,
     SuperAdminRoutingModule,

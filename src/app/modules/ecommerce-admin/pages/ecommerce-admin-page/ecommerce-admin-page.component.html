@@ -2,7 +2,7 @@
 <app-admin-header></app-admin-header>
 <div class="container-fluid">
   <div class="row">
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar d-print-none">
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item" *ngIf="isSuperAdmin || canSell">
@@ -37,7 +37,7 @@
               List
             </a>
           </li>
-          <li class="nav-item" *ngIf="!isSuperAdmin">
+          <li class="nav-item" *ngIf="affiliate">
             <a class="nav-link py-1" routerLink="/ecommerce-admin/affiliate-order-list">
               <i class="fa fa-list"></i>
               Affiliate Order
@@ -83,7 +83,7 @@
       </div>
     </nav>
 
-    <main role="main" id="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <main role="main" id="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 content-area">
       <router-outlet></router-outlet>
     </main>
   </div>

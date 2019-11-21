@@ -18,6 +18,9 @@
       <app-product-detail *ngIf="storeView === 'product-details'" [product]="product" [store]="store" ></app-product-detail>
       <app-search-result *ngIf="storeView === 'search-result'"  [category]="category" [store]="store"></app-search-result>
       <app-delivery-area *ngIf="storeView === 'delivery-areas'"  [store]="store"></app-delivery-area>
+      <app-terms-condition [store]="store" *ngIf="store && storeView === 'terms-and-condition'"></app-terms-condition>
+      <app-track-verify-order [store]="store" *ngIf="store && storeView === 'track-verify-order'"></app-track-verify-order>
+      <app-not-found  [store]="store" *ngIf="store && storeView === 'not-found'"></app-not-found>
       <app-store-footer></app-store-footer>
       <app-shopping-cart [store]="store"></app-shopping-cart>
     </main>

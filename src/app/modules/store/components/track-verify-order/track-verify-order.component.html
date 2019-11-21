@@ -1,0 +1,66 @@
+<app-store-banner [store]="store"></app-store-banner>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 py-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>{{ 'track_your_order' | translate | async }}</h3>
+                    <form class="form" #form="ngForm" (ngSubmit)="track()">
+                        <div class="form-group">
+                            <label for="phone">{{ 'phone_or_email' | translate | async }}</label>
+                            <input type="text" name="phone" class="form-control" [(ngModel)]="verificationCode.phone_or_email">
+                        </div>
+                        <div class="form-group">
+                            <label for="code">{{ 'code' | translate | async }}</label>
+                            <input type="text" name="code" class="form-control" [(ngModel)]="verificationCode.code">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-info btn-sm" [disabled]="!(verificationCode.phone_or_email && verificationCode.code)">
+                                    {{ 'track' | translate | async }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h3>{{ 'verify_your_order' | translate | async }}</h3>
+                    <form class="form" #form2="ngForm" (ngSubmit)="verify()">
+                        <div class="form-group">
+                            <label for="phone">{{ 'phone_or_email' | translate | async }}</label>
+                            <input type="text" name="phone" class="form-control" [(ngModel)]="verificationCode.phone_or_email">
+                        </div>
+                        <div class="form-group">
+                            <label for="code">{{ 'code' | translate | async }}</label>
+                            <input type="text" name="code" class="form-control" [(ngModel)]="verificationCode.code">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-info btn-sm" [disabled]="!(verificationCode.phone_or_email && verificationCode.code)">
+                                {{ 'verify' | translate | async }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row" *ngIf="order">
+                <div class="col-12">
+                    <h3>{{ 'your_order_status' | translate | async }}</h3>
+                    <h5>{{ 'order_id' | translate | async }} : {{ order?.order_id }}</h5>
+                    <table class="table table-sm">
+                        <tr *ngFor="let step of steps">
+                            <td>
+                                {{ step | switchLanguageProp:'value' | async }}
+                            </td>
+                            <td>
+                                <span class="text-success" *ngIf="step.status === 'done'">
+                                    {{ 'step_done' | translate | async }}
+                                </span>
+                                <span class="text-info" *ngIf="step.status === 'progress'">
+                                    {{ 'step_in_progress' | translate | async }}
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,10 +17,10 @@
     </div>
     <ul class="navbar-nav px-3 flex-row pull-right d-none d-md-flex">
         <li class="nav-item text-nowrap mr-0">
-            <a class="nav-link px-2" href="#">{{ 'shop_header_menu_item_help' | translate | async }}</a>
+            <a class="nav-link px-2" routerLink="/shop/track-verify-order">{{ 'track_or_verify' | translate | async }}</a>
         </li>
         <li class="nav-item text-nowrap mr-0">
-            <span class="nav-link px-2 lang-btn" (click)="toggleLink()">{{ language }}</span>
+            <span class="nav-link px-2 lang-btn" (click)="toggleLang()">{{ language }}</span>
         </li>
     </ul>
     <button class="btn btn-link btn-sm pull-left menu-link d-md-none">

@@ -23,6 +23,7 @@ export class StoreBaseComponent implements OnInit {
   showingCart = false;
   category: string;
   product: string;
+  pages: string[] = ['offers', 'popular-items', 'stores', 'delivery-areas', 'terms-and-condition', 'track-verify-order'];
   constructor(
     private uiService: StoreUiService,
     private route: ActivatedRoute,
@@ -46,7 +47,7 @@ export class StoreBaseComponent implements OnInit {
     if (!slug) {
       return of(null);
     }
-    if (['offers', 'popular-items', 'stores', 'delivery-areas'].indexOf(slug.toLowerCase()) > -1) {
+    if (this.pages.indexOf(slug.toLowerCase()) > -1) {
       return of({
         slug,
         type: slug,
@@ -77,12 +78,10 @@ export class StoreBaseComponent implements OnInit {
           map(value => {
             this.store = value[0];
             if (value[1]) {
+              if (this.pages.indexOf(value[1].type) > -1) {
+                return value[1].slug;
+              }
               switch (value[1].type) {
-                case 'offers':
-                case 'popular-items':
-                case 'stores':
-                case 'delivery-areas':
-                  return value[1].slug;
                 case 'p':
                   this.product = value[1].id;
                   return 'product-details';
@@ -112,6 +111,7 @@ export class StoreBaseComponent implements OnInit {
       if (queryParams.search) {
         view = 'search-result';
       }
+      console.log(view);
       this.storeView = view;
       this.viewResolving = false;
       this.redirectIfInactive(this.store, view);

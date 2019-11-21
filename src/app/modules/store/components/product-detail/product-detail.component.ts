@@ -52,10 +52,11 @@ export class ProductDetailComponent implements OnInit, OnChanges {
       tap(() => this.loading = true),
       switchMap(() => this.productManager.resolve(this.product))
     ).subscribe(product => {
+      console.log(product);
       this.productDetails = product;
       this.seoUpdater.next(true);
       this.loading = false;
-      this.attachmentManager.resolve(product.product_image).subscribe(img => this.productImage = img);
+      this.attachmentManager.resolve(product.primary_image).subscribe(img => this.productImage = img);
       this.cartItem = this.storeService.getCartItem(product.id);
     });
     this.storeService.cartItemRemoved.subscribe(id => {
@@ -74,7 +75,7 @@ export class ProductDetailComponent implements OnInit, OnChanges {
         const d3 = product['description' + lng] || product.description;
         const description = [d1, d2, d3].filter(value => !!value).join(' | ');
         const url = window.location.href;
-        const image = product.product_image;
+        const image = product.primary_image;
         const withPrefix = false;
         this.seoService.updateTag({title, withPrefix, description, url, image});
       }

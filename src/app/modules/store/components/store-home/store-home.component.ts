@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { SeoService } from 'src/app/services/seo.service';
 
 @Component({
   selector: 'app-store-home',
@@ -9,7 +8,6 @@ import { SeoService } from 'src/app/services/seo.service';
 export class StoreHomeComponent implements OnInit, OnChanges {
   @Input() store: string;
   constructor(
-    private seoService: SeoService
   ) { }
 
   ngOnInit() {

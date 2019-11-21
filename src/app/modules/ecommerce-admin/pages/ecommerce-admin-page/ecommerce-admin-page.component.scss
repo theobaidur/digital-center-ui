@@ -61,3 +61,10 @@
   #main{
     padding-top: 40px;
   }
+
+  @media print{
+    .content-area{
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }

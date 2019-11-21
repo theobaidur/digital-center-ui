@@ -114,4 +114,8 @@ export class ShoppingCartComponent implements OnInit, OnChanges {
 
   }
 
+  openFb() {
+    this.uiService.startChat();
+  }
+
 }

@@ -14,7 +14,13 @@ import { ServiceLocator } from 'src/app/services/service-locator';
 export class EarningService extends AdminBaseService<Earning> {
     includes: string[] = ['order'];
     resourceEndPoint = 'earnings';
-    orderService: OrderService;
+    orderService: any;
+    initializeService(): OrderService {
+        if (!this.orderService) {
+            this.orderService = ServiceLocator.injector.get(OrderService);
+        }
+        return this.orderService;
+    }
     normalize(item: HttpResponseItem<Earning>): Earning {
         item.attributes.id = item.id;
         item.attributes._type = item.type;
@@ -24,7 +30,7 @@ export class EarningService extends AdminBaseService<Earning> {
             && item['relationships'].order.data) {
                 // tslint:disable-next-line: no-string-literal
                 const data = item['relationships'].order.data;
-                item.attributes.order = this.orderService.fromCache(data.id);
+                item.attributes.order = this.initializeService().fromCache(data.id);
         }
         this.cache(item.attributes, false);
         return item.attributes;
@@ -37,19 +43,18 @@ export class EarningService extends AdminBaseService<Earning> {
                 data._type = include.type;
                 switch (include.type) {
                     case 'orders':
-                        this.orderService.cache(data, false);
+                        this.initializeService().cache(data, false);
                         break;
                     default:
                         break;
                 }
             });
         }
-        this.orderService.notify();
+        this.initializeService().notify();
     }
 
     constructor(
     ) {
         super();
-        this.orderService = ServiceLocator.injector.get(OrderService);
     }
 }

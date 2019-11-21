@@ -18,7 +18,13 @@ export class EcommerceAdminPageComponent implements OnInit {
   }
 
   get canSell() {
-    return this.user && this.user.digital_center && this.user.digital_center.has_shop && !this.user.digital_center.shop_affiliate_only;
+    return this.authService.hasRole(Roles.ROLE_ECOMMERCE_ADMIN)
+    && this.user.digital_center && this.user.digital_center.has_shop && !this.user.digital_center.shop_affiliate_only;
+  }
+
+  get affiliate() {
+    return this.authService.hasRole(Roles.ROLE_ECOMMERCE_ADMIN)
+    && this.user.digital_center && this.user.digital_center.has_shop && this.user.digital_center.shop_affiliate_only;
   }
 
   get isSuperAdmin() {
