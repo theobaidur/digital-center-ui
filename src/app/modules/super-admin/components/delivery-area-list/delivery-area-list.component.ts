@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DeliveryArea } from '../../admin/models/delivery-area.model';
-import { DeliveryAreaService } from '../../admin/services/delivery-area.service';
-import { SweetAlertService } from '../../admin/services/sweet-alert.service';
+import { DeliveryArea } from '../../../admin/models/delivery-area.model';
+import { DeliveryAreaService } from '../../../admin/services/delivery-area.service';
+import { SweetAlertService } from '../../../admin/services/sweet-alert.service';
 
 @Component({
   selector: 'app-delivery-area-list',

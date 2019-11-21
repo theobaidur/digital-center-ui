@@ -33,4 +33,8 @@ export class AdminHeaderComponent implements OnInit {
     return this.authService.hasRole(Roles.ROLE_ECOMMERCE_ADMIN);
   }
 
+  get trainingAdmin() {
+    return this.authService.hasRole(Roles.ROLE_TRAINING_ADMIN);
+  }
+
 }

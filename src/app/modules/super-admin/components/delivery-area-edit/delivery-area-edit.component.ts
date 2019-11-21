@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { DeliveryArea } from '../../admin/models/delivery-area.model';
+import { DeliveryArea } from '../../../admin/models/delivery-area.model';
+import { DeliveryAreaService } from '../../../admin/services/delivery-area.service';
 import { FieldError } from 'src/app/interfaces/field-error.interface';
-import { DeliveryAreaService } from '../../admin/services/delivery-area.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { SweetAlertService } from '../../admin/services/sweet-alert.service';
+import { ActivatedRoute } from '@angular/router';
+import { SweetAlertService } from '../../../admin/services/sweet-alert.service';
+import { filter, map, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-delivery-area-add',
-  templateUrl: './delivery-area-add.component.html',
-  styleUrls: ['./delivery-area-add.component.scss']
+  selector: 'app-delivery-area-edit',
+  templateUrl: './delivery-area-edit.component.html',
+  styleUrls: ['./delivery-area-edit.component.scss']
 })
-export class DeliveryAreaAddComponent implements OnInit {
+export class DeliveryAreaEditComponent implements OnInit {
   model: DeliveryArea = {};
   processing = false;
   errors: FieldError[] = [];
-  digitalCenterId?: string;
   getErrors(field: string): string[] {
     return this.errors.map(error => error.detail)
     .filter(detail => !!detail)
@@ -23,36 +23,39 @@ export class DeliveryAreaAddComponent implements OnInit {
   }
   constructor(
     private deliveryAreaService: DeliveryAreaService,
-    private router: Router,
     private route: ActivatedRoute,
     private aleartService: SweetAlertService
   ) { }
-
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (params.digitalCenterId) {
-        this.digitalCenterId = params.digitalCenterId;
-      } else {
-        this.router.navigate(['/super-admin/digital-center-list']);
-      }
+    this.route.params
+    .pipe(
+      filter(params => !!params.id),
+      map(params => params.id),
+      distinctUntilChanged(),
+      tap(() => this.aleartService.loading()),
+      switchMap(id => this.deliveryAreaService.get(id)),
+      tap(() => this.aleartService.close())
+    )
+    .subscribe(response => {
+      this.model = response;
     });
   }
 
   submit() {
     this.errors = [];
-    const data = {
+    const data: any = {
+      id: this.model.id,
       type: 'delivery-areas',
       attributes: {
         delivery_area: this.model.delivery_area,
         delivery_area_bn: this.model.delivery_area_bn,
         delivery_charge: this.model.delivery_charge,
-        digital_center_id: this.digitalCenterId,
+        digital_center_id: this.model.digital_center_id,
       }
     };
     this.aleartService.saving();
-    this.deliveryAreaService.post({data}).subscribe(response => {
+    this.deliveryAreaService.update(this.model.id, {data}).subscribe(() => {
       this.aleartService.done();
-      this.router.navigate(['/super-admin/digital-center-edit', this.digitalCenterId]);
     }, (err: HttpErrorResponse) => {
       if (err && err.error && err.error.errors) {
         this.errors = err.error.errors;

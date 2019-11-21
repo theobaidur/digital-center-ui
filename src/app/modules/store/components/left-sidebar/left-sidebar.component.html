@@ -42,7 +42,7 @@
         </li>
       </ul>
       <hr class="my-2">
-      <ul class="nav flex-column">
+      <ul class="nav flex-column mb-2"> 
         <li class="nav-item">
           <a class="nav-link py-1" [routerLink]="[ '/admin/login']" *ngIf="!user">{{ 'login' | translate | async }}</a>
           <a class="nav-link py-1" [routerLink]="[ '/admin']" *ngIf="user">{{ 'admin' | translate | async }}</a>

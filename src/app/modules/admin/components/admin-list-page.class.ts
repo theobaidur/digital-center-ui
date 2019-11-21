@@ -4,6 +4,7 @@ import { throttleTime, distinctUntilChanged, switchMap, tap, map, debounceTime }
 import { RequestParam } from 'src/app/interfaces/request-param.interface';
 import { SweetAlertService } from '../services/sweet-alert.service';
 import { ServiceLocator } from 'src/app/services/service-locator';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export abstract class AdminListPage<T> {
     private dataService: AdminBaseService<T>;
@@ -69,6 +70,8 @@ export abstract class AdminListPage<T> {
             if (deleted) {
                 this.alertService.done('Done..');
             }
+        }).catch((err: HttpErrorResponse) => {
+            this.alertService.failed('Something went wrong');
         });
     }
 
