@@ -10,7 +10,6 @@ import { DigitalCenterListComponent } from './components/digital-center-list/dig
 import { SuperAdminPageComponent } from './pages/super-admin-page/super-admin-page.component';
 import { SuperAdminHomeComponent } from './components/super-admin-home/super-admin-home.component';
 import { FormsModule } from '@angular/forms';
-import { PipeModule } from 'src/app/pipes/pipe.module';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CategoryAddComponent } from './components/category-add/category-add.component';
 import { CategoryEditComponent } from './components/category-edit/category-edit.component';
@@ -18,7 +17,6 @@ import { CategoryListComponent } from './components/category-list/category-list.
 import { UserAddComponent } from './components/user-add/user-add.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UserListComponent } from './components/user-list/user-list.component';
-import { SharedComponentModule } from 'src/app/components/shared-component.module';
 import { DivisionAddComponent } from './components/division-add/division-add.component';
 import { DivisionEditComponent } from './components/division-edit/division-edit.component';
 import { DivisionListComponent } from './components/division-list/division-list.component';
@@ -42,6 +40,8 @@ import { DigitalCenterSettingsAddComponent } from './components/digital-center-s
 import { DeliveryAreaAddComponent } from './components/delivery-area-add/delivery-area-add.component';
 import { DeliveryAreaEditComponent } from './components/delivery-area-edit/delivery-area-edit.component';
 import { DeliveryAreaListComponent } from './components/delivery-area-list/delivery-area-list.component';
+import { SharedComponentModule } from '../../components/shared-component.module';
+import { PipeModule } from '../../pipes/pipe.module';
 
 
 @NgModule({
