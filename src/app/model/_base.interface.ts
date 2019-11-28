@@ -6,5 +6,5 @@ export interface Base {
     slug?: string;
     _type?: string;
     _relationships?: {[entityType: string]: any | any[]};
-    [key: string]: any;
+    [x: string]: any;
 }

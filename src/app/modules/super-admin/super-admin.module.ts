@@ -42,6 +42,7 @@ import { DeliveryAreaEditComponent } from './components/delivery-area-edit/deliv
 import { DeliveryAreaListComponent } from './components/delivery-area-list/delivery-area-list.component';
 import { SharedComponentModule } from '../../components/shared-component.module';
 import { PipeModule } from '../../pipes/pipe.module';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { PipeModule } from '../../pipes/pipe.module';
     ImageCropperModule,
     NgMultiSelectDropDownModule.forRoot(),
     NgSelectModule,
-    RouterModule
+    RouterModule,
+    AngularEditorModule
   ]
 })
 export class SuperAdminModule { }

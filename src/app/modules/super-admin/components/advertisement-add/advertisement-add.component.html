@@ -1,1 +1,48 @@
-<p>advertisement-add works!</p>
+<div class="white-bg py-4">
+    <div class="row">
+        <div class="col-md-12">
+            <form #form="ngForm" class="form" (ngSubmit)="submit()">
+                <div class="form-group">
+                    <h3>Add Advertisement</h3>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <select class="form-control" name="location" id="location" [(ngModel)]="model.location" required>
+                        <option [value]="location.value" *ngFor="let location of locations">{{ location.label }}</option>
+                    </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('location')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="advertisement_type">Type</label>
+                    <select class="form-control" name="advertisement_type" id="advertisement_type" [(ngModel)]="model.advertisement_type" required>
+                        <option [value]="type.value" *ngFor="let type of types">{{ type.label }}</option>
+                    </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('advertisement_type')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" class="form-control" id="title" [(ngModel)]="model.title" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('title')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="title_bn">বাংলা টাইটেল</label>
+                    <input type="text" name="title_bn" class="form-control" id="title_bn" [(ngModel)]="model.title_bn" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('title_bn')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="media">Media</label>
+                    <input type="file" name="media" class="form-control" id="media" (change)="fileSelected($event.target.files)">
+                    <p class="text-danger" *ngFor="let error of getErrors('media')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="target">Target</label>
+                    <input type="text" name="target" class="form-control" id="target" [(ngModel)]="model.target" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('target')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid && !media">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

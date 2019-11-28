@@ -1,1 +1,39 @@
-<p>advertisement-list works!</p>
+<div class="row">
+    <div class="col-12 pt-5">
+        <table class="table table-sm table-striped" [ngClass]="{'table-loading': loading}">
+            <tr>
+                <th colspan="5">
+                    <h3 class="my-0">
+                        Advertisement <a [routerLink]="createPageLink()" [queryParams]="params" class="btn btn-sm btn-info">Add New</a>
+                    </h3>
+                </th>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <th>টাইটেল</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th>#</th>
+            </tr>
+            <tr *ngFor="let item of list">
+                <td>
+                    <a [routerLink]="detailPageLink(item.id)">{{ item.title }}</a>
+                </td>
+                <td>
+                    {{ item.title_bn }}
+                </td>
+                <td>
+                    {{ item.advertisement_type }}
+                </td>
+                <td>
+                    {{ item.location }}
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-danger" (click)="delete(item.id)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

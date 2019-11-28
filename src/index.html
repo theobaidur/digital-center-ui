@@ -43,6 +43,7 @@
   (function(){
     var href = window.location.href;
     if(href.indexOf('http:') === 0 && href.indexOf('localhost') === -1){
+      href = href.replace('//www.', '//');
       href = href.replace('http:','https:');
       window.location.href = href;
     }

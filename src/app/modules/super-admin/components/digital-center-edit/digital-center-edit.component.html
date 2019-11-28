@@ -168,8 +168,7 @@
             </form>
         </div>
     </div>
+    <app-advertisement-list *ngIf="model?.id" [digitalCenterId]="model.id"></app-advertisement-list>
     <app-delivery-area-list *ngIf="model?.id" [digitalCenterId]="model.id"></app-delivery-area-list>
-    <div class="row">
-        
-    </div>
+    
 </div>

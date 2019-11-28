@@ -1,17 +1,17 @@
 import { AdminBaseService } from './admin-base.service';
 import { Injectable } from '@angular/core';
-import { DeliveryArea } from '../models/delivery-area.model';
 import { HttpResponseItem } from '../../../interfaces/http-response-item.interface';
 import { HttpResponse } from '../../../interfaces/http-response.interface';
+import { GlobalSetting } from '../models/global-setting.model';
 @Injectable({
     providedIn: 'root'
 })
 
-export class DeliveryAreaService extends AdminBaseService<DeliveryArea> {
+export class GlobalSettingService extends AdminBaseService<GlobalSetting> {
     includes: string[] = [];
-    resourceEndPoint = 'delivery-areas';
+    resourceEndPoint = 'global-settings';
     pageSize = -1;
-    normalize(item: HttpResponseItem<DeliveryArea>): DeliveryArea {
+    normalize(item: HttpResponseItem<GlobalSetting>): GlobalSetting {
         const data = item.attributes;
         data._type = item.type;
         data.id = item.id;

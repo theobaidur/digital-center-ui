@@ -1,1 +1,36 @@
-<p>digital-center-settings-add works!</p>
+<div class="white-bg py-4">
+    <div class="row">
+        <div class="col-md-12">
+            <form #form="ngForm" class="form" (ngSubmit)="submit()">
+                <div class="form-group">
+                    <h3>Add Setting</h3>
+                </div>
+                <div class="form-group">
+                    <label for="key">Type</label>
+                    <select class="form-control" name="key" id="key" [(ngModel)]="model.key" required>
+                        <option [value]="type.value" *ngFor="let type of types">{{ type.label }}</option>
+                    </select>
+                    <p class="text-danger" *ngFor="let error of getErrors('key')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="value">Value</label>
+                    <input type="text" name="value" class="form-control" id="value" [(ngModel)]="model.value" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('value')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="value_bn">বাংলা</label>
+                    <input type="text" name="value_bn" class="form-control" id="value_bn" [(ngModel)]="model.value_bn" required>
+                    <p class="text-danger" *ngFor="let error of getErrors('value_bn')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="attachment">Attachment</label>
+                    <input type="file" multiple name="attachment" class="form-control" id="attachment" (change)="fileSelected($event.target.files)">
+                    <p class="text-danger" *ngFor="let error of getErrors('attachment')">{{ error }}</p>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid && !attachment">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DeliveryArea } from '../../../admin/models/delivery-area.model';
-import { FieldError } from 'src/app/interfaces/field-error.interface';
 import { DeliveryAreaService } from '../../../admin/services/delivery-area.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from '../../../admin/services/sweet-alert.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FieldError } from '../../../../interfaces/field-error.interface';
 
 @Component({
   selector: 'app-delivery-area-add',

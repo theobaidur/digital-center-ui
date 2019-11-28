@@ -1,17 +1,17 @@
 import { AdminBaseService } from './admin-base.service';
 import { Injectable } from '@angular/core';
-import { DeliveryArea } from '../models/delivery-area.model';
 import { HttpResponseItem } from '../../../interfaces/http-response-item.interface';
 import { HttpResponse } from '../../../interfaces/http-response.interface';
+import { DigitalCenterSetting } from '../models/digital-center-setting.model';
 @Injectable({
     providedIn: 'root'
 })
 
-export class DeliveryAreaService extends AdminBaseService<DeliveryArea> {
+export class DigitalCenterSettingService extends AdminBaseService<DigitalCenterSetting> {
     includes: string[] = [];
-    resourceEndPoint = 'delivery-areas';
+    resourceEndPoint = 'digital-center-settings';
     pageSize = -1;
-    normalize(item: HttpResponseItem<DeliveryArea>): DeliveryArea {
+    normalize(item: HttpResponseItem<DigitalCenterSetting>): DigitalCenterSetting {
         const data = item.attributes;
         data._type = item.type;
         data.id = item.id;

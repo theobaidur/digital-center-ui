@@ -1,4 +1,4 @@
-import { Base } from 'src/app/model/_base.interface';
+import { Base } from '../../../model/_base.interface';
 
 export interface DeliveryArea extends Base {
     delivery_area?: string;
