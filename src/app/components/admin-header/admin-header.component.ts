@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/modules/admin/models/user.model';
 import { AuthService } from 'src/app/modules/admin/services/auth.service';
 import { Roles } from 'src/app/enums/roles.enum';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'app-admin-header',
@@ -10,8 +11,10 @@ import { Roles } from 'src/app/enums/roles.enum';
 })
 export class AdminHeaderComponent implements OnInit {
   user: User;
+  language = 'EN';
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private languageService: LanguageService
   ) {
     this.authService.authState.subscribe(user => {
       this.user = user;
@@ -19,6 +22,13 @@ export class AdminHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.languageService.language.subscribe(lang => {
+      if (lang.toLowerCase() === 'bn') {
+        this.language = 'EN';
+      } else {
+        this.language = 'বাংলা';
+      }
+    });
   }
 
   logout() {
@@ -35,6 +45,14 @@ export class AdminHeaderComponent implements OnInit {
 
   get trainingAdmin() {
     return this.authService.hasRole(Roles.ROLE_TRAINING_ADMIN);
+  }
+
+  toggleLang() {
+    if (this.languageService.language.getValue().toLowerCase() === 'bn') {
+      this.languageService.language.next('EN');
+    } else {
+      this.languageService.language.next('BN');
+    }
   }
 
 }

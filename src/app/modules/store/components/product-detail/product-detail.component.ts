@@ -52,7 +52,6 @@ export class ProductDetailComponent implements OnInit, OnChanges {
       tap(() => this.loading = true),
       switchMap(() => this.productManager.resolve(this.product))
     ).subscribe(product => {
-      console.log(product);
       this.productDetails = product;
       this.seoUpdater.next(true);
       this.loading = false;

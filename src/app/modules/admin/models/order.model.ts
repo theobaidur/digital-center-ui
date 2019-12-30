@@ -12,7 +12,7 @@ export interface Order extends Base {
     delivery_address?: string;
     digital_center_id?: string;
     delivery_charge?: number;
-    status?: 'pending' | 'verified' | 'confirmed' | 'shipped' | 'paid' | 'complete';
+    status?: 'pending' | 'verified' | 'confirmed' | 'shipped' | 'paid' | 'complete' | 'cancelled';
     confirmation_code?: string;
     cnsEarning?: number;
     affiliateEarning?: number;

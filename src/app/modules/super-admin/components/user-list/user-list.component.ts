@@ -20,6 +20,10 @@ export class UserListComponent extends AdminListPage<User> implements OnInit {
     service: AuthService
   ) {
     super(service);
+    this.defaultParams.push({
+      property: 'admin_view',
+      value: 1
+    })
   }
 
   ngOnInit() {

@@ -7,6 +7,7 @@ $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome.scss";
 @import '~tiny-slider/src/tiny-slider.scss';
 @import '~@ng-select/ng-select/scss/default.theme.scss';
+@import '~quill/dist/quill.snow.css';
 @import 'assets/variables';
 
 body {
@@ -153,4 +154,17 @@ body {
 .fb-customerchat iframe{
     right: 0 !important;
     bottom: 40px !important;
+}
+
+.hotline{
+    position: relative;
+    padding-left: 25px !important;
+    .fa{
+        position: absolute;
+        left: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        margin-right: 5px;
+    }
 }

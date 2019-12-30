@@ -49,7 +49,6 @@ export class AuthService extends AdminBaseService<User> {
     saveIncludes(response: HttpResponse<any>): void {
         if (response && Array.isArray(response.included)) {
             response.included.forEach(include => {
-                console.log(include);
                 const data: Base = include.attributes;
                 data.id = include.id;
                 data._type = include.type;

@@ -42,9 +42,16 @@
 <script>
   (function(){
     var href = window.location.href;
-    if(href.indexOf('http:') === 0 && href.indexOf('localhost') === -1){
+    var urlUpdated = false;
+    if(href.indexOf('//www.') > -1){
       href = href.replace('//www.', '//');
+      urlUpdated=true;
+    }
+    if(href.indexOf('http:') === 0 && href.indexOf('localhost') === -1){
       href = href.replace('http:','https:');
+      urlUpdated=true;
+    }
+    if(urlUpdated){
       window.location.href = href;
     }
   })();

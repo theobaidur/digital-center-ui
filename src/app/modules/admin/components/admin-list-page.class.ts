@@ -19,6 +19,7 @@ export abstract class AdminListPage<T> {
     init: BehaviorSubject<boolean> = new BehaviorSubject(false);
     lastPage = 1;
     currentPage = 1;
+    totalItems = 1;
     loading = true;
     abstract createPageLink(): string;
     abstract detailPageLink(id: string): string;
@@ -28,11 +29,9 @@ export abstract class AdminListPage<T> {
         this.dataService = dataService;
         this.dataService.cacheClean();
         this.alertService = ServiceLocator.injector.get(SweetAlertService);
-        this.dataService.all.subscribe(list => this.list = list);
         merge(this.searchObserver.pipe(
         debounceTime(300),
-        distinctUntilChanged(),
-        tap(() => this.list = [])
+        distinctUntilChanged()
         ), this.pageObserver)
         .pipe(
         switchMap(() => {
@@ -46,9 +45,13 @@ export abstract class AdminListPage<T> {
             }
             return this.dataService.getList(this.currentPage, params).pipe(
             tap(response => {
+                this.list = response.list;
                 this.loading = false;
                 if (response.meta && response.meta.page && response.meta.page['last-page']) {
                 this.lastPage = +response.meta.page['last-page'];
+                }
+                if (response.meta && response.meta.page && response.meta.page['total']) {
+                    this.totalItems = +response.meta.page['total'];
                 }
             })
             );
@@ -76,6 +79,7 @@ export abstract class AdminListPage<T> {
     }
 
     search(value: string) {
+        this.currentPage = 1;
         this.searchObserver.next(value);
     }
 
@@ -88,5 +92,10 @@ export abstract class AdminListPage<T> {
         this.currentPage++;
         this.pageObserver.next(true);
         }
+    }
+
+    loadPage(page: number){
+        this.currentPage = page;
+        this.pageObserver.next(true);
     }
 }

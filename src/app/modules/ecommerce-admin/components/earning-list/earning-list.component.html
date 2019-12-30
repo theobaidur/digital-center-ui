@@ -2,10 +2,18 @@
     <div class="col-12 pt-5">
         <table class="table table-sm table-striped" [ngClass]="{'table-loading': loading}">
             <tr>
-                <th colspan="4">
+                <th colspan="2">
                     <h3 class="my-0">
                         Earning List
                     </h3>
+                </th>
+                <th colspan="2">
+                    <form class="input-group" #form="ngForm" (ngSubmit)="search(search_value.value)">
+                        <input type="text" class="form-control" placeholder="Search by earning type" #search_value>
+                        <button class="btn btn-sm btn-primary input-group-prepend">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
                 </th>
             </tr>
             <tr>
@@ -14,7 +22,7 @@
                 <th>Date</th>
                 <th>Amount</th>
             </tr>
-            <tr *ngFor="let item of list">
+            <tr *ngFor="let item of list | paginate: { itemsPerPage: 10, totalItems: totalItems, currentPage: currentPage }">
                 <td>
                     <a [routerLink]="['/ecommerce-admin/order-detail', item?.order?.id]">
                         {{item?.order?.order_id}}
@@ -33,7 +41,7 @@
             
             <tr>
                 <th colspan="4" class="text-center">
-                    <button class="btn btn-sm btn-info" *ngIf="hasMore" (click)="loadNext()">Load More</button>
+                    <pagination-controls *ngIf="list && list.length" (pageChange)="loadPage($event)"></pagination-controls>
                 </th>
             </tr>
         </table>

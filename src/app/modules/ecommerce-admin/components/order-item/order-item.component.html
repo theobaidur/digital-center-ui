@@ -1,15 +1,15 @@
 <td>
     <p class="mb-0">
-        {{ product?.name }}
+        {{ product | switchLanguageProp:'name' | async }}
     </p>
     <p class="mb-0">
-        {{ product?.short_description }}
+        {{ product | switchLanguageProp:'short_description' | async }}
     </p>
 </td>
 <td>
-    {{ item.quantity }}
+    {{ item.quantity | translate:true | async }}
 </td>
-<td>৳{{ item.unit_price }}</td>
+<td>৳{{ item.unit_price | translate:true | async }}</td>
 <td>
-    ৳{{ (item.quantity * item.unit_price).toFixed(2) }}
+    ৳{{ (item.quantity * item.unit_price).toFixed(2)  | translate:true | async }}
 </td>

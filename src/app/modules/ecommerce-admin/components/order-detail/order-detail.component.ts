@@ -42,45 +42,36 @@ export class OrderDetailComponent implements OnInit {
       case 'paid': return 'badge-warning';
       case 'shipped': return 'badge-light';
       case 'verified': return 'badge-danger';
+      case 'cancelled': return 'badge-danger';
       default: return 'badge-dark';
     }
   }
 
-  get shopEarning() {
+  get salesCommission() {
     try {
-      if (this.order.earnings) {
-        const sales = this.order.earnings.find(e => e.earning_type === 'sales');
-        const commission = this.order.earnings.find(e => e.earning_type === 'sales-commision');
-        if (sales && commission) {
-          return (+sales.amount) - (+commission.amount) + (+this.order.delivery_charge || 0);
-        }
+      if(this.order.seller_id === this.order.digital_center_id){
+        return this.order.cns_charge;
+      } else {
+        return this.order.cns_charge +  this.order.affiliate_charge;
       }
     } catch (e) {}
     return 0;
   }
 
-  get sellerEarning() {
-    let earning = 0;
+  get sellerEarning(){
     try {
-      earning = +this.order.earnings.find(e => e.earning_type === 'sales').amount;
-    } catch (e) {
-      console.log(e);
-    }
-    return earning - this.salesCommission + this.order.delivery_charge;
-  }
-
-  get salesCommission() {
-    try {
-      const commission = this.order.earnings.find(e => e.earning_type === 'sales-commision');
-      return +commission.amount;
+      return this.order.totalPrice - this.salesCommission + this.order.delivery_charge;
     } catch (e) {}
-    return 0;
+    return 0; 
   }
 
   get affiliateCommission() {
     try {
-      const commission = this.order.earnings.find(e => e.earning_type === 'affilate-commision');
-      return +commission.amount;
+      if(this.order.seller_id === this.order.digital_center_id){
+        return 0;
+      } else {
+        return this.order.affiliate_charge;
+      }
     } catch (e) {}
     return 0;
   }
@@ -120,7 +111,7 @@ export class OrderDetailComponent implements OnInit {
     );
   }
 
-  setStatus(status: 'confirmed' | 'paid' | 'complete' | 'shipped') {
+  setStatus(status: 'confirmed' | 'paid' | 'complete' | 'shipped' | 'cancelled') {
     const data = {
       type: 'orders',
       id: this.order.id,
@@ -133,6 +124,10 @@ export class OrderDetailComponent implements OnInit {
     this.dataService.update(this.order.id, {data}).pipe(
       tap(() => this.aleartService.done('Saved..'))
     ).subscribe(order => this.order = order);
+  }
+
+  get cancelable(){
+    return !(this.order.status === 'paid' || this.order.status === 'complete' || this.order.status === 'cancelled');
   }
 
 }

@@ -17,13 +17,13 @@
     </div>
     <ul class="navbar-nav px-3 flex-row pull-right d-none d-md-flex">
         <li class="nav-item text-nowrap mr-0">
+            <a class="nav-link px-2 hotline text-warning" href="tel:01845666999"> <i class="fa fa-phone fa-2x"></i> <span> {{ 'hotline' | translate | async }}</span></a>
+        </li>
+        <li class="nav-item text-nowrap mr-0">
             <a class="nav-link px-2" routerLink="/shop/track-verify-order">{{ 'track_or_verify' | translate | async }}</a>
         </li>
         <li class="nav-item text-nowrap mr-0">
             <span class="nav-link px-2 lang-btn" (click)="toggleLang()">{{ language }}</span>
         </li>
     </ul>
-    <button class="btn btn-link btn-sm pull-left menu-link d-md-none">
-        <i class="fa fa-navicon fa-2x"></i>
-    </button>
 </nav>

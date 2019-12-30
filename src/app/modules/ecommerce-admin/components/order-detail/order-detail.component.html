@@ -2,16 +2,23 @@
     <table class="table table-stripped table-sm">
         <tr>
             <th colspan="4" class="text-center">
-                <h2 class="mb-0">DeshiPonno</h2>
-                <p class="text-muted mb-0 h5">{{ order?.digitalCenter?.name }}</p>
-                <p class="text-muted mb-0">{{ order?.created_at | localDate }}</p>
+                <div class="row">
+                    <div class="col-md-1 company-logo">
+                        <img src="../../../../../assets/logo.png">
+                    </div>
+                    <div class="col-md-11">
+                        <h2 class="mb-0">DeshiPonno</h2>
+                        <p class="text-muted mb-0 h5">{{ order?.digitalCenter | switchLanguageProp:'name' | async }}</p>
+                        <p class="text-muted mb-0">{{ order?.created_at | localDate }}</p>
+                    </div>
+                </div>
             </th>
         </tr>
         <tr>
             <th colspan="4">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3 class="mb-0">{{ order?.customer?.name }}</h3>
+                        <h3 class="mb-0">{{ order?.customer | switchLanguageProp:'name' | async }}</h3>
                         <p class="mb-0">
                             {{ order?.customer?.phone || order?.customer?.email }}
                         </p>
@@ -22,7 +29,7 @@
                     <div class="col-md-6 text-right">
                         <h3 class="mb-0 text-info">{{ order?.order_id }}</h3>
                         <p class="mb-0">
-                            <strong>Sold By: </strong> {{ order?.seller?.name }}
+                            <strong>Sold By: </strong> {{ order?.seller | switchLanguageProp:'name' | async }}
                         </p>
                         <p class="d-print-none">
                             <span class="badge {{badgeClass(order.status)}}">
@@ -45,7 +52,7 @@
         <tr *ngFor="let item of order.items" [item]="item" app-order-item></tr>
         <tr>
             <td colspan="3">Delivery Charge</td>
-            <td>৳{{ order?.delivery_charge }}</td>
+            <td>৳{{ order?.delivery_charge | translate:true | async }}</td>
         </tr>
         <tr>
             <td></td>
@@ -53,39 +60,39 @@
                 <p class="text-info mb-0">Grand Total</p>
             </td>
             <td>
-                ৳{{ (total || 0).toFixed(2) }}
+                ৳{{ (total || 0).toFixed(2) | translate:true | async }}
             </td>
         </tr>
         <tr *ngIf="owner" class="d-print-none">
             <td></td>
             <td colspan="2">CNS Commission</td>
-            <td>৳({{ (salesCommission || 0).toFixed(2) }})</td>
+            <td>৳({{ (salesCommission || 0).toFixed(2) | translate:true | async }})</td>
         </tr>
         <tr *ngIf="owner" class="d-print-none">
             <td></td>
             <td colspan="2">Your Earning</td>
-            <td>৳{{ (sellerEarning || 0).toFixed(2) }}</td>
+            <td>৳{{ (sellerEarning || 0).toFixed(2) | translate:true | async }}</td>
         </tr>
 
         <tr *ngIf="cns" class="d-print-none">
             <td></td>
             <td colspan="2">CNS Commission</td>
-            <td>৳{{ (salesCommission || 0).toFixed(2) }}</td>
+            <td>৳{{ (salesCommission || 0).toFixed(2) | translate:true | async }}</td>
         </tr>
         <tr *ngIf="cns" class="d-print-none">
             <td></td>
             <td colspan="2">Affiliate Commission</td>
-            <td>৳({{ (affiliateCommission || 0).toFixed(2) }})</td>
+            <td>৳({{ (affiliateCommission || 0).toFixed(2) | translate:true | async }})</td>
         </tr>
         <tr *ngIf="cns" class="d-print-none">
             <td></td>
             <td colspan="2">Your Earning</td>
-            <td>৳{{ (cnsEarning || 0).toFixed(2) }}</td>
+            <td>৳{{ (cnsEarning || 0).toFixed(2) | translate:true | async }}</td>
         </tr>
         <tr *ngIf="hasAffiliate && affiliate && !cns" class="d-print-none">
             <td></td>
             <td colspan="2">Your Earning</td>
-            <td>৳{{ (affiliateCommission || 0).toFixed(2) }}</td>
+            <td>৳{{ (affiliateCommission || 0).toFixed(2) | translate:true | async }}</td>
         </tr>
     </table>
 </div>
@@ -104,6 +111,7 @@
                     <button *ngIf="order.status === 'confirmed'" type="button" class="btn btn-sm btn-info" (click)="setStatus('shipped')" [disabled]="form.invalid">Shipped</button>
                     <button *ngIf="order.status === 'shipped'" type="button" class="btn btn-sm btn-warning" (click)="setStatus('paid')" [disabled]="form.invalid">Confirm Payment</button>
                     <button *ngIf="order.status === 'paid'" type="button" class="btn btn-sm btn-success" (click)="setStatus('complete')" [disabled]="form.invalid">Complete</button>
+                    <button *ngIf="cancelable" type="button" class="btn btn-sm btn-danger" (click)="setStatus('cancelled')">Cancel</button>
                 </div>
             </form>
             

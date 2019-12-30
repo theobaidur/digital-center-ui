@@ -86,7 +86,6 @@ export class StoreUiService {
             // tslint:disable-next-line: no-string-literal
             window['FB']['CustomerChat'].show(true);
         } catch (e) {
-            console.log(e);
         }
     }
 
@@ -118,17 +117,18 @@ export class StoreUiService {
         const token23 = lang === 'bn' ? 'ঠিকানা' : 'Address';
         const token24 = lang === 'bn' ? 'এলাকা নির্বাচন করুন' : 'Select Area';
         const token25 = lang === 'bn' ? 'দয়া করে আপনার ঠিকান দিন' : 'Please! Provide your address';
+        const token26 = lang === 'bn' ? 'পূনরায় কোড পাঠান' : 'Resend Code';
 
         return new Promise((resolve, reject) => {
             let address: any = {};
             let phoneOrEmail: string;
             let isPhone: boolean;
-            let isEmail: boolean;
             let name: string;
             let deliveryAddress: string;
             let deliveryAreaId: string;
             let done = false;
             let verified = false;
+            let originalOrderId = null;
             // tslint:disable-next-line: variable-name
             let order_id: string;
             this.customSwal.mixin({
@@ -152,7 +152,6 @@ export class StoreUiService {
                           name = nameValue;
                           phoneOrEmail = contactValue;
                           isPhone = true;
-                          isEmail = false;
                           return this.userByEmailIOrPhone(contactValue).pipe(
                               map(response => {
                                   if (resolve && response.included && response.included[0]) {
@@ -249,6 +248,7 @@ export class StoreUiService {
                             map(response => {
                                 if (this.validOrderResponse(response)) {
                                     order_id = (response.data as any).attributes.order_id;
+                                    originalOrderId = (response.data as any).id;
                                     done = true;
                                     return true;
                                 }
@@ -261,6 +261,19 @@ export class StoreUiService {
                             showLoaderOnConfirm: true,
                             cancelButtonText: token15,
                             confirmButtonText: token16,
+                            onOpen: html=>{
+                                console.log({html});
+                                if(html.querySelector('#resend-code')){
+                                    html.querySelector('#resend-code').addEventListener('click', async ()=>{
+                                        html.querySelector('.swal2-actions').classList.add('swal2-loading');
+                                        await this.httpService.post(`orders/resend_code/${originalOrderId}/${name}`, {}).toPromise().catch(()=>{
+                                            html.querySelector('.swal2-actions').classList.remove('swal2-loading');
+                                        });
+                                        html.querySelector('.swal2-actions').classList.remove('swal2-loading');
+                                    });
+                                }
+                            },
+                            footer: `<button class="btn btn-sm btn-link" id="resend-code">${token26}</button>`,
                             inputValidator: value => value ? null : token17,
                             preConfirm: async (code: string) => {
                                 const token21 = lang === 'bn' ? `আপনার অর্ডারটি ভ্যারিফাইড হয়েছে` : `The order is verified`;

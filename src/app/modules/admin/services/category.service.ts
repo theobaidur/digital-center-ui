@@ -47,7 +47,7 @@ export class CategoryService extends AdminBaseService<Category> {
         private attachmentService: AttachmentService
     ) {
         super();
-        this.getList().subscribe(list => console.log(list));
+        this.getList().subscribe();
     }
 
 

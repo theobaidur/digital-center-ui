@@ -15,7 +15,14 @@
                     <input type="text" name="title_bn" class="form-control" id="title_bn" [(ngModel)]="model.title_bn" required>
                     <p class="text-danger" *ngFor="let error of getErrors('title_bn')">{{ error }}</p>
                 </div>
-                
+                <div class="form-group">
+                    <p>Students</p>
+                </div>
+                <div class="form-group">
+                    <label class="w-100" *ngFor="let student of students">
+                        <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="student.selected"> {{ student.name }}
+                    </label>
+                </div>
                 <div class="form-group">
                     <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid">Submit</button>
                 </div>

@@ -1,16 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Advertisement } from '../../../admin/models/advertisement.model';
+import { Biggapon } from '../../../admin/models/biggapon.model';
 import { SweetAlertService } from '../../../admin/services/sweet-alert.service';
-import { AdvertisementService } from '../../../admin/services/advertisement.service';
+import { BiggaponService } from '../../../admin/services/biggapon.service';
 
 @Component({
-  selector: 'app-advertisement-list',
-  templateUrl: './advertisement-list.component.html',
-  styleUrls: ['./advertisement-list.component.scss']
+  selector: 'app-biggapon-list',
+  templateUrl: './biggapon-list.component.html',
+  styleUrls: ['./biggapon-list.component.scss']
 })
-export class AdvertisementListComponent implements OnInit {
+export class BiggaponListComponent implements OnInit {
   @Input() digitalCenterId: string;
-  list: Advertisement[] = [];
+  list: Biggapon[] = [];
   loading = false;
   ngOnInit(): void {
     if (this.digitalCenterId) {
@@ -23,10 +23,10 @@ export class AdvertisementListComponent implements OnInit {
     }
   }
   createPageLink(): string {
-    return `/super-admin/advertisement-add`;
+    return `/super-admin/biggapon-add`;
   }
   detailPageLink(id: string) {
-    return `/super-admin/advertisement-edit/${id}`;
+    return `/super-admin/biggapon-edit/${id}`;
   }
 
   get params() {
@@ -53,7 +53,7 @@ export class AdvertisementListComponent implements OnInit {
     });
 }
   constructor(
-    private dataService: AdvertisementService,
+    private dataService: BiggaponService,
     private alertService: SweetAlertService
   ) {}
 

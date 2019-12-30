@@ -1,1 +1,43 @@
-<p>attendance-add works!</p>
+<div class="row">
+    <div class="col-12 py-1">
+        <h3 class="mt-0 text-center">
+            Attendance
+        </h3>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            <label for="batch">Batch</label>
+            <select class="form-control" [(ngModel)]="selected_option.selected_batch" (change)="selectionChanged.next('selected_batch')">
+                <option value="" selected disabled>Select Batch</option>
+                <option [value]="batch.id" *ngFor="let batch of batches">{{ batch.title }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-6">
+        <label for="year">Year</label>
+        <select class="form-control" [(ngModel)]="selected_option.selected_year" (change)="selectionChanged.next('selected_year')">
+            <option value="" selected disabled>Select Year</option>
+            <option [value]="year" *ngFor="let year of years">{{ year }}</option>
+        </select>
+    </div>
+    <div class="col-6">
+        <label for="month">Month</label>
+        <select class="form-control" [(ngModel)]="selected_option.selected_month" (change)="selectionChanged.next('selected_month')">
+            <option value="" selected disabled>Select Month</option>
+            <option [value]="month.key" *ngFor="let month of months">{{ month.name }}</option>
+        </select>
+    </div>
+    <div class="col-12 pt-5">
+        <table class="table table-sm table-striped" [ngClass]="{'table-loading': loading}">
+            <tr>
+                <th>Name</th>
+                <th>1</th>
+                <th>1</th>
+                <th>1</th>
+                <th>1</th>
+                <th>1</th>
+                <th>1</th>
+            </tr>
+        </table>
+    </div>
+</div>

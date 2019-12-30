@@ -8,12 +8,12 @@
                         </h3>
                     </th>
                     <th colspan="3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" (keyup)="search($event.target.value)">
-                            <button class="btn btn-sm input-group-prepend">
+                        <form class="input-group" #form="ngForm" (ngSubmit)="search(search_value.value)">
+                            <input type="text" class="form-control" placeholder="Search by name, email, phone" #search_value>
+                            <button class="btn btn-sm btn-primary input-group-prepend">
                                 <i class="fa fa-search"></i>
                             </button>
-                        </div>
+                        </form>
                     </th>
                 </tr>
                 <tr>
@@ -24,7 +24,7 @@
                     <th>Roles</th>
                     <th>#</th>
                 </tr>
-                <tr *ngFor="let item of list">
+                <tr *ngFor="let item of list | paginate: { itemsPerPage: 10, totalItems: totalItems, currentPage: currentPage }">
                     <td>
                         <a [routerLink]="detailPageLink(item.id)">{{ item.name }}</a>
                     </td>
@@ -49,8 +49,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <th colspan="5" class="text-center">
-                        <button class="btn btn-sm btn-info" *ngIf="hasMore" (click)="loadNext()">Load More</button>
+                    <th colspan="6" class="text-center">
+                        <pagination-controls *ngIf="list && list.length" (pageChange)="loadPage($event)"></pagination-controls>
                     </th>
                 </tr>
             </table>

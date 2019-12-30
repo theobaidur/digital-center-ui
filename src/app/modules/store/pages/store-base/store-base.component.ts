@@ -111,7 +111,6 @@ export class StoreBaseComponent implements OnInit {
       if (queryParams.search) {
         view = 'search-result';
       }
-      console.log(view);
       this.storeView = view;
       this.viewResolving = false;
       this.redirectIfInactive(this.store, view);

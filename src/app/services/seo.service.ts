@@ -25,7 +25,6 @@ export class SeoService {
         if (this.attachmentService.exists(data.image)) {
             data.image = this.attachmentService.getOrDefault(data.image).url;
         }
-        console.log('SEO::', data);
         this.title.setTitle(data.title);
         this.meta.updateTag({ name: 'twitter:card', content: 'summary' });
         this.meta.updateTag({ name: 'twitter:site', content: '@deshiponno' });

@@ -5,6 +5,8 @@ import { BatchService } from 'src/app/modules/admin/services/batch.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'src/app/modules/admin/services/sweet-alert.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Student } from 'src/app/modules/admin/models/student.model';
+import { StudentService } from 'src/app/modules/admin/services/student.service';
 
 @Component({
   selector: 'app-batch-add',
@@ -12,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./batch-add.component.scss']
 })
 export class BatchAddComponent implements OnInit {
+  students: Student[] = [];
   model: Batch = {};
   processing = false;
   errors: FieldError[] = [];
@@ -23,10 +26,14 @@ export class BatchAddComponent implements OnInit {
   constructor(
     private dataService: BatchService,
     private router: Router,
-    private aleartService: SweetAlertService
+    private aleartService: SweetAlertService,
+    private studentService: StudentService
   ) { }
 
   ngOnInit() {
+    this.studentService.getList(-1).subscribe(({list})=>{
+      this.students = list;
+    });
   }
 
   submit() {
@@ -38,8 +45,9 @@ export class BatchAddComponent implements OnInit {
         title_bn: this.model.title_bn
       }
     };
+    const students = this.students.filter(student => student.selected).map(student=>student.id)
     this.aleartService.saving();
-    this.dataService.post({data}).subscribe(response => {
+    this.dataService.post({data, students}).subscribe(response => {
       this.aleartService.done();
       this.router.navigate(['/training-admin/batch-edit', response.id]);
     }, (err: HttpErrorResponse) => {

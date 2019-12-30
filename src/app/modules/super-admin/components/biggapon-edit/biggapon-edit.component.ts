@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Advertisement } from '../../../admin/models/advertisement.model';
+import { Biggapon } from '../../../admin/models/biggapon.model';
 import { FieldError } from '../../../../interfaces/field-error.interface';
-import { AdvertisementService } from '../../../admin/services/advertisement.service';
+import { BiggaponService } from '../../../admin/services/biggapon.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SweetAlertService } from '../../../admin/services/sweet-alert.service';
 import { filter, map, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-advertisement-edit',
-  templateUrl: './advertisement-edit.component.html',
-  styleUrls: ['./advertisement-edit.component.scss']
+  selector: 'app-biggapon-edit',
+  templateUrl: './biggapon-edit.component.html',
+  styleUrls: ['./biggapon-edit.component.scss']
 })
-export class AdvertisementEditComponent implements OnInit {
-  model: Advertisement = {};
+export class BiggaponEditComponent implements OnInit {
+  model: Biggapon = {};
   processing = false;
   errors: FieldError[] = [];
   digitalCenterId?: string;
@@ -21,9 +21,6 @@ export class AdvertisementEditComponent implements OnInit {
   types: {label: string, value: string}[] = [{
     value: 'image',
     label: 'Image'
-  }, {
-    value: 'video',
-    label: 'Video'
   }];
 
   locations: {label: string, value: string}[] = [{
@@ -45,7 +42,7 @@ export class AdvertisementEditComponent implements OnInit {
     .map(detail => detail.split('|')).filter(parts => parts[0] === field).map(parts => parts[1]);
   }
   constructor(
-    private advertisementService: AdvertisementService,
+    private biggaponService: BiggaponService,
     private route: ActivatedRoute,
     private aleartService: SweetAlertService
   ) { }
@@ -57,7 +54,7 @@ export class AdvertisementEditComponent implements OnInit {
       map(params => params.id),
       distinctUntilChanged(),
       tap(() => this.aleartService.loading()),
-      switchMap(id => this.advertisementService.get(id)),
+      switchMap(id => this.biggaponService.get(id)),
       tap(() => this.aleartService.close())
     )
     .subscribe(response => {
@@ -73,13 +70,13 @@ export class AdvertisementEditComponent implements OnInit {
     const form = new FormData();
     this.errors = [];
     const data = {
-      type: 'advertisements',
+      type: 'biggapons',
       id: this.model.id,
       attributes: {
         title: this.model.title,
         title_bn: this.model.title_bn,
         target: this.model.target,
-        advertisement_type: this.model.advertisement_type,
+        biggapon_type: this.model.biggapon_type,
         location: this.model.location,
         digital_center_id: this.digitalCenterId,
       }
@@ -89,7 +86,7 @@ export class AdvertisementEditComponent implements OnInit {
       form.append('media', this.media, this.media.name);
     }
     this.aleartService.saving();
-    this.advertisementService.update(this.model.id, form).subscribe((ad) => {
+    this.biggaponService.update(this.model.id, form).subscribe((ad) => {
       this.model = ad;
       this.aleartService.done();
     }, (err: HttpErrorResponse) => {

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { GlobalSettingManager } from 'src/app/services/global-setting-manager.service';
 
 @Component({
   selector: 'app-terms-condition',
@@ -7,7 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TermsConditionComponent implements OnInit {
   @Input() store: string;
-  constructor() { }
+  constructor(
+    public globalSetting: GlobalSettingManager
+  ) { }
 
   ngOnInit() {
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DigitalCenter } from 'src/app/model/digital-center.interface';
 import { StoreManagerService } from '../../services/store-manager.service';
+import { GlobalSettingManager } from 'src/app/services/global-setting-manager.service';
 
 @Component({
   selector: 'app-store-footer',
@@ -10,7 +11,8 @@ import { StoreManagerService } from '../../services/store-manager.service';
 export class StoreFooterComponent implements  OnInit {
   storeDetails: DigitalCenter;
   constructor(
-    private storeManager: StoreManagerService  ) { }
+    private storeManager: StoreManagerService,
+    public globalSetting: GlobalSettingManager  ) { }
 
   ngOnInit() {
     this.storeManager.resolve('host').subscribe(center => {

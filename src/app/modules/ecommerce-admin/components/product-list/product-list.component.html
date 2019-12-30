@@ -7,24 +7,25 @@
                         Product List <a [routerLink]="createPageLink()" class="btn btn-sm btn-info">Add New</a>
                     </h3>
                 </th>
-                <th colspan="3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" (keyup)="search($event.target.value)">
-                        <button class="btn btn-sm input-group-prepend">
+                <th colspan="4">
+                    <form class="input-group" #form="ngForm" (ngSubmit)="search(search_value.value)">
+                        <input type="text" class="form-control" #search_value>
+                        <button class="btn btn-sm btn-primary input-group-prepend">
                             <i class="fa fa-search"></i>
                         </button>
-                    </div>
+                    </form>
                 </th>
             </tr>
             <tr>
                 <th>Image</th>
                 <th>Name</th>
                 <th>নাম</th>
+                <th>Digital Center</th>
                 <th>Unit Price</th>
                 <th>Category</th>
                 <th>#</th>
             </tr>
-            <tr *ngFor="let item of list">
+            <tr *ngFor="let item of list | paginate: { itemsPerPage: 10, totalItems: totalItems, currentPage: currentPage }">
                 <td>
                     <img *ngIf="item.primary_image_thumb" [src]="item.primary_image_thumb | attachment">
                     <span  *ngIf="!item.primary_image_thumb">N/A</span>
@@ -34,6 +35,9 @@
                 </td>
                 <td>
                     {{ item.name_bn }}
+                </td>
+                <td>
+                    {{ item.digital_center | switchLanguageProp: 'name' | async }}
                 </td>
                 <td>
                     {{ item.unit_price }}/{{ item.product_unit }}
@@ -50,8 +54,8 @@
                 </td>
             </tr>
             <tr>
-                <th colspan="6" class="text-center">
-                    <button class="btn btn-sm btn-info" *ngIf="hasMore" (click)="loadNext()">Load More</button>
+                <th colspan="7" class="text-center">
+                    <pagination-controls *ngIf="list && list.length" (pageChange)="loadPage($event)"></pagination-controls>
                 </th>
             </tr>
         </table>

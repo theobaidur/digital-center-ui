@@ -31,7 +31,6 @@ export class ResetPasswordComponent implements OnInit {
   initResetPassword() {
     this.processing = true;
     this.authService.initPasswordReset(this.model).subscribe(response => {
-      console.log(response);;
       this.processing = false;
       this.hasToken = true;
       this.tokenSent = true;
@@ -44,9 +43,7 @@ export class ResetPasswordComponent implements OnInit {
     this.processing = true;
     this.authService.resetPassword(this.model).subscribe(response => {
       this.processing = false;
-      console.log(response);
     }, (err) => {
-      console.log(err);
       this.processing = false;
     });
   }

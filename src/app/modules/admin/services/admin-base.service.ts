@@ -11,7 +11,7 @@ export abstract class AdminBaseService<T> {
     public dataLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
     protected manager: BehaviorSubject<Repository<T>> = new BehaviorSubject({});
     protected repository: Repository<T> = {};
-    protected http: HttpBase;
+    public http: HttpBase;
     abstract includes: string[];
     abstract resourceEndPoint: string;
     defatulFilters: RequestParam[] = [];

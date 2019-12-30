@@ -1,12 +1,6 @@
-<div class="row py-2">
-    <div class="col-md-6">
-        <a href="" class="d-block">
-            <img class="mw-100" src="../../../../../assets/banner-2.png">
-        </a>
-    </div>
-    <div class="col-md-6">
-        <a href="" class="d-block">
-            <img  class="mw-100" src="../../../../../assets/stationary-banner.png">
+<div class="row py-2" *ngIf="ads && ads.length">
+    <div [ngClass]="colClass" *ngFor="let ad of ads">
+        <a href="{{ ad.target }}" class="d-block text-center" *ngIf="ad?.media" (click)="click($event, ad)" app-image-viewer [id]="ad?.media" type="mw-100">
         </a>
     </div>
 </div>

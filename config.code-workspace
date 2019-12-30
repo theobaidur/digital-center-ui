@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "C:\\Projects\\digital-center\\digital-center-management-api"
+        }
+    ],
+    "settings": {
+        "typescript.tsdk": "digital-center-ui\\node_modules\\typescript\\lib"
+    }
+}

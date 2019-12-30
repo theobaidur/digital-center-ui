@@ -7,23 +7,26 @@
                 </div>
                 <div class="form-group">
                     <label for="tnc">Terms & Condition</label>
-                    <angular-editor id="tnc" formControlName="tnc" [config]="editorConfig" [(ngModel)]="model.tnc"></angular-editor>
+                    <quill-editor name="tnc" [(ngModel)]="model.tnc"></quill-editor>
                 </div>
                 <div class="form-group">
                     <label for="footer_text_1">Footer Text 1</label>
-                    <angular-editor id="footer_text_1" formControlName="footer_text_1" [config]="editorConfig" [(ngModel)]="model.footer_text_1"></angular-editor>
+                    <quill-editor name="footer_text_1" [(ngModel)]="model.footer_text_1"></quill-editor>
                 </div>
                 <div class="form-group">
                     <label for="footer_text_1_bn">Footer Text 1 Bengali</label>
-                    <angular-editor id="footer_text_1_bn" formControlName="footer_text_1_bn" [config]="editorConfig" [(ngModel)]="model.footer_text_1_bn"></angular-editor>
+                    <quill-editor name="footer_text_1_bn" [(ngModel)]="model.footer_text_1_bn"></quill-editor>
                 </div>
                 <div class="form-group">
                     <label for="footer_text_2">Footer Text 2</label>
-                    <angular-editor id="footer_text_2" formControlName="footer_text_2" [config]="editorConfig" [(ngModel)]="model.footer_text_2"></angular-editor>
+                    <quill-editor name="footer_text_2" [(ngModel)]="model.footer_text_2"></quill-editor>
                 </div>
                 <div class="form-group">
                     <label for="footer_text_2_bn">Footer Text 2 Bengali</label>
-                    <angular-editor id="footer_text_2_bn" formControlName="footer_text_2_bn" [config]="editorConfig" [(ngModel)]="model.footer_text_2_bn"></angular-editor>
+                    <quill-editor name="footer_text_2_bn" [(ngModel)]="model.footer_text_2_bn"></quill-editor>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-info" type="submit" [disabled]="form.invalid">Save</button>
                 </div>
             </form>
         </div>

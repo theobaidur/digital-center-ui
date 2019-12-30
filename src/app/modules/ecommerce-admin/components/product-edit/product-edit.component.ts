@@ -9,6 +9,8 @@ import { filter, map, distinctUntilChanged, tap, switchMap } from 'rxjs/operator
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Roles } from 'src/app/enums/roles.enum';
 import { FieldError } from 'src/app/interfaces/field-error.interface';
+import { DigitalCenterService } from 'src/app/modules/admin/services/digital-center.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-product-edit',
@@ -29,9 +31,15 @@ export class ProductEditComponent implements OnInit {
     private aleartService: SweetAlertService,
     private categoryService: CategoryService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private digitalCenterData: DigitalCenterService
   ) { }
-
+  get digital_center(){
+    if(this.model && this.model.digital_center){
+      return this.model.digital_center;
+    }
+    return null;
+  }
   ngOnInit() {
     this.route.params.pipe(
       filter(params => params.id),

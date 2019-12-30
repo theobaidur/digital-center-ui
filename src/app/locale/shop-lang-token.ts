@@ -167,7 +167,7 @@ tokenList.track_your_order = {
 };
 
 tokenList.verify_your_order = {
-    bn: 'আপনার ভ্যারিফাই করুন',
+    bn: 'আপনার অর্ডার ভ্যারিফাই করুন',
     en: 'Verify Your Order'
 };
 
@@ -208,6 +208,11 @@ tokenList.phone_or_email = {
     bn: 'ফোন নাম্বার',
     en: 'Phone'
 };
+
+tokenList.hotline = {
+    bn: '০১৮৪৫ ৬৬৬ ৯৯৯',
+    en: '01845 666 999'
+}
 
 
 

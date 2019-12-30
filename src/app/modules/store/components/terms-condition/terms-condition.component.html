@@ -1,30 +1,7 @@
 <app-store-banner [store]="store"></app-store-banner>
 
 <div class="container-fluid">
-    <div class="col-12 py-3">
-        <h1>Terms and Condition</h1>
-        <ol>
-            <li>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui blanditiis tenetur voluptates assumenda dolorum beatae ab labore a, rem ipsa facilis obcaecati nobis molestiae quisquam sint veritatis iure aut totam?
-            </li>
-            <li>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui blanditiis tenetur voluptates assumenda dolorum beatae ab labore a, rem ipsa facilis obcaecati nobis molestiae quisquam sint veritatis iure aut totam?
-            </li>
-            <li>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui blanditiis tenetur voluptates assumenda dolorum beatae ab labore a, rem ipsa facilis obcaecati nobis molestiae quisquam sint veritatis iure aut totam?
-            </li>
-            <li>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui blanditiis tenetur voluptates assumenda dolorum beatae ab labore a, rem ipsa facilis obcaecati nobis molestiae quisquam sint veritatis iure aut totam?
-            </li>
-            <li>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui blanditiis tenetur voluptates assumenda dolorum beatae ab labore a, rem ipsa facilis obcaecati nobis molestiae quisquam sint veritatis iure aut totam?
-            </li>
-            <li>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui blanditiis tenetur voluptates assumenda dolorum beatae ab labore a, rem ipsa facilis obcaecati nobis molestiae quisquam sint veritatis iure aut totam?
-            </li>
-            <li>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui blanditiis tenetur voluptates assumenda dolorum beatae ab labore a, rem ipsa facilis obcaecati nobis molestiae quisquam sint veritatis iure aut totam?
-            </li>
-        </ol>
+    <div class="col-12 py-3" *ngIf="globalSetting.getConfig('tnc')" [innerHtml]="globalSetting.getConfig('tnc') | switchLanguageProp:'value' | async">
+        
     </div>
 </div>

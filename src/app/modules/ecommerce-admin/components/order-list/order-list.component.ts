@@ -42,7 +42,9 @@ export class OrderListComponent extends AdminListPage<Order> implements OnInit {
 
   total(order: Order) {
     if (order.items && order.items.length) {
-      return order.items.reduce((total, current) => total + (current.quantity * current.unit_price), order.delivery_charge || 0).toFixed(2);
+      const total = order.items.reduce((total, current) => total + (+current.quantity * +current.unit_price), +order.delivery_charge || 0);
+      console.log(order.items);
+      return total.toFixed(2);
     }
     return 0;
   }

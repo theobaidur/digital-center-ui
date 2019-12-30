@@ -23,7 +23,6 @@ export class ResetUpdateComponent implements OnInit {
     this.authService.updatePassword(this.model).subscribe(() => {
       this.alertService.done('Saved');
     }, (e) => {
-      console.log(e);
       this.alertService.failed();
     });
   }

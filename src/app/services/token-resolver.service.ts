@@ -21,7 +21,7 @@ export class TokenResolverService {
             switchMap(() => {
                 const lang = this.languageService.language.getValue().toLowerCase();
                 if (lang === 'bn' && hasNumber) {
-                    key = key.toString()
+                    key = (key || '').toString()
                             .replace(new RegExp('0', 'gi'), '০')
                             .replace(new RegExp('1', 'gi'), '১')
                             .replace(new RegExp('2', 'gi'), '২')

@@ -14,7 +14,7 @@
                     <th>Paid To</th>
                     <th>Amount</th>
                 </tr>
-                <tr *ngFor="let item of list">
+                <tr *ngFor="let item of list | paginate: { itemsPerPage: 10, totalItems: totalItems, currentPage: currentPage }">
                     <td>
                         {{ item?.created_at | localDate }}
                     </td>
@@ -33,7 +33,7 @@
                 
                 <tr>
                     <th colspan="4" class="text-center">
-                        <button class="btn btn-sm btn-info" *ngIf="hasMore" (click)="loadNext()">Load More</button>
+                        <pagination-controls *ngIf="list && list.length" (pageChange)="loadPage($event)"></pagination-controls>
                     </th>
                 </tr>
             </table>

@@ -60,7 +60,6 @@ import { TermsConditionComponent } from './components/terms-condition/terms-cond
 })
 export class StoreModule {
   constructor(tokenResolver: TokenResolverService) {
-    console.log(tokenList);
     tokenResolver.register(tokenList);
   }
 }

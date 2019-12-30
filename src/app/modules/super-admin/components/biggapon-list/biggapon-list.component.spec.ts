@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdvertisementEditComponent } from './advertisement-edit.component';
+import { BiggaponListComponent } from './biggapon-list.component';
 
-describe('AdvertisementEditComponent', () => {
-  let component: AdvertisementEditComponent;
-  let fixture: ComponentFixture<AdvertisementEditComponent>;
+describe('BiggaponListComponent', () => {
+  let component: BiggaponListComponent;
+  let fixture: ComponentFixture<BiggaponListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdvertisementEditComponent ]
+      declarations: [ BiggaponListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdvertisementEditComponent);
+    fixture = TestBed.createComponent(BiggaponListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

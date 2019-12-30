@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { BehaviorSubject, forkJoin, combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { Category } from '../../models/category.model';
 import { StoreManagerService } from '../../services/store-manager.service';
 import { CategoryManagerService } from '../../services/category-manager.service';
@@ -30,7 +30,6 @@ export class ProductOrSubCategoryComponent implements OnInit, OnChanges {
     this.inputObserver.pipe(
       filter(() => !!(this.store && this.category)),
       switchMap(() => this.storeManager.resolveBySlug(this.store)),
-      tap((store) => console.log(store)),
       switchMap(store => {
         this.storeDetails = store;
         const subCategoryQuery = this.categoryManager.categories(this.category);
@@ -38,12 +37,10 @@ export class ProductOrSubCategoryComponent implements OnInit, OnChanges {
         return combineLatest(subCategoryQuery, categoryDetailQeury);
       }),
       tap(results => {
-        console.log(results);
         this.subCategories = results[0];
         this.categoryDetails = results[1];
       })
-    ).subscribe(results => {
-      console.log(results);
+    ).subscribe(() => {
     });
   }
 

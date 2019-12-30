@@ -22,7 +22,7 @@
                 <th>Host</th>
                 <th>Address</th>
             </tr>
-            <tr *ngFor="let center of list">
+            <tr *ngFor="let center of list | paginate: { itemsPerPage: 10, totalItems: totalItems, currentPage: currentPage }">
                 <td>
                     <a [routerLink]="detailPageLink(center.id)">{{ center.name }}</a>
                 </td>
@@ -38,7 +38,7 @@
             </tr>
             <tr>
                 <th colspan="4" class="text-center">
-                    <button class="btn btn-sm btn-info" *ngIf="hasMore" (click)="loadNext()">Load More</button>
+                    <pagination-controls *ngIf="list && list.length" (pageChange)="loadPage($event)"></pagination-controls>
                 </th>
             </tr>
         </table>

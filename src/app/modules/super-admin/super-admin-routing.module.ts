@@ -25,15 +25,16 @@ import { UpazilaListComponent } from './components/upazila-list/upazila-list.com
 import { UnionAddComponent } from './components/union-add/union-add.component';
 import { UnionEditComponent } from './components/union-edit/union-edit.component';
 import { UnionListComponent } from './components/union-list/union-list.component';
-import { AdvertisementAddComponent } from './components/advertisement-add/advertisement-add.component';
-import { AdvertisementEditComponent } from './components/advertisement-edit/advertisement-edit.component';
-import { AdvertisementListComponent } from './components/advertisement-list/advertisement-list.component';
+import { BiggaponAddComponent } from './components/biggapon-add/biggapon-add.component';
+import { BiggaponEditComponent } from './components/biggapon-edit/biggapon-edit.component';
+import { BiggaponListComponent } from './components/biggapon-list/biggapon-list.component';
 import { DigitalCenterSettingsAddComponent } from './components/digital-center-settings-add/digital-center-settings-add.component';
 import { DigitalCenterSettingsEditComponent } from './components/digital-center-settings-edit/digital-center-settings-edit.component';
 import { DigitalCenterSettingsListComponent } from './components/digital-center-settings-list/digital-center-settings-list.component';
 import { DeliveryAreaAddComponent } from './components/delivery-area-add/delivery-area-add.component';
 import { DeliveryAreaEditComponent } from './components/delivery-area-edit/delivery-area-edit.component';
 import { DeliveryAreaListComponent } from './components/delivery-area-list/delivery-area-list.component';
+import { GlobalSettingsEditComponent } from './components/global-settings-edit/global-settings-edit.component';
 
 export function crudUrl(prefix: string, add: any, edit: any, list: any): Routes {
   return [
@@ -62,6 +63,10 @@ const routes: Routes = [
         path: 'home',
         component: SuperAdminHomeComponent
       },
+      {
+        path: 'global-settings',
+        component: GlobalSettingsEditComponent
+      },
       ...crudUrl('user', UserAddComponent, UserEditComponent, UserListComponent),
       ...crudUrl('digital-center', DigitalCenterAddComponent, DigitalCenterEditComponent, DigitalCenterListComponent),
       ...crudUrl('category', CategoryAddComponent, CategoryEditComponent, CategoryListComponent),
@@ -70,7 +75,7 @@ const routes: Routes = [
       ...crudUrl('upazila', UpazilaAddComponent, UpazilaEditComponent, UpazilaListComponent),
       ...crudUrl('union', UnionAddComponent, UnionEditComponent, UnionListComponent),
       ...crudUrl('delivery-area', DeliveryAreaAddComponent, DeliveryAreaEditComponent, DeliveryAreaListComponent),
-      ...crudUrl('advertisement', AdvertisementAddComponent, AdvertisementEditComponent, AdvertisementListComponent),
+      ...crudUrl('biggapon', BiggaponAddComponent, BiggaponEditComponent, BiggaponListComponent),
       ...crudUrl('settings', DigitalCenterSettingsAddComponent, DigitalCenterSettingsEditComponent, DigitalCenterSettingsListComponent),
     ]
   }

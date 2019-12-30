@@ -2,7 +2,7 @@ import { AdminBaseService } from './admin-base.service';
 import { Injectable } from '@angular/core';
 import { HttpResponseItem } from '../../../interfaces/http-response-item.interface';
 import { HttpResponse } from '../../../interfaces/http-response.interface';
-import { Advertisement } from '../models/advertisement.model';
+import { Biggapon } from '../models/biggapon.model';
 import { Attachment } from '../../store/models/Attachment.model';
 import { AttachmentService } from './attachment.service';
 import { Base } from '../../../model/_base.interface';
@@ -10,11 +10,11 @@ import { Base } from '../../../model/_base.interface';
     providedIn: 'root'
 })
 
-export class AdvertisementService extends AdminBaseService<Advertisement> {
+export class BiggaponService extends AdminBaseService<Biggapon> {
     includes: string[] = ['attachments'];
-    resourceEndPoint = 'advertisements';
+    resourceEndPoint = 'biggapons';
     pageSize = -1;
-    normalize(item: HttpResponseItem<Advertisement>): Advertisement {
+    normalize(item: HttpResponseItem<Biggapon>): Biggapon {
         const data = item.attributes;
         data._type = item.type;
         data.id = item.id;

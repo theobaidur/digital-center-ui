@@ -30,19 +30,19 @@ import { UnionAddComponent } from './components/union-add/union-add.component';
 import { UnionEditComponent } from './components/union-edit/union-edit.component';
 import { UnionListComponent } from './components/union-list/union-list.component';
 import { RouterModule } from '@angular/router';
-import { AdvertisementEditComponent } from './components/advertisement-edit/advertisement-edit.component';
-import { AdvertisementListComponent } from './components/advertisement-list/advertisement-list.component';
+import { BiggaponEditComponent } from './components/biggapon-edit/biggapon-edit.component';
+import { BiggaponListComponent } from './components/biggapon-list/biggapon-list.component';
 import { DigitalCenterSettingsEditComponent } from './components/digital-center-settings-edit/digital-center-settings-edit.component';
 import { DigitalCenterSettingsListComponent } from './components/digital-center-settings-list/digital-center-settings-list.component';
 import { GlobalSettingsEditComponent } from './components/global-settings-edit/global-settings-edit.component';
-import { AdvertisementAddComponent } from './components/advertisement-add/advertisement-add.component';
+import { BiggaponAddComponent } from './components/biggapon-add/biggapon-add.component';
 import { DigitalCenterSettingsAddComponent } from './components/digital-center-settings-add/digital-center-settings-add.component';
 import { DeliveryAreaAddComponent } from './components/delivery-area-add/delivery-area-add.component';
 import { DeliveryAreaEditComponent } from './components/delivery-area-edit/delivery-area-edit.component';
 import { DeliveryAreaListComponent } from './components/delivery-area-list/delivery-area-list.component';
 import { SharedComponentModule } from '../../components/shared-component.module';
 import { PipeModule } from '../../pipes/pipe.module';
-import { AngularEditorModule } from '@kolkov/angular-editor';
+import { QuillModule } from 'ngx-quill';
 
 
 @NgModule({
@@ -53,8 +53,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     DivisionListComponent, DistrictAddComponent, DistrictEditComponent, DistrictListComponent,
     UpazilaAddComponent, UpazilaEditComponent, UpazilaListComponent, UnionAddComponent, UnionEditComponent,
      UnionListComponent, DeliveryAreaAddComponent, DeliveryAreaEditComponent, DeliveryAreaListComponent,
-     AdvertisementEditComponent, AdvertisementListComponent, DigitalCenterSettingsEditComponent,
-     DigitalCenterSettingsListComponent, GlobalSettingsEditComponent, AdvertisementAddComponent, DigitalCenterSettingsAddComponent],
+     BiggaponEditComponent, BiggaponListComponent, DigitalCenterSettingsEditComponent,
+     DigitalCenterSettingsListComponent, GlobalSettingsEditComponent, BiggaponAddComponent, DigitalCenterSettingsAddComponent],
   imports: [
     CommonModule,
     SuperAdminRoutingModule,
@@ -65,7 +65,17 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     NgMultiSelectDropDownModule.forRoot(),
     NgSelectModule,
     RouterModule,
-    AngularEditorModule
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          ['bold', 'italic', 'underline'],
+          [{ color: [] }, { background: [] }],
+          [{ list: 'ordered'}, { list: 'bullet' }],
+
+        ]
+      }
+    })
   ]
 })
 export class SuperAdminModule { }

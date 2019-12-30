@@ -5,11 +5,10 @@
                 <div class="col-md-4">
                     <div class="w-100 text-center">
                         <a href="https://ictd.gov.bd/" class="my-3 d-inline-block footer-logo">
-                            <img src="../../../../../assets/ict-divison-logo.png" alt="    ">
+                            <img src="../../../../../assets/ict-divison-logo.png">
                         </a>
                     </div>
-                    <p class="text-align-justify"> গণপ্রজাতন্ত্রী বাংলাদেশ সরকারের তথ্য ও যোগাযোগ প্রযুক্তি বিভাগ, ডাক, টেলিযোগাযোগ ও তথ্যযোগাযোগ প্রযুক্তি মন্ত্রণালয় হতে বরাদ্দ প্রাপ্ত অর্থ দ্বারা প্রকল্পটি বাস্তবায়ন করা হচ্ছে। 
-                        </p>
+                    <div class="text-align-justify" *ngIf="globalSetting.getConfig('footer_text_1')" [innerHtml]="globalSetting.getConfig('footer_text_1') | switchLanguageProp:'value' | async"></div>
                 </div>
                 <div class="col-md-4">
                     <div class="w-100 text-center">
@@ -17,7 +16,7 @@
                             <img src="../../../../../assets/logo.png" alt="    ">
                         </a>
                     </div>
-                    <p class="text-align-justify">দেশীপণ্য বাংলাদেশের সর্ববৃহৎ অনলাইন চেইনশপ। “দশের জন্য দেশীপণ্য” এই স্লোগান নিয়েই দেশীপণ্য মোট 48 টি ওয়েব সাইট নিয়ে এই অনলাইন চেইনশপ তৈরী করা হয়েছে। বর্তমান সমাজের ব্যস্ততার মাঝে প্রত্যেকটি মানুষ তার নিত্য প্রয়োজনীয় জিনিস যেন ঘরে বসে অনায়াসেই কেনাকাটা করতে পারে সাথে সাথে খুচরা ব্যবসায়ীরাও যেন পণ্য ক্রয় করতে পারে এমন লক্ষ্য নিয়েই দেশীপণ্য এর যাত্রা শুরু।</p>
+                    <div class="text-align-justify" *ngIf="globalSetting.getConfig('footer_text_2')" [innerHtml]="globalSetting.getConfig('footer_text_2') | switchLanguageProp:'value' | async"></div>
                 </div>
                 <div class="col-md-4">
                     <p class="h5 mb-0">

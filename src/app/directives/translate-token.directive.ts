@@ -10,9 +10,7 @@ export class TranslateTokenDirective {
       tokenResolver: TokenResolverService,
       el: ElementRef
   ) {
-      console.log(el);
       tokenResolver.resolve(this.appTranslateToken).subscribe(token => {
-          console.log(token);
           el.nativeElement.innerHtml = token;
       });
   }
