@@ -28,6 +28,20 @@ export class SuperAdminHomeComponent implements OnInit, OnDestroy {
     return this.superAdminService.adminStat;
   }
 
+  total(stat: any){
+    let total = 0;
+    if(stat){
+      Object.keys(stat).forEach(key=>{
+        total += stat[key];
+      });
+    }
+    return total;
+  }
+
+  details(stat: any){
+    return Object.keys(stat || {}).map(key => `${key}: ${stat[key]}`).join(', ');
+  }
+
   ngOnDestroy() {}
 
 }

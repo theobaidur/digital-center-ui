@@ -22,14 +22,31 @@
     </div>
     <div class="row mx-0">
         <div class="col-md-3 col-sm-2 mb-2">
-            <div class="card text-white bg-success">
+            <div class="card text-white bg-info">
                 <div class="card-header h5">
-                    Orders
+                    Products
                 </div>
                 <div class="card-body text-center">
                     <span class="h1 d-block p-3 text-white">
-                        {{ selectedStat?.order_count }}
+                        {{ total(selectedStat?.product_count) }}
                     </span>
+                    <strong>{{ details(selectedStat?.product_count) }}</strong>
+                </div>
+                <div class="card-footer text-center">
+                    <a [routerLink]="[ '/ecommerce-admin/product-list']" class="text-white">View all Products</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 mb-2">
+            <div class="card text-white bg-success">
+                <div class="card-header h5">
+                    Order
+                </div>
+                <div class="card-body text-center">
+                    <span class="h1 d-block p-3 text-white">
+                        {{ total(selectedStat?.order_count) }}
+                    </span>
+                    <strong>{{ details(selectedStat?.order_count) }}</strong>
                 </div>
                 <div class="card-footer text-center">
                     <a [routerLink]="[ '/ecommerce-admin/order-list']" class="text-white">View all Orders</a>
@@ -39,7 +56,7 @@
         <div class="col-md-3 col-sm-2 mb-2">
             <div class="card text-white bg-info">
                 <div class="card-header h5">
-                    Eanring
+                    Earning
                 </div>
                 <div class="card-body text-center">
                     <span class="h1 d-block p-3 text-white">
@@ -54,7 +71,7 @@
         <div class="col-md-3 col-sm-2 mb-2">
             <div class="card text-white bg-success">
                 <div class="card-header h5">
-                    Due
+                    Due / Payable
                 </div>
                 <div class="card-body text-center">
                     <span class="h1 d-block p-3 text-white">

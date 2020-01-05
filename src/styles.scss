@@ -168,3 +168,10 @@ body {
         margin-right: 5px;
     }
 }
+
+@media print{
+    .table,
+    .table .text-muted{
+        color: #000 !important;
+    }
+}

@@ -81,6 +81,9 @@ export class AttachmentManagerService {
     }
 
     exists(id: string | Attachment): boolean {
+        if(!id){
+            return false;
+        }
         // tslint:disable-next-line: no-string-literal
         const itemId = typeof id === 'string' ? id : id['id'];
         return !!(this.repository[itemId] && Object.values(this.repository[itemId]).length);

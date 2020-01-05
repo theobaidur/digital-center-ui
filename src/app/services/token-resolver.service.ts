@@ -35,7 +35,7 @@ export class TokenResolverService {
 
                 }
                 if (lang === 'en' && hasNumber) {
-                    key = key.toString()
+                    key = (key || '').toString()
                             .replace(new RegExp('০', 'gi'), '0')
                             .replace(new RegExp('১', 'gi'), '1')
                             .replace(new RegExp('২', 'gi'), '2')

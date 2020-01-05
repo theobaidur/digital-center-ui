@@ -13,14 +13,28 @@
             </div>
         </div>
         <div class="col-md-3 col-sm-2 mb-2">
+            <div class="card text-white bg-info">
+                <div class="card-header h5">
+                    Products
+                </div>
+                <div class="card-body text-center">
+                    <span class="h1 d-block p-3 text-white">
+                        {{ total(stat?.product_count) }}
+                    </span>
+                    <strong>{{ details(stat?.product_count) }}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2 mb-2">
             <div class="card text-white bg-success">
                 <div class="card-header h5">
                     Total Orders
                 </div>
                 <div class="card-body text-center">
                     <span class="h1 d-block p-3 text-white">
-                        {{ stat?.order_count }}
+                        {{ total(stat?.order_count) }}
                     </span>
+                    <strong>{{ details(stat?.order_count) }}</strong>
                 </div>
             </div>
         </div>
@@ -31,8 +45,9 @@
                 </div>
                 <div class="card-body text-center">
                     <span class="h1 d-block p-3 text-white">
-                        {{ stat?.order_count_today }}
+                        {{ total(stat?.order_count_today) }}
                     </span>
+                    <strong>{{ details(stat?.order_count_today) }}</strong>
                 </div>
             </div>
         </div>
