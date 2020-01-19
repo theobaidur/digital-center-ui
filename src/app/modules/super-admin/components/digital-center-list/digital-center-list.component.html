@@ -4,7 +4,10 @@
             <tr>
                 <th colspan="2">
                     <h3 class="my-0">
-                        Digital Center List <a [routerLink]="createPageLink()" class="btn btn-sm btn-info">Add New</a>
+                        Digital Center List <a [routerLink]="createPageLink()" class="btn btn-sm btn-info">Add New</a> 
+                        <button class="btn btn-sm btn-info m-1" (click)="loadPage(1)" [disabled]="loading">
+                            <i class="fa fa-refresh" [ngClass]="{'fa-spin': loading}"></i>
+                        </button>
                     </h3>
                 </th>
                 <th colspan="2">

@@ -4,7 +4,7 @@
             Attendance
         </h3>
     </div>
-    <div class="col-12">
+    <div class="col-6">
         <div class="form-group">
             <label for="batch">Batch</label>
             <select class="form-control" [(ngModel)]="selected_option.selected_batch" (change)="selectionChanged.next('selected_batch')">
@@ -14,29 +14,39 @@
         </div>
     </div>
     <div class="col-6">
-        <label for="year">Year</label>
-        <select class="form-control" [(ngModel)]="selected_option.selected_year" (change)="selectionChanged.next('selected_year')">
-            <option value="" selected disabled>Select Year</option>
-            <option [value]="year" *ngFor="let year of years">{{ year }}</option>
-        </select>
+        <label for="selected_date">Date</label>
+        <input type="text" matInput id="selected_date"
+        class="form-control"
+        ngxDaterangepickerMd
+        [(ngModel)]="selected_date"
+        singleDatePicker="true"
+        name="selected_date"
+        (change)="onDateSelect($event)"
+        />
     </div>
-    <div class="col-6">
-        <label for="month">Month</label>
-        <select class="form-control" [(ngModel)]="selected_option.selected_month" (change)="selectionChanged.next('selected_month')">
-            <option value="" selected disabled>Select Month</option>
-            <option [value]="month.key" *ngFor="let month of months">{{ month.name }}</option>
-        </select>
-    </div>
-    <div class="col-12 pt-5">
+    <div class="col-12">
         <table class="table table-sm table-striped" [ngClass]="{'table-loading': loading}">
             <tr>
                 <th>Name</th>
-                <th>1</th>
-                <th>1</th>
-                <th>1</th>
-                <th>1</th>
-                <th>1</th>
-                <th>1</th>
+                <th>
+                    Is Present
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="all_present" [(ngModel)]="all_present" (change)="selectAll()">
+                        <label class="form-check-label" for="all_present">All</label>
+                    </div>
+                </th>
+            </tr>
+            <tr *ngFor="let student of students">
+                <td>
+                    {{ 
+                        student | switchLanguageProp: 'name' | async
+                    }}
+                </td>
+                <td>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" [(ngModel)]="student.is_present" name="is_present">
+                      </div>
+                </td>
             </tr>
         </table>
     </div>

@@ -1,9 +1,9 @@
 <div class="card store-card">
-    <div class="product-image-wrapper d-flex align-items-center justify-content-center" app-image-viewer [id]="product?.primary_image_thumb" type="product_image">
-    </div>
+    <a [routerLink]="url" [queryParams]="params" class="product-image-wrapper d-flex align-items-center justify-content-center" app-image-viewer [id]="product?.primary_image_thumb" type="product_image">
+    </a>
     <div class="card-body p-2 product-info">
         <h4 class="mb-0">
-            <a [routerLink]="url" class="card-title text-danger" [queryParams]="params">{{ product | switchLanguageProp:'name' | async }}</a>
+            <a [routerLink]="url"  [queryParams]="params" class="card-title text-danger">{{ product | switchLanguageProp:'name' | async }}</a>
         </h4>
         <h5 class="mb-0 bg-success d-inline-block p-1 text-white" *ngIf="product">৳{{ product?.unit_price | translate:true | async }}/{{ product?.product_unit }}</h5>
         <!-- <div *ngIf="product">

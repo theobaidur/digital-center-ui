@@ -29,6 +29,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SharedComponentModule } from 'src/app/components/shared-component.module';
 import { PipeModule } from 'src/app/pipes/pipe.module';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { PipeModule } from 'src/app/pipes/pipe.module';
     FormsModule,
     RouterModule,
     SharedComponentModule,
-    PipeModule
+    PipeModule,
+    NgxDaterangepickerMd.forRoot()
   ]
 })
 export class TrainingAdminModule { }

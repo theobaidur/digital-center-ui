@@ -45,6 +45,7 @@ export abstract class AdminListPage<T> {
             }
             return this.dataService.getList(this.currentPage, params).pipe(
             tap(response => {
+                console.log(response);
                 this.list = response.list;
                 this.loading = false;
                 if (response.meta && response.meta.page && response.meta.page['last-page']) {

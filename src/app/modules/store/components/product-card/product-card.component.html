@@ -1,8 +1,8 @@
 <div class="card store-card">
-    <div class="product-image-wrapper d-flex align-items-center justify-content-center" app-image-viewer [id]="product?.primary_image_thumb" type="product_image">
-    </div>
+    <a [routerLink]="url" [queryParams]="params" class="product-image-wrapper d-flex align-items-center justify-content-center" app-image-viewer [id]="product?.primary_image_thumb" type="product_image">
+    </a>
     <div class="card-body p-2 product-info">
-        <a [routerLink]="url" class="card-title" [queryParams]="params">{{ product | switchLanguageProp:'name' | async }}</a>
+        <a class="card-title" [routerLink]="url" [queryParams]="params">{{ product | switchLanguageProp:'name' | async }}</a>
         <p class="card-text">
             {{product | switchLanguageProp:'short_description' | async}}
         </p>

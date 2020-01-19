@@ -5,6 +5,9 @@
                     <th colspan="4">
                         <h3 class="my-0">
                             Payment List
+                            <button class="btn btn-sm btn-info m-1" (click)="loadPage(1)" [disabled]="loading">
+                                <i class="fa fa-refresh" [ngClass]="{'fa-spin': loading}"></i>
+                            </button>
                         </h3>
                     </th>
                 </tr>

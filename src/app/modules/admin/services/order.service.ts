@@ -5,7 +5,6 @@ import { HttpResponse } from 'src/app/interfaces/http-response.interface';
 import { OrderItemService } from './order-item.service';
 import { Base } from 'src/app/model/_base.interface';
 import { AuthService } from './auth.service';
-import { AddressService } from './address.service';
 import { Injectable } from '@angular/core';
 import { DigitalCenterService } from './digital-center.service';
 import { DeliveryAreaService } from './delivery-area.service';
