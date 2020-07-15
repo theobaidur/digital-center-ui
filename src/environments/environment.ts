@@ -7,7 +7,7 @@ import { commonConfig } from './_common';
 export const environment = {
   production: false,
   ...commonConfig,
-  apiRoot: 'http://127.0.0.1:8000/api/v1',
+  apiRoot: 'http://192.168.0.103:8080/api/v1',
 };
 
 /**
