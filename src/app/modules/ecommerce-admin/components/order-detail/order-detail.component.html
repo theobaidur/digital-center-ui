@@ -40,7 +40,7 @@
                                 <i class="fa fa-print"></i> Print
                             </button>
                     </div>
-                </div> 
+                </div>
             </th>
         </tr>
         <tr>
@@ -65,7 +65,7 @@
         </tr>
         <tr *ngIf="owner" class="d-print-none">
             <td></td>
-            <td colspan="2">CNS Commission</td>
+            <td colspan="2">DeshiPonno Commission</td>
             <td>৳({{ (salesCommission || 0).toFixed(2) | translate:true | async }})</td>
         </tr>
         <tr *ngIf="owner" class="d-print-none">
@@ -76,7 +76,7 @@
 
         <tr *ngIf="cns" class="d-print-none">
             <td></td>
-            <td colspan="2">CNS Commission</td>
+            <td colspan="2">DeshiPonno Commission</td>
             <td>৳{{ (salesCommission || 0).toFixed(2) | translate:true | async }}</td>
         </tr>
         <tr *ngIf="cns" class="d-print-none">
@@ -114,6 +114,6 @@
                     <button *ngIf="cancelable" type="button" class="btn btn-sm btn-danger" (click)="setStatus('cancelled')">Cancel</button>
                 </div>
             </form>
-            
+
     </div>
 </div>
